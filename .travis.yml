@@ -1,0 +1,29 @@
+language: minimal
+os: linux
+services:
+  - docker
+
+script:
+  - docker run -it -v $(pwd):/build jaczekanski/psn00bsdk:latest make
+  - find . -iname *.exe -print | zip tests.zip -@
+
+before_deploy:
+  - git config --global user.email "builds@travis-ci.com"
+  - git config --global user.name "Travis CI"
+  - export GIT_TAG=build-$TRAVIS_BUILD_NUMBER
+  - git tag $GIT_TAG -a -m "Build $TRAVIS_BUILD_NUMBER by TravisCI"
+
+branches:
+  only:
+  - master
+
+deploy:
+  provider: releases
+  api_key:
+    secure: Fdo/ohZVBBs3JU6v79lP42YpVLuYQxeDxdhS60iMktrXuuHEfgQCTy8Nq8if+5KDSeXti0dpOqw+fvMmHBB5eLyNAHLpzUhMBJ96dgBuhSgGYK79kIzjYIJdgwFCtcTmwViJpYtOK4FHN6iLW92dhUqrewKYSU0KKTdyc6KF7fXDD41GyQtM/Ug3FvH0P4pbTsGfxTqFehd8euLMIX06ugtDiNDAZTGHd2E3M5Bm7OzgwX830/dZGjrbRF1gc0hvKvN30U0CVk+3VqfYR1QkApIiE1gVrF/T1bltkfxVFU9HUsa1Pqm7mGBgMEFiljWw3iMfdE6EfQgS+Su95PV5ndEx06kBR+K6Z2vFO6pdx4mZAB9dt76nDSdNzgLR/fL6Yge5Ygn9EpGLqLeA97rsZf70uyUSgs2FwilTsz7dT7WKRHUY2CULK6lWyehZEjVIoYzx9DTp5NEA61sSnAxiFhfd5Oni3vAW4+vv0P5uvPTj3IOijJ/SsVB9Ky+pY+hqMw69+4F1lCxrObVWlGUhirwG0VYMjfTVYoCRkK6mb9oU8SGj+pxYCGiroTuIXfIpkYvUg/Iu9NpmxixhCX66V0n3kmbhpTJUTpd/xo0ffkFOEzGxAnrNoVL75KZhz1oi7i3KhlGWhEGkxt2BP8Cx76QBYJwZLWghYybbao0xX+k=
+  file: tests.zip
+  skip_cleanup: true
+  on:
+    repo: JaCzekanski/ps1-tests
+    tags: false
+    master: true

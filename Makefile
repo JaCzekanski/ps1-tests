@@ -1,0 +1,9 @@
+TOPTARGETS = build
+
+IMAGES = timers
+
+$(TOPTARGETS): $(IMAGES)
+$(IMAGES):
+	@$(MAKE) -C $@ $(MAKECMDGOALS)
+
+.PHONY: $(TOPTAGETS) $(IMAGES)
