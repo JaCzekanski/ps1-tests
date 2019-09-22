@@ -1,0 +1,112 @@
+PSX
+
+timers test
+ResetGraph:itb=80012928,ehk=80012958
+Detected NTSC system.
+
+Forced NTSC system.
+Timer0, clock:   System clock, 1000 cycles delay:   1011,   1011,   1011,   1011,   1011,   1011,   1011,   1011,   1011,   1011, 
+Timer0, clock:   System clock, 5000 cycles delay:   5011,   5011,   5011,   5011,   5011,   5011,   5011,   5011,   5011,   5011, 
+Timer0, clock:   System clock,       frame delay: 111943, 112536, 112533, 112548, 112539, 112529, 112559, 112548, 112546, 112547, 
+Timer0, clock:      Dot clock, 1000 cycles delay:    198,    198,    199,    198,    198,    198,    199,    198,    198,    199, 
+Timer0, clock:      Dot clock, 5000 cycles delay:    982,    983,    983,    983,    983,    982,    983,    983,    983,    983, 
+Timer0, clock:      Dot clock,       frame delay:  23970, 111917, 112030, 112038, 112031, 112031, 112034, 112031, 112029, 112036, 
+Timer1, clock:   System clock, 1000 cycles delay:   1011,   1011,   1011,   1011,   1011,   1011,   1011,   1011,   1011,   1011, 
+Timer1, clock:   System clock, 5000 cycles delay:   5011,   5011,   5011,   5011,   5011,   5011,   5011,   5011,   5011,   5011, 
+Timer1, clock:   System clock,       frame delay:  73426, 111922, 112544, 112556, 112546, 112535, 112570, 112536, 112525, 112556, 
+Timer1, clock:         Hblank, 1000 cycles delay:      0,      1,      0,      1,      0,      1,      0,      1,      0,      1, 
+Timer1, clock:         Hblank, 5000 cycles delay:      3,      2,      2,      3,      2,      2,      3,      2,      2,      2, 
+Timer1, clock:         Hblank,       frame delay:     54,    263,    263,    263,    263,    263,    263,    263,    263,    263, 
+Timer2, clock:   System clock, 1000 cycles delay:   1011,   1011,   1011,   1011,   1011,   1011,   1011,   1011,   1011,   1011, 
+Timer2, clock:   System clock, 5000 cycles delay:   5011,   5011,   5011,   5011,   5011,   5011,   5011,   5011,   5011,   5011, 
+Timer2, clock:   System clock,       frame delay: 110393, 111959, 112556, 112524, 112557, 112538, 112547, 112543, 112529, 112552, 
+Timer2, clock: System clock/8, 1000 cycles delay:    126,    126,    127,    126,    127,    126,    126,    127,    126,    126, 
+Timer2, clock: System clock/8, 5000 cycles delay:    626,    627,    626,    626,    627,    626,    627,    626,    626,    627, 
+Timer2, clock: System clock/8,       frame delay:  14444,  71339,  71412,  71408,  71415,  71411,  71408,  71413,  71410,  71411, 
+
+Testing Timer0 sync modes (clock source = System clock, 100 delay cycles, resolution = 256x240, dotclock @ 5.32224 MHz, not resetted between runs)
+0 = Pause counter during Hblanks                                 24,     24,     24,    100,    222,    344,    466,    588,    710,    832, 
+1 = Reset counter to 0 at Hblanks                               273,    395,    517,    639,    761,    883,   1005,    101,    223,    345, 
+2 = Reset counter to 0 at Hblanks and pause outside of Hblank     0,      0,      0,      0,      0,      0,      0,      0,      0,      0, 
+3 = Pause until Hblank occurs once, then switch to Free Run       0,      0,      0,      0,      0,      0,      0,     71,    193,    315, 
+
+Testing Timer0 sync modes (clock source = System clock, 100 delay cycles, resolution = 320x240, dotclock @ 6.65280 MHz, not resetted between runs)
+0 = Pause counter during Hblanks                                269,    391,    513,    635,    757,    879,   1001,   1123,   1245,   1367, 
+1 = Reset counter to 0 at Hblanks                               269,    391,    513,    635,    757,    879,   1001,   1123,   1245,   1367, 
+2 = Reset counter to 0 at Hblanks and pause outside of Hblank     0,      0,      0,      0,     22,    144,    266,    388,    510,      0, 
+3 = Pause until Hblank occurs once, then switch to Free Run       0,      0,      0,      0,      0,      0,      0,      0,      0,     60, 
+
+Testing Timer0 sync modes (clock source = System clock, 100 delay cycles, resolution = 368x240, dotclock @ 7.60320 MHz, not resetted between runs)
+0 = Pause counter during Hblanks                                269,    391,    513,    635,    757,    879,   1001,   1123,   1245,   1262, 
+1 = Reset counter to 0 at Hblanks                               269,    107,    229,    351,    473,    595,    717,    839,    961,   1083, 
+2 = Reset counter to 0 at Hblanks and pause outside of Hblank     0,      0,      0,      0,      0,      0,      0,      0,      0,      0, 
+3 = Pause until Hblank occurs once, then switch to Free Run       0,      0,      0,      0,      0,      0,      0,      0,      0,      0, 
+
+Testing Timer0 sync modes (clock source = System clock, 100 delay cycles, resolution = 512x240, dotclock @ 10.64448 MHz, not resetted between runs)
+0 = Pause counter during Hblanks                                272,    394,    516,    638,    724,    724,    724,    724,    724,    827, 
+1 = Reset counter to 0 at Hblanks                               269,    391,    513,    635,    757,    879,   1001,   1123,   1245,   1367, 
+2 = Reset counter to 0 at Hblanks and pause outside of Hblank   214,    336,    458,      0,      0,      0,      0,      0,      0,      0, 
+3 = Pause until Hblank occurs once, then switch to Free Run       0,      0,      0,      0,      0,      0,      0,      0,      0,      0, 
+
+Testing Timer0 sync modes (clock source = System clock, 100 delay cycles, resolution = 640x240, dotclock @ 13.30560 MHz, not resetted between runs)
+0 = Pause counter during Hblanks                                269,    391,    448,    448,    448,    448,    457,    579,    701,    823, 
+1 = Reset counter to 0 at Hblanks                               269,    391,    513,    635,    757,    879,   1001,     86,    208,    330, 
+2 = Reset counter to 0 at Hblanks and pause outside of Hblank     0,      0,      0,      0,      0,      0,     54,    176,    298,    420, 
+3 = Pause until Hblank occurs once, then switch to Free Run       0,      0,      0,    108,    230,    352,    474,    596,    718,    840, 
+
+Testing Timer0 sync modes (clock source = Dot clock, 100 delay cycles, resolution = 256x240, dotclock @ 5.32224 MHz, not resetted between runs)
+0 = Pause counter during Hblanks                                 42,     62,     81,    100,    119,    138,    157,    177,    196,    215, 
+1 = Reset counter to 0 at Hblanks                                43,     62,     81,    100,    119,    138,    157,    176,      5,     24, 
+2 = Reset counter to 0 at Hblanks and pause outside of Hblank     0,      0,     10,     29,     48,     67,      0,      0,      0,      0, 
+3 = Pause until Hblank occurs once, then switch to Free Run       0,      0,      0,      0,      0,      0,     10,     29,     48,     67, 
+
+Testing Timer0 sync modes (clock source = Dot clock, 100 delay cycles, resolution = 320x240, dotclock @ 6.65280 MHz, not resetted between runs)
+0 = Pause counter during Hblanks                                  0,      0,     16,     40,     64,     88,    112,    136,    160,    184, 
+1 = Reset counter to 0 at Hblanks                                52,     76,     10,     34,     58,     82,    106,    130,    154,    178, 
+2 = Reset counter to 0 at Hblanks and pause outside of Hblank    33,     57,     81,    105,      0,      0,      0,      0,      0,      0, 
+3 = Pause until Hblank occurs once, then switch to Free Run       0,      0,      0,      0,      0,      0,      0,      0,      0,      0, 
+
+Testing Timer0 sync modes (clock source = Dot clock, 100 delay cycles, resolution = 368x240, dotclock @ 7.60320 MHz, not resetted between runs)
+0 = Pause counter during Hblanks                                 60,     73,     73,     73,     73,     92,    120,    147,    174,    202, 
+1 = Reset counter to 0 at Hblanks                                61,      3,     30,     58,     85,    112,    140,    167,    194,    222, 
+2 = Reset counter to 0 at Hblanks and pause outside of Hblank     0,     26,     54,     81,      0,      0,      0,      0,      0,      0, 
+3 = Pause until Hblank occurs once, then switch to Free Run       0,      5,     32,     59,     87,    114,    141,    169,    196,    224, 
+
+Testing Timer0 sync modes (clock source = Dot clock, 100 delay cycles, resolution = 512x240, dotclock @ 10.64448 MHz, not resetted between runs)
+0 = Pause counter during Hblanks                                 84,     87,     87,     87,     87,    104,    143,    181,    219,    258, 
+1 = Reset counter to 0 at Hblanks                                84,    122,    161,    199,     35,     74,    112,    150,    188,    227, 
+2 = Reset counter to 0 at Hblanks and pause outside of Hblank     0,      0,      0,      0,      0,      0,      0,      0,      0,      0, 
+3 = Pause until Hblank occurs once, then switch to Free Run       0,      0,      0,      0,      0,      0,      0,      4,     42,     80, 
+
+Testing Timer0 sync modes (clock source = Dot clock, 100 delay cycles, resolution = 640x240, dotclock @ 13.30560 MHz, not resetted between runs)
+0 = Pause counter during Hblanks                                105,    108,    108,    108,    108,    130,    178,    226,    274,    322, 
+1 = Reset counter to 0 at Hblanks                               105,    153,    201,    248,    296,     19,     67,    115,    163,    211, 
+2 = Reset counter to 0 at Hblanks and pause outside of Hblank     0,      7,     55,    103,    151,    198,      0,      0,      0,      0, 
+3 = Pause until Hblank occurs once, then switch to Free Run       0,      0,      0,      0,     11,     59,    107,    155,    203,    251, 
+
+Testing Timer1 sync modes (clock source = System clock, 100 delay cycles, not resetted between runs)
+0 = Pause counter during Vblanks                                269,    391,    513,    635,    757,    879,   1001,   1123,   1245,   1367, 
+1 = Reset counter to 0 at Vblanks                               269,    391,    513,    635,    757,    879,   1001,   1123,   1245,   1367, 
+2 = Reset counter to 0 at Vblanks and pause outside of Vblank     0,      0,      0,      0,      0,      0,      0,      0,      0,      0, 
+3 = Pause until Vblank occurs once, then switch to Free Run       0,      0,      0,      0,      0,      0,      0,      0,      0,      0, 
+
+Testing Timer1 sync modes (clock source = Hblank, 100 delay cycles, not resetted between runs)
+0 = Pause counter during Vblanks                                  0,      0,      0,      0,      0,      0,      0,      0,      1,      1, 
+1 = Reset counter to 0 at Vblanks                                 0,      1,      1,      1,      1,      1,      1,      1,      1,      1, 
+2 = Reset counter to 0 at Vblanks and pause outside of Vblank     0,      0,      0,      0,      0,      0,      0,      0,      0,      0, 
+3 = Pause until Vblank occurs once, then switch to Free Run       0,      0,      0,      0,      0,      0,      0,      0,      0,      0, 
+
+Testing Timer2 sync modes (clock source = System clock, 100 delay cycles, not resetted between runs)
+0 = Stop counter at current value                                 0,      0,      0,      0,      0,      0,      0,      0,      0,      0, 
+1 = Free Run                                                    271,    393,    515,    637,    759,    881,   1003,   1125,   1247,   1369, 
+2 = Free Run                                                    269,    391,    513,    635,    757,    879,   1001,   1123,   1245,   1367, 
+3 = Stop counter at current value                                 0,      0,      0,      0,      0,      0,      0,      0,      0,      0, 
+
+Testing Timer2 sync modes (clock source = System clock, 100 delay cycles, not resetted between runs)
+0 = Stop counter at current value                                 0,      0,      0,      0,      0,      0,      0,      0,      0,      0, 
+1 = Free Run                                                    268,    390,    512,    634,    756,    878,   1000,   1122,   1244,   1366, 
+2 = Free Run                                                    268,    390,    512,    634,    756,    878,   1000,   1122,   1244,   1366, 
+3 = Stop counter at current value                                 0,      0,      0,      0,      0,      0,      0,      0,      0,      0, 
+
+
+Done, crashing now...

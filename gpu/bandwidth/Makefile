@@ -1,4 +1,4 @@
 include $(PSN00BSDK)/sdk-common.mk
 
-TARGET = benchmark.elf
+TARGET = bandwidth.elf
 LIBS  += -lpsxapi
