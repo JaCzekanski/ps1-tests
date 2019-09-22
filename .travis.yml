@@ -5,7 +5,7 @@ services:
 
 script:
   - docker run -it -v $(pwd):/build jaczekanski/psn00bsdk:latest make
-  - find . -iname *.exe -print | zip tests.zip -@
+  - find . \( -iname "*.exe" -o -iname "*.png" -o -iname "*.log" \) -print | zip tests.zip -@
 
 before_deploy:
   - git config --global user.email "builds@travis-ci.com"
@@ -26,4 +26,3 @@ deploy:
   on:
     repo: JaCzekanski/ps1-tests
     tags: false
-    master: true
