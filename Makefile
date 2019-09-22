@@ -5,6 +5,7 @@ IMAGES = gpu/bandwidth \
 		gpu/quad \
 		gte-fuzz \
 		spu/test \
+		spu/stereo \
 		timers
 
 $(TOPTARGETS): $(IMAGES)
