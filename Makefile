@@ -3,6 +3,7 @@ TOPTARGETS = build clean
 IMAGES = gpu/bandwidth \
 		gpu/benchmark \
 		gpu/quad \
+		gpu/transparency \
 		gte-fuzz \
 		spu/test \
 		spu/stereo \
