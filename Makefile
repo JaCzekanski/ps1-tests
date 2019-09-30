@@ -4,6 +4,8 @@ IMAGES = gpu/bandwidth \
 		gpu/benchmark \
 		gpu/quad \
 		gpu/transparency \
+		gpu/lines \
+		gpu/texture-overflow \
 		gte-fuzz \
 		spu/test \
 		spu/stereo \
