@@ -42,34 +42,72 @@ void clearScreen() {
     fillRect(512, 256, 0x3f1, 256, 0xff, 0xff, 0xff);
 }
 
+void circle(int cx, int cy, int scale, int segs) {
+    const int PI = 4096/2;
+
+    LINE_F2 l;
+
+    setLineF2(&l);
+    setRGB0(&l, 0, 0, 0);
+
+    const int ANGLE = 2 * PI / segs;
+    const int H_ANGLE = ANGLE / 2;
+    for (int s = 0; s < segs; s++) {
+        l.x0 = cx + icos(ANGLE * s - H_ANGLE) / scale;
+        l.y0 = cy + isin(ANGLE * s - H_ANGLE) / scale;
+        l.x1 = cx + icos(ANGLE * s + H_ANGLE) / scale;
+        l.y1 = cy + isin(ANGLE * s + H_ANGLE) / scale;
+
+        DrawPrim(&l);
+    }
+}
+
 int main() {
     initVideo();
     InitGeom();
     printf("\ngpu/lines\n");
 
     for (;;) {
-        const int PI = 4096/2;
-        const int CX = SCR_W/2;
-        const int CY = SCR_H/2;
-        const int SEGS = 6;
-        const int ANGLE = 2 * PI / SEGS;
-        const int H_ANGLE = ANGLE / 2;
-        const int SCALE = 48;
         
         clearScreen();
+        
+        LINE_F2 l;
 
-        for (int s = 0; s < SEGS; s++) {
-            LINE_F2 l;
+        setLineF2(&l);
+        setRGB0(&l, 0, 0, 0);
 
-            setLineF2(&l);
-            setRGB0(&l, 0, 0, 0);
-            l.x0 = CX + icos(ANGLE * s - H_ANGLE) / SCALE;
-            l.y0 = CY + isin(ANGLE * s - H_ANGLE) / SCALE;
-            l.x1 = CX + icos(ANGLE * s + H_ANGLE) / SCALE;
-            l.y1 = CY + isin(ANGLE * s + H_ANGLE) / SCALE;
+        // Horizontal lines
+        for (int y = 0; y < 10; y++) {
+            l.x0 = 16;
+            l.y0 = 16 + y * 8;
+            l.x1 = 16 + 80;
+            l.y1 = 16 + y * 8 + y;
 
             DrawPrim(&l);
         }
+        
+        // Vertical lines
+        for (int x = 0; x < 10; x++) {
+            l.x0 = 108 + x * 8;
+            l.y0 = 16;
+            l.x1 = 108 + x * 8 + x;
+            l.y1 = 16 + 80;
+            
+            DrawPrim(&l);
+        }
+        
+        // Horizontal lines
+        for (int y = 0; y < 40; y++) {
+            l.x0 = 200;
+            l.y0 = 16 + y * 4;
+            l.x1 = 200 + 40 - y;
+            l.y1 = 17 + y * 4;
+
+            DrawPrim(&l);
+        }
+        
+
+        circle(SCR_W * 1/4, SCR_H * 4/6, 100, 6);
 
         VSync(0);
     }
