@@ -1,6 +1,10 @@
 build/
 .vscode/
+.idea/
 
 *.elf
 *.exe
 *.zip
+
+*-amd64
+*-386
