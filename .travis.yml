@@ -5,7 +5,8 @@ services:
 
 script:
   - docker run -it -v $(pwd):/build jaczekanski/psn00bsdk:latest make
-  - find . \( -iname "*.exe" -o -iname "*.png" -o -iname "*.log" \) -print | zip tests.zip -@
+  - ./tools/diffvram/build-ci.sh
+  - find . \( -iname "*.exe" -o -iname "*.png" -o -iname "*.log" -o -iname "*-amd64" \) -print | zip tests.zip -@
 
 before_deploy:
   - git config --global user.email "builds@travis-ci.com"

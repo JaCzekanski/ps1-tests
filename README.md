@@ -1,5 +1,7 @@
 # ps1-tests
 
+Collection of PlayStation 1 tests for emulator development and hardware verification
+
 ## Tests
 
 Name                 | Description
@@ -16,6 +18,12 @@ spu/stereo           | Play samples on first two voices
 timers               | Run Timer0,1,2 using various clock sources and sync modes and time them using busy loops and vblank interrupt
 
 Note: Make sure your PS-EXE loaded does set default value for Stack Pointer - these .exes has SP set to 0.
+
+## Tools
+
+Name                 | Description
+---------------------|------------
+diffvram             | Diff two images and write diff png if image contents aren't exactly the same
 
 ## Download
 

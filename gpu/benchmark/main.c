@@ -36,7 +36,7 @@ void initVideo()
 }
 
 void clearScreen() {
-    FILL* f = ptr;
+    FILL* f = (FILL*)ptr;
     ptr += sizeof(FILL);
     
     setFill(f);
@@ -46,8 +46,6 @@ void clearScreen() {
 
     addPrim(ot[db] + (OT_LEN-1), f);
 }
-
-POLY_G4 poly;
 
 int main()
 {
@@ -62,7 +60,7 @@ int main()
 
 		ClearOTagR( ot[db] + (OT_LEN-1), OT_LEN );
         for (int i = 0; i < 100; i++) {
-            POLY_G4 *p = ptr;
+            POLY_G4 *p = (POLY_G4*)ptr;
             ptr += sizeof(POLY_G4);
             setPolyG4(p);
             setSemiTrans(p, 0); // Disable transparency
