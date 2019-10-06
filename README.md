@@ -11,6 +11,7 @@ gpu/benchmark        | Simple GPU test to benchmark rasteriser
 gpu/quad             | Semi-transparent polygon commands - for testing fill rules and transparency handling
 gpu/transparency     | Draws rectangles with 4 semi-transparent blending modes
 gpu/lines            | Draws lines using different modes - for verifying Bresenham implementation, color blending, polyline handling
+gpu/rectangles       | Draws all combinations of Rectangle commands
 gpu/texture-overflow | Draws textured rectangle with UV overflowing VRAM width
 gte-fuzz             | Executes GTE opcodes with random parameters, can be used to verify against real console
 spu/test             | Check SPU behavior (data is lost randomly on 32bit access, ok on 16bit)
@@ -33,6 +34,8 @@ diffvram             | Diff two images and write diff png if image contents aren
 
 <img src="gpu/lines/vram.png" height="256">
 <img src="gpu/transparency/vram.png" height="256">
+<img src="gpu/rectangles/vram.png" height="256">
+<img src="gpu/texture-overflow/vram.png" height="256">
 
 ## Build
 

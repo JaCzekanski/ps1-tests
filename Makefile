@@ -5,6 +5,7 @@ IMAGES = gpu/bandwidth \
 		gpu/quad \
 		gpu/transparency \
 		gpu/lines \
+		gpu/rectangles \
 		gpu/texture-overflow \
 		gte-fuzz \
 		spu/test \
