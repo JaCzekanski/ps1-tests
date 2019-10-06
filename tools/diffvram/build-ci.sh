@@ -9,15 +9,15 @@ pushd $basedir
 for platform in "${platforms[@]}"
 do
     platform_split=(${platform//\// })
-    GOOS=${platform_split[0]}
-    GOARCH=${platform_split[1]}
+    export GOOS=${platform_split[0]}
+    export GOARCH=${platform_split[1]}
     output_name=$name'-'$GOOS'-'$GOARCH
     if [ $GOOS = "windows" ]; then
         output_name+='.exe'
     fi
 
     echo Building $output_name
-    env GOOS=$GOOS GOARCH=$GOARCH docker run -v $(pwd):/build -w /build golang:1.12-alpine go build -o $output_name .
+    docker run -e GOOS -e GOARCH -v $(pwd):/build -w /build golang:1.12-alpine go build -o $output_name .
     if [ $? -ne 0 ]; then
         echo 'An error has occurred! Aborting the script execution...'
         exit 1
