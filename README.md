@@ -10,6 +10,7 @@ gpu/bandwidth        | Measure GPU/VRAM bandwidth
 gpu/benchmark        | Simple GPU test to benchmark rasteriser
 gpu/quad             | Semi-transparent polygon commands - for testing fill rules and transparency handling
 gpu/transparency     | Draws rectangles with 4 semi-transparent blending modes
+gpu/triangle         | Draws Gouroud shaded equilateral triangle 
 gpu/lines            | Draws lines using different modes - for verifying Bresenham implementation, color blending, polyline handling
 gpu/rectangles       | Draws all combinations of Rectangle commands
 gpu/texture-overflow | Draws textured rectangle with UV overflowing VRAM width

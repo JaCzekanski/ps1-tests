@@ -4,6 +4,7 @@ IMAGES = gpu/bandwidth \
 		gpu/benchmark \
 		gpu/quad \
 		gpu/transparency \
+		gpu/triangle \
 		gpu/lines \
 		gpu/rectangles \
 		gpu/texture-overflow \
