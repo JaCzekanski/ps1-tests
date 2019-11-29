@@ -1,0 +1,7 @@
+gpu/mask-bit
+pass - testWriteAndRead
+pass - testSetBit
+pass - testCheckMaskBit
+pass - testCheckIsMaskBitStickyManually
+pass - testCheckIsMaskBitStickySetBit
+Done.

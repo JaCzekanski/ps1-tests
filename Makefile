@@ -8,6 +8,7 @@ IMAGES = gpu/bandwidth \
 		gpu/lines \
 		gpu/rectangles \
 		gpu/texture-overflow \
+		gpu/mask-bit \
 		gte-fuzz \
 		spu/test \
 		spu/stereo \
