@@ -4,6 +4,8 @@
 #include <psxetc.h>
 #include "io.h"
 
+typedef char bool;
+
 DISPENV disp;
 DRAWENV draw;
 
@@ -76,9 +78,10 @@ void fillScreen() {
     DrawPrim(&f);
 }
 
-void rectScreen() {
+void rectScreen(bool semitransparent) {
     TILE t;
     setTile(&t);
+    setSemiTrans(&t, semitransparent);
     setXY0(&t, 0, 0);
     setWH(&t, SCR_W, SCR_H);
     setRGB0(&t, rand()%255, rand()%255, rand()%255);
@@ -86,10 +89,25 @@ void rectScreen() {
     DrawPrim(&t);
 }
 
-void quadScreen() {
+void rectTexturedScreen(bool semitransparent) {
+    SPRT s;
+    setSprt(&s);
+    setSemiTrans(&s, semitransparent);
+    setXY0(&s, 0, 0);
+    setWH(&s, SCR_W, SCR_H);
+    setRGB0(&s, rand()%255, rand()%255, rand()%255);
+    setClut(&s, 768, 256);
+    setUV0(&s,
+        0, 0
+    );
+   
+    DrawPrim(&s);
+}
+
+void quadScreen(bool semitransparent) {
     POLY_F4 p;
     setPolyF4(&p);
-    // setSemiTrans(&p, 1);
+    setSemiTrans(&p, semitransparent);
     setXY4(&p, 
         0, 0,
         SCR_W, 0,
@@ -105,11 +123,12 @@ void quadScreen() {
 	(p)->u0 = _u0, 		(p)->v0 = _v0,		\
 	(p)->u1 = _u0+(_w),	(p)->v1 = _v0,		\
 	(p)->u2 = _u0, 		(p)->v2 = _v0+(_h),	\
-	(p)->u3 = _u0+(_h), (p)->v3 = _v0+(_h)
+	(p)->u3 = _u0+(_w), (p)->v3 = _v0+(_h)
 
-void quadTextuedScreen() {
+void quadTexturedScreen(bool semitransparent) {
     POLY_FT4 p;
     setPolyFT4(&p);
+    setSemiTrans(&p, semitransparent);
     setShadeTex(&p, 1);
     setXY4(&p, 
         0, 0,
@@ -141,14 +160,19 @@ void calculate(const char* test, uint16_t hblanks) {
     uint32_t bytesSum = bytesPerFrame * callCount;
 
     uint32_t megaBytesPerSecond = bytesSum / (dt_q*1024);
-    printf("%-25s dT: %5d.%-5d ms (hblanks: %5d), speed: %d MB/s\n", test, dt_q, dt_r, diff, megaBytesPerSecond);
+    printf("%-30s dT: %5d.%-5d ms (hblanks: %5d), speed: %d MB/s\n", test, dt_q, dt_r, diff, megaBytesPerSecond);
 }
 
-const char* testCases[4] = {
+const char* testCases[9] = {
     "FillScreen GP0(2)",
     "Rectangle",
+    "Rectangle (semitransparent)",
+    "Rectangle textured",
+    "Rectangle textured (semi)",
     "Polygon quad",
-    "Polygon quad textured"
+    "Polygon quad (semi)",
+    "Polygon quad textured",
+    "Polygon quad textured (semi)"
 };
 
 int main()
@@ -159,8 +183,8 @@ int main()
 
     uint16_t oldTimer1Mode = initTimer(1, 1); // Timer1, HBlank
 
-    for (int test = 0;test<4;test++) {
-        for (int sample = 0; sample<5; sample++) {
+    for (int test = 0; test<9; test++) {
+        for (int sample = 0; sample<3; sample++) {
             clearScreen();
 
             resetTimer(1);
@@ -170,13 +194,28 @@ int main()
                         fillScreen();
                         break;
                     case 1: 
-                        rectScreen();
+                        rectScreen(false);
                         break;
                     case 2: 
-                        quadScreen();
+                        rectScreen(true);
                         break;
-                    case 3: 
-                        quadTextuedScreen();
+                    case 3:
+                        rectTexturedScreen(false);
+                        break;
+                    case 4:
+                        rectTexturedScreen(true);
+                        break;
+                    case 5: 
+                        quadScreen(false);
+                        break;
+                    case 6: 
+                        quadScreen(true);
+                        break;
+                    case 7: 
+                        quadTexturedScreen(false);
+                        break;
+                    case 8: 
+                        quadTexturedScreen(true);
                         break;
                 }
             }
@@ -189,7 +228,9 @@ int main()
 
     restoreTimer(1, oldTimer1Mode);
 
-    printf("Done, crashing now...\n");
-    __asm__ volatile (".word 0xFC000000"); // Invalid opcode (63)
+    printf("Done\n");
+    for (;;) {
+        VSync(0);
+    }
     return 0;
 }

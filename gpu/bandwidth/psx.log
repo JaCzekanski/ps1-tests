@@ -1,22 +1,29 @@
 gpu/bandwidth
-FillScreen GP0(2)         dT:    75.11500 ms (hblanks:  1195), speed: 800 MB/s
-FillScreen GP0(2)         dT:    75.12500 ms (hblanks:  1196), speed: 800 MB/s
-FillScreen GP0(2)         dT:    75.12500 ms (hblanks:  1196), speed: 800 MB/s
-FillScreen GP0(2)         dT:    75.12500 ms (hblanks:  1196), speed: 800 MB/s
-FillScreen GP0(2)         dT:    75.12500 ms (hblanks:  1196), speed: 800 MB/s
-Rectangle                 dT:   475.8500  ms (hblanks:  7504), speed: 126 MB/s
-Rectangle                 dT:   475.8500  ms (hblanks:  7504), speed: 126 MB/s
-Rectangle                 dT:   475.8500  ms (hblanks:  7504), speed: 126 MB/s
-Rectangle                 dT:   475.8500  ms (hblanks:  7504), speed: 126 MB/s
-Rectangle                 dT:   475.8500  ms (hblanks:  7504), speed: 126 MB/s
-Polygon quad              dT:   483.10260 ms (hblanks:  7632), speed: 124 MB/s
-Polygon quad              dT:   483.9260  ms (hblanks:  7631), speed: 124 MB/s
-Polygon quad              dT:   483.9260  ms (hblanks:  7631), speed: 124 MB/s
-Polygon quad              dT:   483.9260  ms (hblanks:  7631), speed: 124 MB/s
-Polygon quad              dT:   483.9260  ms (hblanks:  7631), speed: 124 MB/s
-Polygon quad textured     dT:  2731.5820  ms (hblanks: 43101), speed: 21 MB/s
-Polygon quad textured     dT:  2731.7820  ms (hblanks: 43103), speed: 21 MB/s
-Polygon quad textured     dT:  2731.6820  ms (hblanks: 43102), speed: 21 MB/s
-Polygon quad textured     dT:  2731.7820  ms (hblanks: 43103), speed: 21 MB/s
-Polygon quad textured     dT:  2731.6820  ms (hblanks: 43102), speed: 21 MB/s
-Done, crashing now...
+FillScreen GP0(2)              dT:    75.11500 ms (hblanks:  1195), speed: 800 MB/s
+FillScreen GP0(2)              dT:    75.12500 ms (hblanks:  1196), speed: 800 MB/s
+FillScreen GP0(2)              dT:    75.12500 ms (hblanks:  1196), speed: 800 MB/s
+Rectangle                      dT:   475.8500  ms (hblanks:  7504), speed: 126 MB/s
+Rectangle                      dT:   475.8500  ms (hblanks:  7504), speed: 126 MB/s
+Rectangle                      dT:   475.8500  ms (hblanks:  7504), speed: 126 MB/s
+Rectangle (semitransparent)    dT:   716.13520 ms (hblanks: 11312), speed: 83 MB/s
+Rectangle (semitransparent)    dT:   716.13520 ms (hblanks: 11312), speed: 83 MB/s
+Rectangle (semitransparent)    dT:   716.13520 ms (hblanks: 11312), speed: 83 MB/s
+Rectangle textured             dT:  1066.9520  ms (hblanks: 16831), speed: 56 MB/s
+Rectangle textured             dT:  1066.9520  ms (hblanks: 16831), speed: 56 MB/s
+Rectangle textured             dT:  1066.6520  ms (hblanks: 16828), speed: 56 MB/s
+Rectangle textured (semi)      dT:  1343.14460 ms (hblanks: 21207), speed: 44 MB/s
+Rectangle textured (semi)      dT:  1343.14460 ms (hblanks: 21207), speed: 44 MB/s
+Rectangle textured (semi)      dT:  1343.14460 ms (hblanks: 21207), speed: 44 MB/s
+Polygon quad                   dT:   483.9260  ms (hblanks:  7631), speed: 124 MB/s
+Polygon quad                   dT:   483.9260  ms (hblanks:  7631), speed: 124 MB/s
+Polygon quad                   dT:   483.9260  ms (hblanks:  7631), speed: 124 MB/s
+Polygon quad (semi)            dT:   729.8380  ms (hblanks: 11512), speed: 82 MB/s
+Polygon quad (semi)            dT:   728.14160 ms (hblanks: 11502), speed: 82 MB/s
+Polygon quad (semi)            dT:   729.8380  ms (hblanks: 11512), speed: 82 MB/s
+Polygon quad textured          dT:  2731.7820  ms (hblanks: 43103), speed: 21 MB/s
+Polygon quad textured          dT:  2731.7820  ms (hblanks: 43103), speed: 21 MB/s
+Polygon quad textured          dT:  2731.5820  ms (hblanks: 43101), speed: 21 MB/s
+Polygon quad textured (semi)   dT:  3108.760   ms (hblanks: 49045), speed: 19 MB/s
+Polygon quad textured (semi)   dT:  3107.6540  ms (hblanks: 49035), speed: 19 MB/s
+Polygon quad textured (semi)   dT:  3108.760   ms (hblanks: 49045), speed: 19 MB/s
+Done
