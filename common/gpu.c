@@ -1,22 +1,40 @@
-#include "vram.h"
+#include "gpu.h"
 #include <psxgpu.h>
 
-typedef struct CPU2VRAM {
-	unsigned int	tag;
-	unsigned char	p0,p1,p2,code;
-	unsigned short	x0,y0;
-	unsigned short	w,h;
-	unsigned int	data; // Single pixel
-} CPU2VRAM;
+DISPENV disp;
+DRAWENV draw;
 
-typedef struct VRAM2CPU {
-	unsigned int	tag;
-	unsigned char	p0,p1,p2,code;
-	unsigned short	x0,y0;
-	unsigned short	w,h;
-} VRAM2CPU;
+void setResolution(int w, int h) {
+    SetDefDispEnv(&disp, 0, 0, w, h);
+    SetDefDrawEnv(&draw, 0, 0, w, h);
 
-uint32_t ReadGPUstat();
+    PutDispEnv(&disp);
+    PutDrawEnv(&draw);
+}
+
+void initVideo(int width, int height)
+{
+    ResetGraph(0);
+    setResolution(width, height);
+    SetDispMask(1);
+}
+
+void fillRect(int x, int y, int w, int h, int r, int g, int b) {
+    FILL f;
+    setFill(&f);
+    setRGB0(&f, r, g, b);  
+    setXY0(&f, x, y);
+    setWH(&f, w, h);
+
+    DrawPrim(&f);
+}
+
+void clearScreen() {
+    fillRect(0,   0,   512, 256,   0, 0, 0);
+    fillRect(512, 0,   512, 256,   0, 0, 0);
+    fillRect(0,   256, 512, 256,   0, 0, 0);
+    fillRect(512, 256, 0x3f1, 256, 0, 0, 0);
+}
 
 // TODO: Remove when #9 in PSn00bSDK is merged
 #undef setDrawMask
@@ -27,6 +45,18 @@ void setMaskBitSetting(bool setBit, bool checkBit) {
     DR_MASK mask;
     setDrawMask(&mask, setBit, checkBit);
     DrawPrim(&mask);
+}
+
+void gpuNop() {
+    writeGP0(0, 0);
+}
+
+void writeGP0(uint8_t cmd, uint32_t value) {
+    DR_TPAGE p;
+    p.code[0] = value;
+    setlen( &p, 1 );
+    setcode( &p, cmd );
+    DrawPrim(&p);
 }
 
 void writeGP1(uint8_t cmd, uint32_t data) {

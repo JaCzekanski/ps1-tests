@@ -2,6 +2,7 @@ build/
 .vscode/
 .idea/
 
+*.a
 *.elf
 *.exe
 *.zip

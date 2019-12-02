@@ -1,6 +1,7 @@
 TOPTARGETS = build clean
 
-IMAGES = gpu/bandwidth \
+IMAGES = common \
+		gpu/bandwidth \
 		gpu/benchmark \
 		gpu/quad \
 		gpu/transparency \
