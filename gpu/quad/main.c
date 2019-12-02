@@ -1,54 +1,15 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <psxgpu.h>
-#include <psxetc.h>
-
-DISPENV disp;
-DRAWENV draw;
+#include <common.h>
 
 #define SCR_W 320
 #define SCR_H 240
 
-void setResolution(int w, int h) {
-    SetDefDispEnv(&disp, 0, 0, w, h);
-    SetDefDrawEnv(&draw, 0, 0, w, h);
-
-    PutDispEnv(&disp);
-    PutDrawEnv(&draw);
-}
-
-void initVideo()
-{
-    ResetGraph(0);
-    setResolution(SCR_W, SCR_H);
-    SetDispMask(1);
-}
-
-void clearScreen() {
-    FILL f;
-    setFill(&f);
-    setRGB0(&f, 0xff, 0xff, 0xff);
-    setXY0(&f, 0, 0);
-    setWH(&f, 1023, 256);
-
-    DrawPrim(&f);
-    
-    setXY0(&f, 0, 256);
-    setWH(&f, 1023, 256);
-
-    DrawPrim(&f);
-}
-
 POLY_F4 poly;
 
-int main()
-{
-    initVideo();
+int main() {
+    initVideo(SCR_W, SCR_H);
     printf("\ngpu/quad (semi-transparent seam test)\n");
 
-    clearScreen();
-
-    PutDrawEnv(&draw);
+    clearScreenColor(0xff, 0xff, 0xff);
 
     // Draw semi-transparent polygon
     POLY_F4 *p = &poly;
@@ -131,7 +92,5 @@ int main()
     for (;;) {
         VSync(0);
     }
-    printf("Done, crashing now...\n");
-    __asm__ volatile (".word 0xFC000000"); // Invalid opcode (63)
     return 0;
 }
