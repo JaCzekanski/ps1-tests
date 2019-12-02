@@ -1,0 +1,8 @@
+gpu/gp0-e1
+pass - testWriteZerosToE1
+pass - testWriteOnesToE1
+pass - testWriteOnesToE1WithTextureDisable
+pass - testTexturedPolygons
+pass - testTexturedPolygonsTextureDisable
+pass - testTexturedPolygonsDoesNotChangeOtherBits
+Done.

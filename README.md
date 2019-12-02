@@ -15,6 +15,7 @@ gpu/lines            | Draws lines using different modes - for verifying Bresenh
 gpu/rectangles       | Draws all combinations of Rectangle commands
 gpu/texture-overflow | Draws textured rectangle with UV overflowing VRAM width
 gpu/mask-bit         | Check Mask bit behavior during VRAM copy operations
+gpu/gp0-e1           | Check if GP0_E1, GPUSTAT and polygon render uses the same register internally
 gte-fuzz             | Executes GTE opcodes with random parameters, can be used to verify against real console
 spu/test             | Check SPU behavior (data is lost randomly on 32bit access, ok on 16bit)
 spu/stereo           | Play samples on first two voices 

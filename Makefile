@@ -10,6 +10,7 @@ IMAGES = common \
 		gpu/rectangles \
 		gpu/texture-overflow \
 		gpu/mask-bit \
+		gpu/gp0-e1 \
 		gte-fuzz \
 		spu/test \
 		spu/stereo \
