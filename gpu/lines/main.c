@@ -1,48 +1,9 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <psxgpu.h>
+#include <common.h>
 #include <psxgte.h>
 #include <psxetc.h>
 
-typedef char bool;
-
-DISPENV disp;
-DRAWENV draw;
-
 #define SCR_W 320
 #define SCR_H 240
-
-void setResolution(int w, int h) {
-    SetDefDispEnv(&disp, 0, 0, w, h);
-    SetDefDrawEnv(&draw, 0, 0, w, h);
-
-    PutDispEnv(&disp);
-    PutDrawEnv(&draw);
-}
-
-void initVideo()
-{
-    ResetGraph(0);
-    setResolution(SCR_W, SCR_H);
-    SetDispMask(1);
-}
-
-void fillRect(int x, int y, int w, int h, int r, int g, int b) {
-    FILL f;
-    setFill(&f);
-    setRGB0(&f, r, g, b);
-    setXY0(&f, x, y);
-    setWH(&f, w, h);
-
-    DrawPrim(&f);
-}
-
-void clearScreen() {
-    fillRect(0,   0,   512,   256, 0xff, 0xff, 0xff);
-    fillRect(512, 0,   512,   256, 0xff, 0xff, 0xff);
-    fillRect(0,   256, 512,   256, 0xff, 0xff, 0xff);
-    fillRect(512, 256, 0x3f1, 256, 0xff, 0xff, 0xff);
-}
 
 void setE1(int transparencyMode, int dithering) {
     DR_TPAGE e;
@@ -80,7 +41,6 @@ void verticalLines(int startX, int startY) {
         DrawPrim(&l);
     }
 }
-
 
 void horizontalLines2(int startX, int startY) {
     for (int y = 0; y < 20; y++) {
@@ -150,7 +110,6 @@ void flatMultiLine(int startX, int startY, bool transparent)  {
     DrawPrim(&l);
 }
 
-
 void gouraudMultiLine(int startX, int startY, bool transparent)  {
     LINE_G4 l;
     setLineG4(&l);
@@ -176,7 +135,6 @@ void gouraudMultiLine(int startX, int startY, bool transparent)  {
     DrawPrim(&l);
 }
 
-
 void circle(int cx, int cy, int scale, int segs) {
     const int PI = 4096/2;
 
@@ -198,12 +156,12 @@ void circle(int cx, int cy, int scale, int segs) {
 }
 
 int main() {
-    initVideo();
+    initVideo(SCR_W, SCR_H);
     InitGeom();
     printf("\ngpu/lines\n");
 
     for (;;) {
-        clearScreen();
+        clearScreenColor(0xff, 0xff, 0xff);
 
         // Dithering off
         setE1(0, 0); 
