@@ -29,11 +29,15 @@ void fillRect(int x, int y, int w, int h, int r, int g, int b) {
     DrawPrim(&f);
 }
 
+void clearScreenColor(uint8_t r, uint8_t g, uint8_t b) {
+    fillRect(0,   0,   512, 256,   r, g, b);
+    fillRect(512, 0,   512, 256,   r, g, b);
+    fillRect(0,   256, 512, 256,   r, g, b);
+    fillRect(512, 256, 0x3f1, 256, r, g, b);
+}
+
 void clearScreen() {
-    fillRect(0,   0,   512, 256,   0, 0, 0);
-    fillRect(512, 0,   512, 256,   0, 0, 0);
-    fillRect(0,   256, 512, 256,   0, 0, 0);
-    fillRect(512, 256, 0x3f1, 256, 0, 0, 0);
+    clearScreenColor(0, 0, 0);
 }
 
 // TODO: Remove when #9 in PSn00bSDK is merged

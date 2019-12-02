@@ -24,6 +24,7 @@ typedef struct VRAM2CPU {
 void setResolution(int w, int h);
 void initVideo(int width, int height);
 void fillRect(int x, int y, int w, int h, int r, int g, int b);
+void clearScreenColor(uint8_t r, uint8_t g, uint8_t b);
 void clearScreen();
 
 void setMaskBitSetting(bool setBit, bool checkBit);
