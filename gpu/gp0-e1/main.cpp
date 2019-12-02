@@ -24,7 +24,6 @@ void drawTexturedPolygon(uint16_t texpage) {
 void testWriteZerosToE1() {
     writeGP1(0x09, 0); // Disable E1.11 bit
     writeGP0(0xe1,0x000);
-    gpuNop();
     
     assertEquals((ReadGPUstat() & E1_MASK), 0b00000000'00000000);
 }
@@ -33,7 +32,6 @@ void testWriteZerosToE1() {
 void testWriteOnesToE1() {
     writeGP1(0x09, 0); // Disable E1.11 bit
     writeGP0(0xe1, 0xfff);
-    gpuNop();
 
     assertEquals((ReadGPUstat() & E1_MASK), 0b00000111'11111111);
 }
@@ -42,7 +40,6 @@ void testWriteOnesToE1() {
 void testWriteOnesToE1WithTextureDisable() {
     writeGP1(0x09, 1); // Enable E1.11 bit
     writeGP0(0xe1,0xfff);
-    gpuNop();
 
     assertEquals((ReadGPUstat() & E1_MASK), 0b10000111'11111111);
 }
@@ -53,9 +50,7 @@ void testWriteOnesToE1WithTextureDisable() {
 void testTexturedPolygons() {
     writeGP1(0x09, 0); // Disable E1.11 bit
     writeGP0(0xe1,0x000);
-    
     drawTexturedPolygon(0xffff); 
-    gpuNop();
 
     assertEquals((ReadGPUstat() & E1_MASK), 0b0000001'11111111);
 }
@@ -64,9 +59,7 @@ void testTexturedPolygons() {
 void testTexturedPolygonsTextureDisable() {
     writeGP1(0x09, 1); // Enable E1.11 bit
     writeGP0(0xe1,0x000);
-
     drawTexturedPolygon(0xffff); 
-    gpuNop();
 
     assertEquals((ReadGPUstat() & E1_MASK), 0b10000001'11111111);
 }
@@ -75,9 +68,7 @@ void testTexturedPolygonsTextureDisable() {
 void testTexturedPolygonsDoesNotChangeOtherBits() {
     writeGP1(0x09, 1); // Enable E1.11 bit
     writeGP0(0xe1,0xfff);
-
     drawTexturedPolygon(0x0000); 
-    gpuNop();
 
     assertEquals((ReadGPUstat() & E1_MASK), 0b00000110'00000000);
 }
@@ -98,6 +89,7 @@ int main() {
     printf("\ngpu/gp0-e1\n");
 
     clearScreen();
+    writeGP0(1, 0); // Wait for gpu to complete all commands
 
     runTests();
     
