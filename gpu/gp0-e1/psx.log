@@ -5,4 +5,8 @@ pass - testWriteOnesToE1WithTextureDisable
 pass - testTexturedPolygons
 pass - testTexturedPolygonsTextureDisable
 pass - testTexturedPolygonsDoesNotChangeOtherBits
+pass - testTextureDisableBitIsIgnoredWhenNotAllowed
+pass - testTextureDisableBitIsWrittenWhenAllowed
+pass - testUnsetAllowTextureDisablePreservesBit
+pass - testUnsetAllowTextureDisableClearsBitAfterWrite
 Done.
