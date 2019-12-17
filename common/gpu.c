@@ -6,7 +6,7 @@ DRAWENV draw;
 
 void setResolution(int w, int h) {
     SetDefDispEnv(&disp, 0, 0, w, h);
-    SetDefDrawEnv(&draw, 0, 0, w, h);
+    SetDefDrawEnv(&draw, 0, 0, 1024, 512);
 
     PutDispEnv(&disp);
     PutDrawEnv(&draw);
@@ -105,4 +105,20 @@ uint32_t vramGet(int x, int y) {
     while ((ReadGPUstat() & (1<<27)) == 0);
 
     return readGPU();
+}
+
+void vramToVramCopy(int srcX, int srcY, int dstX, int dstY, int w, int h) 
+{
+    VRAM2VRAM buf = {0};
+    setcode(&buf, 0x80); // VRAM -> VRAM
+    setlen(&buf, 4);
+    
+    buf.x0 = srcX;
+    buf.y0 = srcY;
+    buf.x1 = dstX;
+    buf.y1 = dstY;
+    buf.w = w;
+    buf.h = h;
+
+    DrawPrim(&buf);
 }

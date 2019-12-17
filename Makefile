@@ -11,6 +11,7 @@ IMAGES = common \
 		gpu/texture-overflow \
 		gpu/mask-bit \
 		gpu/gp0-e1 \
+		gpu/vram-to-vram-overlap \
 		gte-fuzz \
 		spu/test \
 		spu/stereo \
