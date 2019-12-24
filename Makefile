@@ -19,6 +19,6 @@ IMAGES = common \
 
 $(TOPTARGETS): $(IMAGES)
 $(IMAGES):
-	@$(MAKE) -C $@ $(MAKECMDGOALS)
+	@$(MAKE) --no-print-directory -C $@ $(MAKECMDGOALS)
 
 .PHONY: $(TOPTAGETS) $(IMAGES)

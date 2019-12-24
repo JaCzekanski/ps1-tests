@@ -27,12 +27,15 @@ OFILES      = $(addprefix build/,$(CFILES:.c=.o) $(CPPFILES:.cpp=.o) $(AFILES:.s
 	
 build/%.o: %.c
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
+	@echo "CC     $<"
+	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 	
 build/%.o: %.cpp
 	@mkdir -p $(dir $@)
-	$(CXX) $(CPPFLAGS) $(INCLUDE) -c $< -o $@
+	@echo "CXX    $<"
+	@$(CXX) $(CPPFLAGS) $(INCLUDE) -c $< -o $@
 	
 build/%.o: %.s
 	@mkdir -p $(dir $@)
-	$(CC) $(AFLAGS) $(INCLUDE) -c $< -o $@
+	@echo "AS     $<"
+	@$(AS) $(AFLAGS) $(INCLUDE) $< -o $@

@@ -5,8 +5,10 @@ TARGET	= libcommon.a
 all: $(TARGET)
 
 $(TARGET): $(OFILES)
-	$(AR) cr $(TARGET) $(OFILES)
-	$(RANLIB) $(TARGET)
+	@echo "AR     $(TARGET)"
+	@$(AR) cr $(TARGET) $(OFILES)
+	@echo "RANLIB $(TARGET)"
+	@$(RANLIB) $(TARGET)
 
 clean:
 	rm -Rf build $(TARGET)
