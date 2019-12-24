@@ -7,7 +7,7 @@ Collection of PlayStation 1 tests for emulator development and hardware verifica
 Name                     | Description
 -------------------------|------------
 gpu/bandwidth            | Measure GPU/VRAM bandwidth
-gpu/benchmark            | Simple GPU test to benchmark rasteriser
+gpu/benchmark            | GPU test to benchmark rasterizer for various commands
 gpu/quad                 | Semi-transparent polygon commands - for testing fill rules and transparency handling
 gpu/transparency         | Draws rectangles with 4 semi-transparent blending modes
 gpu/triangle             | Draws Gouroud shaded equilateral triangle 
@@ -36,6 +36,7 @@ diffvram             | Diff two images and write diff png if image contents aren
 
 ## Examples
 
+<img src="gpu/benchmark/screenshot.png" height="480">
 <img src="gpu/lines/vram.png" height="256">
 <img src="gpu/transparency/vram.png" height="256">
 <img src="gpu/rectangles/vram.png" height="256">

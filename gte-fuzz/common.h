@@ -3,7 +3,6 @@
 #include <psxpad.h>
 #include "stdint.h"
 
-typedef uint8_t bool;
 extern unsigned short buttons, prevButtons;
 
 void init();

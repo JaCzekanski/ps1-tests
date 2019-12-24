@@ -5,8 +5,6 @@
 #include "twister.h"
 #include "gte.h"
 
-#define bool char
-
 #define SAMPLE_STEP  25
 uint32_t SEED = 0x00c0ffee;
 
