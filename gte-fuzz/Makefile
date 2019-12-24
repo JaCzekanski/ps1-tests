@@ -1,4 +1,4 @@
-include $(PSN00BSDK)/sdk-common.mk
+include ../common-test.mk
 
 TARGET = gte-fuzz.elf
-LIBS  += -lpsxgte -lpsxapi
+LIBS  += -lpsxgte

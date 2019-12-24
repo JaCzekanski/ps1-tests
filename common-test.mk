@@ -3,7 +3,7 @@ include $(BASEDIR)/common.mk
 
 INCLUDE	    += -I$(BASEDIR)/common
 LIBDIRS		+= -L$(BASEDIR)/common
-LIBS        += -lc -lcommon -lpsxetc -lpsxgpu -lpsxapi
+LIBS        += -lcommon -lpsxetc -lpsxgpu -lpsxapi -lc
 
 all: $(OFILES)
 	$(LD) $(LDFLAGS) $(LIBDIRS) $(OFILES) $(LIBS) -o $(TARGET)

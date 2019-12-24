@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <psxgpu.h>
 #include <psxetc.h>
-#include "io.h"
+#include <io.h>
 
 DISPENV disp;
 DRAWENV draw;

@@ -1,4 +1,3 @@
-include $(PSN00BSDK)/sdk-common.mk
+include ../../common-test.mk
 
 TARGET = test.elf
-LIBS  += -lpsxsio -lpsxapi

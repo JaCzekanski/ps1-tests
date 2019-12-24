@@ -3,7 +3,7 @@
 #include <psxgpu.h>
 #include <psxetc.h>
 #include <psxsio.h>
-#include "io.h"
+#include <io.h>
 
 DISPENV disp;
 DRAWENV draw;
