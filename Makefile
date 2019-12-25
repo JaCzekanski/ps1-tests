@@ -1,6 +1,7 @@
 TOPTARGETS = build clean
 
 IMAGES = common \
+		cpu/code-in-scratchpad \
 		gpu/bandwidth \
 		gpu/benchmark \
 		gpu/quad \

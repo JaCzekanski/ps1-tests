@@ -7,13 +7,13 @@ LIBS        += -lcommon -lpsxetc -lpsxgpu -lpsxapi -lc
 
 TARGET_EXE  := $(TARGET:.elf=.exe)
 
-$(TARGET): $(OFILES)
+build/$(TARGET): $(OFILES)
 	@echo "LD     $(TARGET)"
-	@$(LD) $(LDFLAGS) $(LIBDIRS) $(OFILES) $(LIBS) -o $(TARGET)
+	@$(LD) $(LDFLAGS) $(LIBDIRS) $(OFILES) $(LIBS) -o build/$(TARGET)
 
-$(TARGET_EXE): $(TARGET)
+$(TARGET_EXE): build/$(TARGET)
 	@echo "ELF2X  $(TARGET:.elf=.exe)"
-	@elf2x -q $(TARGET)
+	@elf2x -q build/$(TARGET) $(TARGET_EXE)
 
 all: $(TARGET_EXE)
 
