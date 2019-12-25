@@ -5,7 +5,7 @@ LIBDIRS	   := -L$(PSN00BSDK)/libpsn00b
 GCC_VERSION	= 7.4.0
 GCC_BASE	= /usr/local/mipsel-unknown-elf
 
-CFLAGS	   ?= -g -msoft-float -O2 -fno-builtin -fdata-sections -ffunction-sections
+CFLAGS	   ?= -g -msoft-float -O2 -fno-builtin -fdata-sections -ffunction-sections -Wall -Wextra -Wno-strict-aliasing -Wno-sign-compare
 CPPFLAGS   ?= $(CFLAGS) -fno-exceptions -std=c++17
 AFLAGS	   ?= -g -msoft-float
 LDFLAGS	   ?= -g -Ttext=0x80010000 -gc-sections -T $(GCC_BASE)/mipsel-unknown-elf/lib/ldscripts/elf32elmip.x

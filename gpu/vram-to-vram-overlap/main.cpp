@@ -11,7 +11,7 @@ constexpr uint16_t rgb(uint8_t r, uint8_t g, uint8_t b) {
 }
 
 constexpr uint16_t randomColor(int c) {
-    rgb(64+(c*432)%192, 64+(c*127)%192, 64+(c*941)%192);
+    return rgb(64+(c*432)%192, 64+(c*127)%192, 64+(c*941)%192);
 }
 
 // Write sizexsize rect to vram
