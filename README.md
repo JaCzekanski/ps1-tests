@@ -10,6 +10,12 @@ Name                     | Description
 -------------------------|------------
 code-in-scratchpad       | **(Not finished)** Check whether code execution from Scratchpad is possible 
 
+### DMA
+
+Name                     | Description
+-------------------------|------------
+otc-test                 | DMA Channel 6 (OTC aka Ordering Table clear) unit tests
+
 ### GPU
 
 Name                     | Description

@@ -1,0 +1,15 @@
+dma/otc-test (DMA Channel 6)
+pass - testOtcStandard
+pass - testOtcWontStartOnAutomaticMode
+pass - testOtcWontStartWithoutStartFlag
+pass - testOtcForward
+pass - testOtcFromRam
+pass - testOtcSyncModeBlocks
+pass - testOtcSyncModeLinkedList
+pass - testOtcSyncModeReserved
+pass - testOtcWhichBitsAreHardwiredToZero
+pass - testOtcWhichBitsAreHardwiredToOne
+pass - testOtcUnusedControlBitsAreAlwaysZero
+pass - testOtcControlBitsAfterTransfer
+pass - testOtcStandardWithMasterDisabled
+Done.
