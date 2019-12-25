@@ -1,3 +1,3 @@
-include ../../common-test.mk
-
 TARGET = transparency.elf
+
+include ../../common-test.mk

@@ -1,3 +1,3 @@
-include ../../common-test.mk
-
 TARGET = benchmark.elf
+
+include ../../common-test.mk

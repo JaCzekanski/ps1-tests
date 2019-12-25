@@ -1,3 +1,3 @@
-include ../../common-test.mk
-
 TARGET = test.elf
+
+include ../../common-test.mk

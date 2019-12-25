@@ -1,3 +1,3 @@
-include ../../common-test.mk
-
 TARGET = texture-overflow.elf
+
+include ../../common-test.mk

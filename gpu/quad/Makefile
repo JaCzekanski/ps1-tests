@@ -1,3 +1,3 @@
-include ../../common-test.mk
-
 TARGET = quad.elf
+
+include ../../common-test.mk

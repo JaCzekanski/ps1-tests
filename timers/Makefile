@@ -1,3 +1,3 @@
-include ../common-test.mk
-
 TARGET = timers.elf
+
+include ../common-test.mk

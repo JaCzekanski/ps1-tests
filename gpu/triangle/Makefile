@@ -1,3 +1,3 @@
-include ../../common-test.mk
-
 TARGET = triangle.elf
+
+include ../../common-test.mk

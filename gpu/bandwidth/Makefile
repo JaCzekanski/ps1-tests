@@ -1,3 +1,3 @@
-include ../../common-test.mk
-
 TARGET = bandwidth.elf
+
+include ../../common-test.mk

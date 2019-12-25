@@ -1,4 +1,4 @@
-include ../../common-test.mk
-
 TARGET = lines.elf
-LIBS += -lpsxgte -lpsxapi
+LIBS  += -lpsxgte
+
+include ../../common-test.mk
