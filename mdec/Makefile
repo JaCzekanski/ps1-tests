@@ -1,10 +1,17 @@
+TARGET = mdec.elf
 
-include Makefile.cfg
+BINFILES    = $(notdir $(wildcard *.bin))
+MDECFILES   = $(notdir $(wildcard *.mdec))
+OFILES      = $(addprefix build/,$(BINFILES:.bin=.o) $(MDECFILES:.mdec=.o))
 
-CFLAGS = -g -O3 -Wall -Werror -mtune=R2000 -march=mips1 -msoft-float -mno-gpopt -ffunction-sections -fdata-sections
+build/%.o: %.mdec
+	@mkdir -p $(dir $@)
+	@echo "LD     $<"
+	@$(LD) -s -r -b binary  $< -o $@
 
-all:
-	mkdir -p build
-	psx-gcc $(CFLAGS) -o build/mdec.elf src/mdec.c src/main.c src/chrono/tables.c src/chrono/frame.c
-	elf2exe build/mdec.elf build/mdec.exe
-	mipsel-unknown-elf-objdump -d build/mdec.elf > build/mdec.S
+build/%.o: %.bin
+	@mkdir -p $(dir $@)
+	@echo "LD     $<"
+	@$(LD) -s -r -b binary  $< -o $@
+
+include ../common-test.mk

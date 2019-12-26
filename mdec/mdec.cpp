@@ -2,31 +2,18 @@
 #include <common.h>
 #include <dma.hpp>
 #include <io.h>
-#include "log.h"
 
 using namespace DMA;
 
 void mdec_reset() {
-    uint32_t value = 1<<31;
-    
-    LOG("mdec_reset (MDEC_CTRL <- 0x%08x)... ", value);
-    mdec_ctrl(value);
-    LOG("ok\n");
+    write32(MDEC_CTRL, 1<<31);
 }
 
-void mdec_enableDma() {
-    uint32_t value = (1<<30) | (1<<29);
-
-    LOG("mdec_enableDma (MDEC_CTRL <- 0x%08x)... ", value);
-    mdec_ctrl(value);
-    LOG("ok\n");
-}
-
-bool mdec_dataOutFifoEmpty() {
+bool mdec_dataFifoEmpty() {
     return read32(MDEC_STATUS) & (1<<31);
 }
 
-bool mdec_dataInFifoFull() {
+bool mdec_cmdFifoFull() {
     return read32(MDEC_STATUS) & (1<<30);
 }
 
@@ -40,12 +27,13 @@ void mdec_cmd(uint32_t cmd) {
 }
 
 void mdec_data(uint32_t cmd) {
-    while (mdec_dataInFifoFull());
+    while (mdec_cmdFifoFull());
     write32(MDEC_CMD, cmd);
 }
 
 uint32_t mdec_read() {
-    while (mdec_dataOutFifoEmpty());
+    while (mdec_dataFifoEmpty());
+
     return read32(MDEC_DATA);
 }
 
@@ -54,7 +42,6 @@ void mdec_ctrl(uint32_t ctrl) {
 }
 
 void mdec_quantTable(const uint8_t* table, bool color) {
-    LOG("mdec_quantTable(addr=0x%08x, color=%d)... ", table, color);
     mdec_cmd((2<<29) | color);
 
     uint8_t count = color?32:16;
@@ -68,11 +55,9 @@ void mdec_quantTable(const uint8_t* table, bool color) {
 
         mdec_data(arg);
     }
-    LOG("ok\n");
 }
 
 void mdec_idctTable(const int16_t* table) {
-    LOG("mdec_idctTable(addr=0x%08x)... ", table);
     mdec_cmd((3<<29));
 
     for (uint8_t i = 0; i < 64 / 2; i++) {
@@ -82,12 +67,9 @@ void mdec_idctTable(const int16_t* table) {
 
         mdec_data(arg);
     }
-    LOG("ok\n");
 }
 
 void mdec_decode(const uint16_t* data, size_t length, enum ColorDepth colorDepth, bool outputSigned, bool setBit15) {
-    LOG("mdec_decode(addr=0x%08x, length=0x%x, colorDepth=%d, outputSigned=%d, setBit15=%d)... ", data, length, colorDepth, outputSigned, setBit15);
-    
     size_t lengthWords = (length) / 2;
     uint32_t cmd = (1<<29) | (colorDepth<<27) | (outputSigned<<26) | (setBit15 << 25) | (lengthWords & 0xffff);
 
@@ -105,14 +87,11 @@ void mdec_decode(const uint16_t* data, size_t length, enum ColorDepth colorDepth
 
         mdec_data(word);
     }
-
-    LOG("ok\n");
 }
 
-// Data should be 0x20 word block aligned and padded with 0xfe00
-void mdec_decodeDma(const uint16_t* data, size_t length, enum ColorDepth colorDepth, bool outputSigned, bool setBit15) {
-    LOG("mdec_decodeDma(addr=0x%08x, length=0x%x, colorDepth=%d, outputSigned=%d, setBit15=%d)... ", data, length, colorDepth, outputSigned, setBit15);
 
+// Data should be 0x20 word block aligned and padded with 0xfe00
+void mdec_decode_dma(const uint16_t* data, size_t length, enum ColorDepth colorDepth, bool outputSigned, bool setBit15) {
     size_t lengthWords = (length) / 2;
     uint32_t cmd = (1<<29) | (colorDepth<<27) | (outputSigned<<26) | (setBit15 << 25) | (lengthWords & 0xffff);
 
@@ -138,26 +117,16 @@ void mdec_decodeDma(const uint16_t* data, size_t length, enum ColorDepth colorDe
     write32(CH_BASE_ADDR    + 0x10 * (int)Channel::MDECin, addr._reg);
     write32(CH_BLOCK_ADDR   + 0x10 * (int)Channel::MDECin, block._reg);
     write32(CH_CONTROL_ADDR + 0x10 * (int)Channel::MDECin, control._reg);
-
-    LOG("ok\n");
 }
 
 void mdec_read(uint32_t* data, size_t wordCount) {
-    LOG("mdec_read(addr=0x%08x, wordCount=0x%x... ", data, wordCount);
-    
-    while (mdec_dataOutFifoEmpty());
-
     for (int i = 0; i < wordCount; i++) {
         *data++ = mdec_read();
     }
-
-    LOG("ok\n");
 }
 
-void mdec_readDma(uint32_t* data, size_t wordCount) {
-    LOG("mdec_readDma(addr=0x%08x, wordCount=0x%x... ", data, wordCount);
-    
-    while (mdec_dataOutFifoEmpty());
+void mdec_read_dma(uint32_t* data, size_t wordCount) {
+    while (mdec_dataFifoEmpty());
 
     auto addr    = MADDR((uint32_t)data);
     auto block   = BCR::mode1(0x20, wordCount / 0x20);
@@ -165,12 +134,7 @@ void mdec_readDma(uint32_t* data, size_t wordCount) {
 
     masterEnable(Channel::MDECout, true);
     waitForChannel(Channel::MDECout);
-    
     write32(CH_BASE_ADDR    + 0x10 * (int)Channel::MDECout, addr._reg);
     write32(CH_BLOCK_ADDR   + 0x10 * (int)Channel::MDECout, block._reg);
     write32(CH_CONTROL_ADDR + 0x10 * (int)Channel::MDECout, control._reg);
-
-    waitForChannel(Channel::MDECout);
-
-    LOG("ok\n");
 }

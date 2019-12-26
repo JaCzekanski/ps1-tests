@@ -17,13 +17,14 @@ AS			= $(PREFIX)as
 AR		    = $(PREFIX)ar
 LD			= $(PREFIX)ld
 RANLIB	    = $(PREFIX)ranlib
+OBJCOPY     = $(PREFIX)objcopy
 
 LIBS	   ?= 
 
 CFILES		= $(notdir $(wildcard *.c))
 CPPFILES 	= $(notdir $(wildcard *.cpp))
 AFILES		= $(notdir $(wildcard *.s))
-OFILES      = $(addprefix build/,$(CFILES:.c=.o) $(CPPFILES:.cpp=.o) $(AFILES:.s=.o))
+OFILES     += $(addprefix build/,$(CFILES:.c=.o) $(CPPFILES:.cpp=.o) $(AFILES:.s=.o))
 	
 build/%.o: %.c
 	@mkdir -p $(dir $@)
