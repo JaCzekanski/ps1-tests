@@ -63,9 +63,10 @@ int main() {
     fillRect(0, 0, SCR_W, SCR_H, 0xff, 0xff, 0xff);
 
     const int W = 80;
-    const int H = 24;
+    const int H = 20;
     int x = 120;
-    int y = 40;
+    int y = 12;
+
     // Top, Left clip, polygon
     setClippingDebug(x + 1, y + 1, x + W, y + H);
     drawQuad(        x,     y,     W,     H);
@@ -84,6 +85,28 @@ int main() {
     // Right, Bottom clip, rect
     setClippingDebug(x, y, x + W - 1, y + H - 1);
     drawRect(        x, y, W,         H);
+
+
+    // Full width
+    y += H + 8;
+    // Top, Left clip, polygon
+    setClippingDebug(x + 1, y + 1, x + W, y + H);
+    drawQuad(        0,     y,     SCR_W, H);
+    
+    y += H + 8;
+    // Right, Bottom clip, polygon
+    setClippingDebug(x, y, x + W - 1, y + H - 1);
+    drawQuad(        0, y, SCR_W,     H);
+
+    y += H + 8;
+    // Top, Left clip, rect
+    setClippingDebug(x+ 1, y + 1, x + W, y + H);
+    drawRect(        0,    y,     SCR_W, H);
+    
+    y += H + 8;
+    // Right, Bottom clip, rect
+    setClippingDebug(x, y, x + W - 1, y + H - 1);
+    drawRect(        0, y, SCR_W,     H);
 
     for (;;) {
         VSync(0);
