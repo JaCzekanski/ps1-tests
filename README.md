@@ -22,14 +22,15 @@ Name                     | Description
 -------------------------|------------
 bandwidth                | Measure GPU/VRAM bandwidth
 benchmark                | GPU test to benchmark rasterizer for various commands
-quad                     | Semi-transparent polygon commands - for testing fill rules and transparency handling
-transparency             | Draws rectangles with 4 semi-transparent blending modes
-triangle                 | Draws Gouroud shaded equilateral triangle 
+clipping                 | Test Draw Area/Clipping GP0(0xE3), GP0(0xE4) using rectangle and quad
+gp0-e1                   | Check if GP0_E1, GPUSTAT and polygon render uses the same register internally
 lines                    | Draws lines using different modes - for verifying Bresenham implementation, color blending, polyline handling
+mask-bit                 | Check Mask bit behavior during VRAM copy operations
+quad                     | Semi-transparent polygon commands - for testing fill rules and transparency handling
 rectangles               | Draws all combinations of Rectangle commands
 texture-overflow         | Draws textured rectangle with UV overflowing VRAM width
-mask-bit                 | Check Mask bit behavior during VRAM copy operations
-gp0-e1                   | Check if GP0_E1, GPUSTAT and polygon render uses the same register internally
+transparency             | Draws rectangles with 4 semi-transparent blending modes
+triangle                 | Draws Gouroud shaded equilateral triangle 
 vram-to-vram-overlap     | Test GP0(80) VRAM-VRAM copy behaviour in overlapping rects
 
 ### GTE

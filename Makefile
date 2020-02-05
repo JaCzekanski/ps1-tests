@@ -5,14 +5,15 @@ IMAGES = common \
 		dma/otc-test \
 		gpu/bandwidth \
 		gpu/benchmark \
-		gpu/quad \
-		gpu/transparency \
-		gpu/triangle \
+		gpu/clipping \
+		gpu/gp0-e1 \
 		gpu/lines \
+		gpu/mask-bit \
+		gpu/quad \
 		gpu/rectangles \
 		gpu/texture-overflow \
-		gpu/mask-bit \
-		gpu/gp0-e1 \
+		gpu/transparency \
+		gpu/triangle \
 		gpu/vram-to-vram-overlap \
 		gte-fuzz \
 		spu/test \
