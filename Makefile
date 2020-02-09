@@ -17,9 +17,11 @@ IMAGES = common \
 		gpu/vram-to-vram-overlap \
 		gte-fuzz \
 		mdec \
-		spu/test \
-		spu/stereo \
 		spu/memory-transfer \
+		spu/ram \
+		spu/stereo \
+		spu/test \
+		spu/toolbox \
 		timers
 
 $(TOPTARGETS): $(IMAGES)
