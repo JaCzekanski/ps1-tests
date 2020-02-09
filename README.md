@@ -39,6 +39,12 @@ Name                     | Description
 -------------------------|------------
 gte-fuzz                 | Executes GTE opcodes with random parameters, can be used to verify against real console
 
+### MDEC
+
+Name                     | Description
+-------------------------|------------
+mdec                     | Framework for testing MDEC decoder, default values uses DMA for all transfers, but it can be reconfigured for PIO as well (needs manual recompilation)
+
 ### SPU
 
 Name                     | Description

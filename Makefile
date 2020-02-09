@@ -16,6 +16,7 @@ IMAGES = common \
 		gpu/triangle \
 		gpu/vram-to-vram-overlap \
 		gte-fuzz \
+		mdec \
 		spu/test \
 		spu/stereo \
 		timers

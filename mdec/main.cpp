@@ -9,6 +9,10 @@
 #include "tables.h"
 #include "log.h"
 
+// NOTE: This test is not finished
+// You can build it manually selecting 4/8/15/24 bit depths
+// and MDECin/MDECout/GPU DMA or non-DMA
+
 // #include "frame_chrono_350.h"
 // uint8_t* frame   = frame_chrono_350;
 // size_t frame_len = frame_chrono_350_len;
@@ -20,8 +24,14 @@ size_t frame_len = frame_chrono_524_len;
 #define SCR_W 320
 #define SCR_H 240
 
-#define USE_DMA 
-// #define USE_24_BIT
+#define USE_MDECIN_DMA  // Required for HW since I don't split transfer into blocks
+// #define USE_MDECOUT_DMA // Works ok without it, but blocks aren't swizzled 
+#define USE_GPU_DMA     // Works ok regardless
+// #define COLOR_DEPTH 15
+
+#ifndef COLOR_DEPTH
+#error Please define COLOR_DEPTH to one or 4, 8, 15, 24 values
+#endif
 
 template <size_t pad = 0x20*4>
 size_t getPadMdecFrameLen(size_t size) {
@@ -54,13 +64,13 @@ uint16_t* padMdecFrame(uint8_t* buf, size_t size) {
 int main() {
     initVideo(SCR_W, SCR_H);
     printf("\nmdec\n");
-#ifdef USE_24_BIT
+#if COLOR_DEPTH == 24
     extern DISPENV disp;
     disp.isrgb24 = true;
     PutDispEnv(&disp);
-    LOG("Using 24bit mode\n");
+    LOG("Using framebuffer in 24bit mode\n");
 #else
-    LOG("Using 15bit mode\n");
+    LOG("Using framebuffer in 15bit mode\n");
 #endif
 
     clearScreen();
@@ -70,26 +80,37 @@ int main() {
     mdec_idctTable((int16_t*)idct);
 
     ColorDepth depth;
-#ifdef USE_24_BIT
+#if COLOR_DEPTH == 24
     depth = ColorDepth::bit_24;
-#else 
+#elif COLOR_DEPTH == 15
     depth = ColorDepth::bit_15;
+#elif COLOR_DEPTH == 8
+    depth = ColorDepth::bit_8;
+#elif COLOR_DEPTH == 4
+    depth = ColorDepth::bit_4;
 #endif
 
     size_t len = getPadMdecFrameLen(frame_len) / 2;
     uint16_t* padded = padMdecFrame(frame, frame_len);
 
-#ifdef USE_DMA
+#if defined(USE_MDECIN_DMA) || defined(USE_MDECOUT_DMA)
     mdec_enableDma();
+#endif
+
+#ifdef USE_MDECIN_DMA
     mdec_decodeDma((uint16_t*)padded, len, depth, false, true);
 #else
     mdec_decode    ((uint16_t*)padded, len, depth, false, true);
 #endif
 
-#ifdef USE_24_BIT
+#if COLOR_DEPTH == 24
     #define W_MULTIP 3 / 2
-#else
+#elif COLOR_DEPTH == 15
     #define W_MULTIP 1
+#elif COLOR_DEPTH == 8
+    #define W_MULTIP 3 / 4
+#elif COLOR_DEPTH == 4
+    #define W_MULTIP 1 / 4
 #endif
     const int FRAME_WIDTH = 320;
     const int FRAME_HEIGHT = 240;
@@ -101,14 +122,14 @@ int main() {
     
     uint32_t* buffer = (uint32_t*)malloc(((STRIPE_WIDTH * STRIPE_HEIGHT) * sizeof(uint32_t)));
     for (int c = 0; c < FRAME_WIDTH / 16; c++) {
-#ifdef USE_DMA
+#ifdef USE_MDECOUT_DMA
         mdec_readDma(buffer, STRIPE_WIDTH * STRIPE_HEIGHT / 2);
 #else
         mdec_read    (buffer, STRIPE_WIDTH * STRIPE_HEIGHT / 2);
 #endif
         
         writeGP0(1, 0);
-#ifdef USE_DMA
+#ifdef USE_GPU_DMA
         copyToVramDma(c * STRIPE_WIDTH, 0, STRIPE_WIDTH, STRIPE_HEIGHT, buffer);
 #else
         copyToVram   (c * STRIPE_WIDTH, 0, STRIPE_WIDTH, STRIPE_HEIGHT, buffer);

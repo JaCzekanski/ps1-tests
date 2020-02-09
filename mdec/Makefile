@@ -1,17 +1,13 @@
-TARGET = mdec.elf
+all:
+	@$(MAKE) --no-print-directory -f makefile.4bit clean all
+	@$(MAKE) --no-print-directory -f makefile.8bit clean all
+	@$(MAKE) --no-print-directory -f makefile.15bit clean all
+	@$(MAKE) --no-print-directory -f makefile.24bit clean all
 
-BINFILES    = $(notdir $(wildcard *.bin))
-MDECFILES   = $(notdir $(wildcard *.mdec))
-OFILES      = $(addprefix build/,$(BINFILES:.bin=.o) $(MDECFILES:.mdec=.o))
+clean:
+	@$(MAKE) --no-print-directory -f makefile.4bit clean
+	@$(MAKE) --no-print-directory -f makefile.8bit clean
+	@$(MAKE) --no-print-directory -f makefile.15bit clean
+	@$(MAKE) --no-print-directory -f makefile.24bit clean
 
-build/%.o: %.mdec
-	@mkdir -p $(dir $@)
-	@echo "LD     $<"
-	@$(LD) -s -r -b binary  $< -o $@
-
-build/%.o: %.bin
-	@mkdir -p $(dir $@)
-	@echo "LD     $<"
-	@$(LD) -s -r -b binary  $< -o $@
-
-include ../common-test.mk
+# I know, I know... This can be written in much better way
