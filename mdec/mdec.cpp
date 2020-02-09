@@ -142,26 +142,25 @@ void mdec_decodeDma(const uint16_t* data, size_t length, enum ColorDepth colorDe
     LOG("ok\n");
 }
 
-void swizzle(uint32_t* data, uint16_t blocks[4][8][8]) {
+void swizzle(uint32_t* data, uint16_t blocks[2][8][8]) {
     uint16_t* ptr = (uint16_t*)data;
-    for (int b = 0; b<2; b++) {
-        for (int y = 0; y<8; y++) {
-            for (int _b = 0 ;_b<2; _b++) {
-                for (int x = 0; x<8; x++) {
-                    *ptr++ = blocks[ b*2 + _b][y][x];
-                }   
-            }
+    for (int y = 0; y<8; y++) {
+        for (int b = 0 ;b<2; b++) {
+            for (int x = 0; x<8; x++) {
+                *ptr++ = blocks[b][y][x];
+            }   
         }
     }
 }
 
 void mdec_read(uint32_t* data, size_t wordCount) {
     LOG("mdec_read(addr=0x%08x, wordCount=0x%x... ", data, wordCount);
-    
-    while (mdec_dataOutFifoEmpty());
 
+    while (mdec_dataOutFifoEmpty());
+    
     int colorDepth = (read32(MDEC_STATUS) >> 25) & 3;
 
+    // TODO: Generic swizzle for all colorDepths
     if (colorDepth == 3) { //15 bit
         // blocks are read from MDEC in this form:
         // 11111111 11111111
@@ -183,9 +182,10 @@ void mdec_read(uint32_t* data, size_t wordCount) {
         // 33333333 44444444
         // 33333333 44444444
 
-        // For now I swizzle data after just reading 4 all blocks (won't work in all cases though!)
+        // Note: We can store only 1 and 2 blocks
+        // For now I swizzle data after just reading 2 blocks
 
-        uint16_t blocks[4][8][8];
+        uint16_t blocks[2][8][8];
         int x = 0;
         int y = 0;
         int b = 0;
@@ -202,11 +202,11 @@ void mdec_read(uint32_t* data, size_t wordCount) {
                 if (y > 7) {
                     y = 0;
                     b++;
-                    if (b > 3) {
+                    if (b > 1) {
                         b = 0;
 
                         swizzle(data, blocks);
-                        data += 8 * 8 * 4 / 2;
+                        data += 2 * 8 * 8 * 2 / 2;
                     }
                 }
             }
@@ -226,12 +226,14 @@ void mdec_read(uint32_t* data, size_t wordCount) {
 }
 
 void mdec_readDma(uint32_t* data, size_t wordCount) {
-    LOG("mdec_readDma(addr=0x%08x, wordCount=0x%x... ", data, wordCount);
+    // DMA seems to work fine with BS between 0x02 to 0x20 (must be divisible by 2)
+    const int BS = 0x20;
+    LOG("mdec_readDma(addr=0x%08x, wordCount=0x%x, [blockSize=0x%x])... ", data, wordCount, BS);
     
     while (mdec_dataOutFifoEmpty());
 
     auto addr    = MADDR((uint32_t)data);
-    auto block   = BCR::mode1(0x20, wordCount / 0x20);
+    auto block   = BCR::mode1(BS, wordCount / BS);
     auto control = CHCR::MDECout();
 
     masterEnable(Channel::MDECout, true);

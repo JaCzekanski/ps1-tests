@@ -100,6 +100,7 @@ int main() {
 #ifdef USE_MDECIN_DMA
     mdec_decodeDma((uint16_t*)padded, len, depth, false, true);
 #else
+    // TODO: It would need to run on separate thread 
     mdec_decode    ((uint16_t*)padded, len, depth, false, true);
 #endif
 
