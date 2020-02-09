@@ -25,7 +25,7 @@ size_t frame_len = frame_chrono_524_len;
 #define SCR_H 240
 
 #define USE_MDECIN_DMA  // Required for HW since I don't split transfer into blocks
-// #define USE_MDECOUT_DMA // Works ok without it, but blocks aren't swizzled 
+#define USE_MDECOUT_DMA // Works ok without it, but blocks aren't swizzled 
 #define USE_GPU_DMA     // Works ok regardless
 // #define COLOR_DEPTH 15
 
@@ -100,6 +100,7 @@ int main() {
 #ifdef USE_MDECIN_DMA
     mdec_decodeDma((uint16_t*)padded, len, depth, false, true);
 #else
+    // TODO: It would need to run on separate thread 
     mdec_decode    ((uint16_t*)padded, len, depth, false, true);
 #endif
 
