@@ -1,5 +1,5 @@
 #pragma once
-#include <stdint.h>
+#include "stdint.h"
 
 // Copied from Avocado
 namespace DMA {
@@ -20,6 +20,10 @@ union MADDR {
     uint8_t _byte[4];
 
     MADDR() : _reg(0) {}
+
+    MADDR(uint32_t addr) {
+        address = addr;
+    }
 };
 
 // DMA Block Control
@@ -38,6 +42,19 @@ union BCR {
     uint8_t _byte[4];
 
     BCR() : _reg(0) {}
+
+    static BCR mode0(uint16_t wordCount) {
+        BCR bcr;
+        bcr.syncMode0.wordCount = wordCount;
+        return bcr;
+    }
+
+    static BCR mode1(uint16_t blockSize, uint16_t blockCount) {
+        BCR bcr;
+        bcr.syncMode1.blockSize = blockSize;
+        bcr.syncMode1.blockCount = blockCount;
+        return bcr;
+    }
 };
 
 // DMA Channel Control
@@ -82,5 +99,60 @@ union CHCR {
         control.startTrigger = StartTrigger::manual;
         return control;
     }
+
+    static CHCR MDECin() {
+        CHCR control;
+        control.direction = Direction::fromRam;
+        control.memoryAddressStep = MemoryAddressStep::forward;
+        control.choppingEnable = 0;
+        control.syncMode = SyncMode::syncBlockToDmaRequests;
+        control.choppingDmaWindowSize = 0;
+        control.choppingCpuWindowSize = 0;
+        control.enabled = Enabled::start;
+        control.startTrigger = StartTrigger::automatic;
+        return control;
+    }
+
+    static CHCR MDECout() {
+        CHCR control;
+        control.direction = Direction::toRam;
+        control.memoryAddressStep = MemoryAddressStep::forward;
+        control.choppingEnable = 0;
+        control.syncMode = SyncMode::syncBlockToDmaRequests;
+        control.choppingDmaWindowSize = 0;
+        control.choppingCpuWindowSize = 0;
+        control.enabled = Enabled::start;
+        control.startTrigger = StartTrigger::automatic;
+        return control;
+    }
+
+    static CHCR SPUread() {
+        CHCR control;
+        control.direction = Direction::toRam;
+        control.memoryAddressStep = MemoryAddressStep::forward;
+        control.choppingEnable = 0;
+        control.syncMode = SyncMode::syncBlockToDmaRequests;
+        control.choppingDmaWindowSize = 0;
+        control.choppingCpuWindowSize = 0;
+        control.enabled = Enabled::start;
+        control.startTrigger = StartTrigger::automatic;
+        return control;
+    }
+
+    static CHCR VRAMwrite() {
+        CHCR control;
+        control.direction = Direction::fromRam;
+        control.memoryAddressStep = MemoryAddressStep::forward;
+        control.choppingEnable = 0;
+        control.syncMode = SyncMode::syncBlockToDmaRequests;
+        control.choppingDmaWindowSize = 0;
+        control.choppingCpuWindowSize = 0;
+        control.enabled = Enabled::start;
+        control.startTrigger = StartTrigger::automatic;
+        return control;
+    }
 };
+
+void waitForChannel(Channel ch);
+void masterEnable(Channel ch, bool enabled);
 };
