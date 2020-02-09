@@ -142,13 +142,84 @@ void mdec_decodeDma(const uint16_t* data, size_t length, enum ColorDepth colorDe
     LOG("ok\n");
 }
 
+void swizzle(uint32_t* data, uint16_t blocks[4][8][8]) {
+    uint16_t* ptr = (uint16_t*)data;
+    for (int b = 0; b<2; b++) {
+        for (int y = 0; y<8; y++) {
+            for (int _b = 0 ;_b<2; _b++) {
+                for (int x = 0; x<8; x++) {
+                    *ptr++ = blocks[ b*2 + _b][y][x];
+                }   
+            }
+        }
+    }
+}
+
 void mdec_read(uint32_t* data, size_t wordCount) {
     LOG("mdec_read(addr=0x%08x, wordCount=0x%x... ", data, wordCount);
     
     while (mdec_dataOutFifoEmpty());
 
-    for (int i = 0; i < wordCount; i++) {
-        *data++ = mdec_read();
+    int colorDepth = (read32(MDEC_STATUS) >> 25) & 3;
+
+    if (colorDepth == 3) { //15 bit
+        // blocks are read from MDEC in this form:
+        // 11111111 11111111
+        // 11111111 11111111
+        // 22222222 22222222
+        // 22222222 22222222
+        // 33333333 33333333
+        // 33333333 33333333
+        // 44444444 44444444
+        // 44444444 44444444
+        //
+        // and before transfering them to GPU I need to swizzle them like that:
+        // 11111111 22222222
+        // 11111111 22222222
+        // 11111111 22222222
+        // 11111111 22222222
+        // 33333333 44444444
+        // 33333333 44444444
+        // 33333333 44444444
+        // 33333333 44444444
+
+        // For now I swizzle data after just reading 4 all blocks (won't work in all cases though!)
+
+        uint16_t blocks[4][8][8];
+        int x = 0;
+        int y = 0;
+        int b = 0;
+        for (int i = 0; i < wordCount; i++) {
+            uint32_t d = mdec_read();
+
+            blocks[b][y][x] = d & 0xffff;
+            blocks[b][y][x+1] = (d>>16) & 0xffff;
+
+            x += 2;
+            if (x > 7) {
+                x = 0;
+                y++;
+                if (y > 7) {
+                    y = 0;
+                    b++;
+                    if (b > 3) {
+                        b = 0;
+
+                        swizzle(data, blocks);
+                        data += 8 * 8 * 4 / 2;
+                    }
+                }
+            }
+        }
+    } else {
+        int depth = 0;
+        if (colorDepth == 0) depth = 4;
+        if (colorDepth == 1) depth = 8;
+        if (colorDepth == 2) depth = 24;
+        LOG("\nSwizzling for colorDepth %d not implemented...", colorDepth);
+        for (int i = 0; i < wordCount; i++) {
+            *data++ = mdec_read();
+        }
     }
 
     LOG("ok\n");
