@@ -18,7 +18,7 @@ IMAGES = common \
 		gte-fuzz \
 		mdec \
 		spu/memory-transfer \
-		spu/ram \
+		spu/ram-sandbox \
 		spu/stereo \
 		spu/test \
 		spu/toolbox \

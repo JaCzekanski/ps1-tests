@@ -50,7 +50,7 @@ mdec                     | Framework for testing MDEC decoder, default values us
 Name                     | Description
 -------------------------|------------
 memory-transfer          | Test DMA and regular IO transfers to SPU RAM
-ram                      | RAM access sandbox (used for memory-transfer test development)
+ram-sandbox              | SPU memory access sandbox (used for memory-transfer test development)
 stereo                   | Play samples on first two voices 
 test                     | Check SPU behavior (data is lost randomly on 32bit access, ok on 16bit)
 toolbox                  | SPU register preview and simple voice playback tool   
