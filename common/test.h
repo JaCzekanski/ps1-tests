@@ -16,22 +16,26 @@ extern struct TEST __test;
 }
 #endif
 
-#define assertEquals(given, expected)                        \
-[](auto FUNCTION, auto GIVEN, auto EXPECTED) -> bool {       \
-    if (GIVEN == EXPECTED) {                                 \
-        __test.passedAssertions++;                           \
-        if (!__test.quiet) {                                 \
-            printf("pass - %s\n", FUNCTION);                 \
-        }                                                    \
-        return true;                                         \
-    } else {                                                 \
-        __test.failedAssertions++;                           \
-        printf("fail - %s:%d `"#given" == "#expected"`,"     \
-               " given: 0x%x, expected: 0x%x\n",             \
-               FUNCTION, __LINE__, GIVEN, EXPECTED);         \
-        return false;                                        \
-    }                                                        \
+#define assertEqualsWithComment(given, expected, comment)         \
+[](auto FUNCTION, auto GIVEN, auto EXPECTED) -> bool {            \
+    if (GIVEN == EXPECTED) {                                      \
+        __test.passedAssertions++;                                \
+        if (!__test.quiet) {                                      \
+            printf("pass - %s\n", FUNCTION);                      \
+        }                                                         \
+        return true;                                              \
+    } else {                                                      \
+        __test.failedAssertions++;                                \
+        printf("fail - %s:%d `"#given" == "#expected"`,"          \
+               " given: 0x%x, expected: 0x%x %s\n",               \
+               FUNCTION, __LINE__, GIVEN, EXPECTED,               \
+               ((comment)[0] == '\0' ? "" : " - ("#comment")"));  \
+        return false;                                             \
+    }                                                             \
 }(__FUNCTION__, given, expected)
+
+#define assertEquals(given, expected) assertEqualsWithComment(given, expected, "") 
+
 
 #define TEST_MULTIPLE_BEGIN() \
 []() {                        \

@@ -19,6 +19,7 @@ IMAGES = common \
 		mdec \
 		spu/test \
 		spu/stereo \
+		spu/memory-transfer \
 		timers
 
 $(TOPTARGETS): $(IMAGES)

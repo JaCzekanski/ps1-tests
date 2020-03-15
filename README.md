@@ -49,8 +49,9 @@ mdec                     | Framework for testing MDEC decoder, default values us
 
 Name                     | Description
 -------------------------|------------
-test                 | Check SPU behavior (data is lost randomly on 32bit access, ok on 16bit)
-stereo               | Play samples on first two voices 
+test                     | Check SPU behavior (data is lost randomly on 32bit access, ok on 16bit)
+stereo                   | Play samples on first two voices 
+memory-transfer          | Test DMA and regular IO transfers to SPU RAM
 
 ### Timer
 
@@ -62,9 +63,9 @@ Note: Make sure your PS-EXE loaded does set default value for Stack Pointer - th
 
 ## Tools
 
-Name                 | Description
----------------------|------------
-diffvram             | Diff two images and write diff png if image contents aren't exactly the same
+Name                     | Description
+-------------------------|------------
+diffvram                 | Diff two images and write diff png if image contents aren't exactly the same
 
 ## Download
 

@@ -126,6 +126,19 @@ union CHCR {
         return control;
     }
 
+    static CHCR SPUwrite() {
+        CHCR control;
+        control.direction = Direction::fromRam;
+        control.memoryAddressStep = MemoryAddressStep::forward;
+        control.choppingEnable = 0;
+        control.syncMode = SyncMode::syncBlockToDmaRequests;
+        control.choppingDmaWindowSize = 0;
+        control.choppingCpuWindowSize = 0;
+        control.enabled = Enabled::start;
+        control.startTrigger = StartTrigger::automatic;
+        return control;
+    }
+
     static CHCR SPUread() {
         CHCR control;
         control.direction = Direction::toRam;

@@ -1,0 +1,11 @@
+spu/memory-transfer
+Test SPU memory access using DMA and regular IO.
+
+pass - testDtcRegister
+pass - testManualWriteToSpuRam
+pass - testDMAReadFromSpuRam
+pass - testDMAWriteToSpuRam
+pass - testDMAWriteTiming
+pass - testDMAReadTiming
+pass - testControlBitsAreCopiedToStatusRegister
+Done.
