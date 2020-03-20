@@ -126,12 +126,12 @@ union CHCR {
         return control;
     }
 
-    static CHCR SPUwrite() {
+    static CHCR SPUwrite(SyncMode syncMode = SyncMode::syncBlockToDmaRequests) {
         CHCR control;
         control.direction = Direction::fromRam;
         control.memoryAddressStep = MemoryAddressStep::forward;
         control.choppingEnable = 0;
-        control.syncMode = SyncMode::syncBlockToDmaRequests;
+        control.syncMode = syncMode;
         control.choppingDmaWindowSize = 0;
         control.choppingCpuWindowSize = 0;
         control.enabled = Enabled::start;
@@ -139,12 +139,12 @@ union CHCR {
         return control;
     }
 
-    static CHCR SPUread() {
+    static CHCR SPUread(SyncMode syncMode = SyncMode::syncBlockToDmaRequests) {
         CHCR control;
         control.direction = Direction::toRam;
         control.memoryAddressStep = MemoryAddressStep::forward;
         control.choppingEnable = 0;
-        control.syncMode = SyncMode::syncBlockToDmaRequests;
+        control.syncMode = syncMode;
         control.choppingDmaWindowSize = 0;
         control.choppingCpuWindowSize = 0;
         control.enabled = Enabled::start;

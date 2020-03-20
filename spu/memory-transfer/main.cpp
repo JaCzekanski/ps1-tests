@@ -60,7 +60,8 @@ namespace SPU {
         return false;
     }
 
-    bool setupDMARead(uint32_t address, void* dst, size_t size, int BS = 0x10) {
+    bool setupDMARead(uint32_t address, void* dst, size_t size, int BS = 0x10,
+                      DMA::CHCR::SyncMode syncMode = DMA::CHCR::SyncMode::syncBlockToDmaRequests) {
         write32(0x1F801014, 0x220931E1);
         SPU::setDTC(2);
         SPU::setTransferMode(SPU::TransferMode::Stop);
@@ -70,37 +71,51 @@ namespace SPU {
 
         const int BC = size / (4 * BS);
         write32(DMA::CH_BASE_ADDR    + 0x10 * (int)DMA::Channel::SPU, DMA::MADDR((uint32_t)dst)._reg);
-        write32(DMA::CH_BLOCK_ADDR   + 0x10 * (int)DMA::Channel::SPU, DMA::BCR::mode1(BS, BC)._reg);
+        if (syncMode == DMA::CHCR::SyncMode::startImmediately) {
+          const int WC = size / 4;
+          write32(DMA::CH_BLOCK_ADDR + 0x10 * (int)DMA::Channel::SPU, DMA::BCR::mode0(WC)._reg);
+        } else if (syncMode == DMA::CHCR::SyncMode::syncBlockToDmaRequests) {
+          const int BC = size / (4 * BS);
+          write32(DMA::CH_BLOCK_ADDR + 0x10 * (int)DMA::Channel::SPU, DMA::BCR::mode1(BS, BC)._reg);
+        }
     }
 
-    bool setupDMAWrite(uint32_t address, void* src, size_t size, int BS = 0x10) {
+    bool setupDMAWrite(uint32_t address, void* src, size_t size, int BS = 0x10,
+                       DMA::CHCR::SyncMode syncMode = DMA::CHCR::SyncMode::syncBlockToDmaRequests) {
         SPU::setDTC(2);
         SPU::setTransferMode(SPU::TransferMode::Stop);
         SPU::setStartAddress(address);
         SPU::setTransferMode(SPU::TransferMode::DMAWrite);
         SPU::waitForDMAready();
 
-        const int BC = size / (4 * BS);
         write32(DMA::CH_BASE_ADDR    + 0x10 * (int)DMA::Channel::SPU, DMA::MADDR((uint32_t)src)._reg);
-        write32(DMA::CH_BLOCK_ADDR   + 0x10 * (int)DMA::Channel::SPU, DMA::BCR::mode1(BS, BC)._reg);
+        if (syncMode == DMA::CHCR::SyncMode::startImmediately) {
+          const int WC = size / 4;
+          write32(DMA::CH_BLOCK_ADDR + 0x10 * (int)DMA::Channel::SPU, DMA::BCR::mode0(WC)._reg);
+        } else if (syncMode == DMA::CHCR::SyncMode::syncBlockToDmaRequests) {
+          const int BC = size / (4 * BS);
+          write32(DMA::CH_BLOCK_ADDR + 0x10 * (int)DMA::Channel::SPU, DMA::BCR::mode1(BS, BC)._reg);
+        }
     }
     
-    void startDMARead() {
-        write32(DMA::CH_CONTROL_ADDR + 0x10 * (int)DMA::Channel::SPU, DMA::CHCR::SPUread()._reg);
+    void startDMARead(DMA::CHCR::SyncMode syncMode = DMA::CHCR::SyncMode::syncBlockToDmaRequests) {
+        write32(DMA::CH_CONTROL_ADDR + 0x10 * (int)DMA::Channel::SPU, DMA::CHCR::SPUread(syncMode)._reg);
     }
     
-    void startDMAWrite() {
-        write32(DMA::CH_CONTROL_ADDR + 0x10 * (int)DMA::Channel::SPU, DMA::CHCR::SPUwrite()._reg);
+    void startDMAWrite(DMA::CHCR::SyncMode syncMode = DMA::CHCR::SyncMode::syncBlockToDmaRequests) {
+        write32(DMA::CH_CONTROL_ADDR + 0x10 * (int)DMA::Channel::SPU, DMA::CHCR::SPUwrite(syncMode)._reg);
     }
 
-    void waitDmaTransferDone() {
+    bool waitDmaTransferDone() {
         volatile DMA::CHCR* control = (DMA::CHCR*)(0x1F801088 + 0x10 * (int)DMA::Channel::SPU);
 
         for (int i = 0; i<10000; i++) {
             if (control->enabled == DMA::CHCR::Enabled::completed) {
-                break;
+                return true;
             }
         }
+
+        return false;
     }
 };
 
@@ -277,6 +292,28 @@ void testDMAReadTiming() {
     delete[] buf;
 }
 
+void testDMAWriteToRamSyncMode0() {
+    SPU::setupDMAWrite(0x2100, (void*)TEST_STRING, strlen(TEST_STRING), 1, DMA::CHCR::SyncMode::startImmediately);
+    SPU::startDMAWrite(DMA::CHCR::SyncMode::startImmediately);
+    assertEqualsWithComment(SPU::waitDmaTransferDone(), true, "DMA write was completed");
+}
+
+void testDMAReadToRamSyncMode0() {
+    // NOTE: Assumes testDMAWriteToRamSyncMode0 has run first.
+  
+    char download_buf[32] = {};
+    SPU::setupDMARead(0x2100, download_buf, strlen(TEST_STRING), 1, DMA::CHCR::SyncMode::startImmediately);
+    SPU::startDMARead(DMA::CHCR::SyncMode::startImmediately);
+
+    TEST_MULTIPLE_BEGIN();
+    assertEqualsWithComment(SPU::waitDmaTransferDone(), true, "DMA read was completed");
+   
+    for (size_t i = 0; i < strlen(TEST_STRING); i++) {
+        assertEquals(download_buf[i], TEST_STRING[i]);
+    }
+    TEST_MULTIPLE_END();
+}
+
 void runTests() {
     testDtcRegister();
     testManualWriteToSpuRam();
@@ -284,6 +321,8 @@ void runTests() {
     testDMAWriteToSpuRam();
     testDMAWriteTiming();
     testDMAReadTiming();
+    testDMAWriteToRamSyncMode0();
+    testDMAReadToRamSyncMode0();
     testControlBitsAreCopiedToStatusRegister();
 
     // TODO: Different DTC transfer behaviour
