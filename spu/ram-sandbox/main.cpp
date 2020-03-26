@@ -168,11 +168,13 @@ bool testFailed = false;
 
 #define CHECK(x) (testFailed |= !(x))
 
+
+int dtc = 2;
 bool writeDataToSpuDMA(uint8_t* buf, uint32_t addr, size_t size) {
     testFailed = false;
 
     write32(0x1F801014, 0x200931e1);
-    SPU::setDTC(2);
+    SPU::setDTC(dtc);
     CHECK(SPU::setTransferMode(SPU::TransferMode::Stop));
     SPU::setStartAddress(addr);
     CHECK(SPU::setTransferMode(SPU::TransferMode::DMAWrite));
@@ -197,7 +199,7 @@ bool readDataFromSpuDMA(uint8_t* dst, uint32_t addr, size_t size) {
     testFailed = false;
 
     write32(0x1F801014, 0x220931E1);
-    SPU::setDTC(2);
+    SPU::setDTC(dtc);
     CHECK(SPU::setTransferMode(SPU::TransferMode::Stop));
     SPU::setStartAddress(addr);
     CHECK(SPU::setTransferMode(SPU::TransferMode::DMARead));
@@ -220,7 +222,7 @@ bool readDataFromSpuDMA(uint8_t* dst, uint32_t addr, size_t size) {
 
 bool readDataFromSpu(uint8_t* dst, uint32_t addr, size_t size) {
     write32(0x1F801014, 0x220931E1);
-    SPU::setDTC(2);
+    SPU::setDTC(dtc);
     SPU::setTransferMode(SPU::TransferMode::Stop);
     SPU::setStartAddress(addr);
     SPU::setTransferMode(SPU::TransferMode::ManualWrite);
@@ -281,6 +283,8 @@ int main() {
     printf("█ - Read data from SPU RAM to Main RAM (IO, shouldn't work on PSX)\n");
     printf("O - Read data from SPU RAM to Main RAM (DMA)\n");
     printf("X - Write data to SPU RAM (DMA)\n");
+    printf("L2 - DTC --\n");
+    printf("R2 - DTC ++\n");
 	DrawSync(0);
 
     SpuInit();
@@ -311,6 +315,14 @@ int main() {
 		if (BUTTON(PAD_DOWN)) {
             if (startAddress > 0) startAddress -= 0x100;
             printf("startAddress: 0x%0x\n", startAddress);
+        }
+		if (BUTTON(PAD_L2)) {
+            if (dtc > 0) dtc--;
+            printf("dtc: %d\n", dtc);
+        }
+		if (BUTTON(PAD_R2)) {
+            if (dtc < 7) dtc++;
+            printf("dtc: %d\n", dtc);
         }
 		if (BUTTON(PAD_CROSS)) {
             // Write to SPU RAM using DMA
