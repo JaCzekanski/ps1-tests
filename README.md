@@ -8,6 +8,7 @@ Collection of PlayStation 1 tests for emulator development and hardware verifica
 
 Name                     | Description
 -------------------------|------------
+access-time              | Test CPU access time to different parts of memory map
 code-in-scratchpad       | **(Not finished)** Check whether code execution from Scratchpad is possible 
 
 ### DMA

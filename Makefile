@@ -1,6 +1,7 @@
 TOPTARGETS = build clean
 
 IMAGES = common \
+		cpu/access-time \
 		cpu/code-in-scratchpad \
 		dma/otc-test \
 		gpu/bandwidth \
