@@ -8,6 +8,7 @@ Collection of PlayStation 1 tests for emulator development and hardware verifica
 
 Name                     | Description
 -------------------------|------------
+disc-swap                | Program to observe behavior of CD-ROM controller when opening/closing the drive cover.
 getloc                   | Program to test the seeking/reading stat bits of the controller and Getloc commands
 
 ### CPU

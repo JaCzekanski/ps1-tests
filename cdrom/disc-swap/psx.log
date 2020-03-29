@@ -1,0 +1,11 @@
+cdrom/disc-swap
+> Init CD
+psxcd: Init Ok!
+> CD IRQ=2, status=0x02
+*** Open the shell now ***
+> Got IRQ 5 (expected 5), status 0x01
+*** Close the shell now ***
+> Getstat: 0x12
+> Getstat: 0x10
+> Getstat: 0x00
+> Disc inserted?
