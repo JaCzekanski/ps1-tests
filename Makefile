@@ -2,6 +2,7 @@ TOPTARGETS = build clean
 
 IMAGES = common \
 		cdrom/disc-swap \
+		cdrom/getloc \
 		cpu/access-time \
 		cpu/code-in-scratchpad \
 		dma/otc-test \
