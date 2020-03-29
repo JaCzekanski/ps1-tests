@@ -14,10 +14,6 @@ before_deploy:
   - export GIT_TAG=build-$TRAVIS_BUILD_NUMBER
   - git tag $GIT_TAG -a -m "Build $TRAVIS_BUILD_NUMBER by TravisCI"
 
-branches:
-  only:
-  - master
-
 deploy:
   provider: releases
   api_key:
@@ -26,4 +22,5 @@ deploy:
   skip_cleanup: true
   on:
     repo: JaCzekanski/ps1-tests
+    branch: master
     tags: false
