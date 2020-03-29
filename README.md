@@ -4,6 +4,12 @@ Collection of PlayStation 1 tests for emulator development and hardware verifica
 
 ## Tests
 
+### CD-ROM
+
+Name                     | Description
+-------------------------|------------
+getloc                   | Program to test the seeking/reading stat bits of the controller and Getloc commands
+
 ### CPU
 
 Name                     | Description

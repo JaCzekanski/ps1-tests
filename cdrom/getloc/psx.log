@@ -1,0 +1,46 @@
+cdrom/header-valid-bit
+> Initializing CD-ROM controller...
+psxcd: Init Ok!
+> Testing state of reading after initial reset
+> GetStat -> 0x02
+> Testing Getloc after initial reset
+> GetlocL failed, IRQ = 5, status = 0x02
+> GetlocP succeeded - track 01 index 00 [00:00:06] absolute [00:01:68]
+> Testing seek...
+> Seeking to [00:02:16] (logical)
+> Seek result irq=2, status=0x02
+> GetStat -> 0x02
+> Testing Getloc after seek
+> GetlocL succeeded - [00:02:16] mode 2
+> GetlocP succeeded - track 01 index 01 [00:00:11] absolute [00:02:11]
+> Testing read
+> GetStat -> 0x42
+> Waiting for read to complete
+> GetStat -> 0x02
+> Testing GetLoc after reading
+> GetlocL succeeded - [40:00:13] mode 2
+> GetlocP succeeded - track 01 index 01 [39:58:16] absolute [40:00:16]
+> Testing bits after reset
+psxcd: Init Ok!
+> GetStat -> 0x02
+> Testing Getloc after reset
+> GetlocL succeeded - [00:01:72] mode 2
+> GetlocP succeeded - track 01 index 00 [00:00:07] absolute [00:01:67]
+> Testing Getloc after seek to start
+> Seeking to [00:00:30] (logical)
+> Seek result irq=2, status=0x02
+> GetlocL succeeded - [00:00:29] mode 2
+> GetlocP succeeded - track 01 index 00 [00:01:41] absolute [00:00:33]
+> Testing Getloc after seek to end
+> Seeking to [74:00:00] (logical)
+> Seek result irq=2, status=0x02
+> GetlocL succeeded - [73:59:74] mode 2
+> GetlocP succeeded - track aa index 01 [03:34:62] absolute [74:00:03]
+> Seeking to [74:30:00] (logical)
+> Seek result irq=5, status=0x04
+* Seek failed, irq=5, status=0x04
+> GetlocL failed, IRQ = 5, status = 0x04
+> GetlocP failed, IRQ = 5, status = 0x04
+
+Test passed
+
