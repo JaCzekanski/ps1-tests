@@ -8,6 +8,11 @@ void setResolution(int w, int h) {
     SetDefDispEnv(&disp, 0, 0, w, h);
     SetDefDrawEnv(&draw, 0, 0, 1024, 512);
 
+    if (h == 480) {
+        disp.isinter = true; // Interlace mode
+	    draw.dfe = true; // Drawing to display area (odd and even lines)
+    }
+
     PutDispEnv(&disp);
     PutDrawEnv(&draw);
 }
@@ -89,7 +94,7 @@ void vramPut(int x, int y, uint16_t pixel) {
 
 uint32_t vramGet(int x, int y) {
     VRAM2CPU buf = {0};
-    setcode(&buf, 0xC0); // CPU -> VRAM
+    setcode(&buf, 0xC0); // VRAM -> CPU
     setlen(&buf, 3);
     
     buf.x0 = x; // VRAM position
