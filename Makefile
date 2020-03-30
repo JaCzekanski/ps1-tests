@@ -18,6 +18,7 @@ IMAGES = common \
 		gpu/transparency \
 		gpu/triangle \
 		gpu/vram-to-vram-overlap \
+		gpu/version-detect \
 		gte-fuzz \
 		mdec \
 		spu/memory-transfer \
