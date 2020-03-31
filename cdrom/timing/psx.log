@@ -1,0 +1,20 @@
+cdrom/timing
+psxcd: Init Ok!
+init ack: min 69456, max 93696, average 75086
+init complete: min 138448, max 600632, average 476300
+CdlNop: min 24024, max 137104, average 45993 over 100 runs
+CdlMute: min 26736, max 150672, average 49548 over 100 runs
+CdlDemute: min 27096, max 177328, average 49208 over 100 runs
+CdlSetloc: min 33856, max 182160, average 57955 over 100 runs
+CdlSetmode: min 25824, max 137776, average 48242 over 100 runs
+single-speed timing: Setloc ACK = 50240 ticks, ReadN ACK = 34232 ticks, First Sector = 984136, Remaining Sectors = min 416216 max 468808 avg 446040 ticks, Pause ACK = 28656 ticks, Pause Complete = 1009408 ticks
+single-speed timing: Setloc ACK = 40352 ticks, ReadN ACK = 46168 ticks, First Sector = 834728, Remaining Sectors = min 421752 max 469600 avg 446110 ticks, Pause ACK = 28648 ticks, Pause Complete = 1022496 ticks
+single-speed timing: Setloc ACK = 118112 ticks, ReadN ACK = 39920 ticks, First Sector = 668488, Remaining Sectors = min 426416 max 469960 avg 446178 ticks, Pause ACK = 28584 ticks, Pause Complete = 1007640 ticks
+single-speed timing: Setloc ACK = 49704 ticks, ReadN ACK = 107216 ticks, First Sector = 707368, Remaining Sectors = min 422848 max 464704 avg 446104 ticks, Pause ACK = 43728 ticks, Pause Complete = 1013536 ticks
+single-speed timing: Setloc ACK = 51840 ticks, ReadN ACK = 113176 ticks, First Sector = 725800, Remaining Sectors = min 420736 max 470344 avg 446224 ticks, Pause ACK = 28648 ticks, Pause Complete = 1006472 ticks
+double-speed timing: Setloc ACK = 39776 ticks, ReadN ACK = 124304 ticks, First Sector = 553960, Remaining Sectors = min 196800 max 246800 avg 222222 ticks, Pause ACK = 43880 ticks, Pause Complete = 1046336 ticks
+double-speed timing: Setloc ACK = 51488 ticks, ReadN ACK = 112824 ticks, First Sector = 859112, Remaining Sectors = min 186552 max 239560 avg 222171 ticks, Pause ACK = 38536 ticks, Pause Complete = 1032136 ticks
+double-speed timing: Setloc ACK = 52544 ticks, ReadN ACK = 34352 ticks, First Sector = 947912, Remaining Sectors = min 196728 max 249744 avg 222285 ticks, Pause ACK = 43856 ticks, Pause Complete = 1039296 ticks
+double-speed timing: Setloc ACK = 39872 ticks, ReadN ACK = 131448 ticks, First Sector = 1024016, Remaining Sectors = min 201032 max 243728 avg 222379 ticks, Pause ACK = 33896 ticks, Pause Complete = 1037440 ticks
+double-speed timing: Setloc ACK = 56840 ticks, ReadN ACK = 34320 ticks, First Sector = 941224, Remaining Sectors = min 203384 max 240248 avg 222386 ticks, Pause ACK = 38728 ticks, Pause Complete = 1028832 ticks
+
