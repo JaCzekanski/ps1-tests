@@ -164,8 +164,24 @@ union CHCR {
         control.startTrigger = StartTrigger::automatic;
         return control;
     }
+
+    static CHCR GPULinkedList() {
+        CHCR control;
+        control.direction = Direction::fromRam;
+        control.memoryAddressStep = MemoryAddressStep::forward;
+        control.choppingEnable = 0;
+        control.syncMode = SyncMode::linkedListMode;
+        control.choppingDmaWindowSize = 0;
+        control.choppingCpuWindowSize = 0;
+        control.enabled = Enabled::start;
+        control.startTrigger = StartTrigger::automatic;
+        return control;
+    }
 };
 
 void waitForChannel(Channel ch);
 void masterEnable(Channel ch, bool enabled);
+void channelIRQEnable(Channel ch, bool enabled);
+bool channelIRQSet(Channel ch);
+void masterIRQEnable(bool enabled);
 };
