@@ -30,6 +30,7 @@ Name                     | Description
 -------------------------|------------
 bandwidth                | Measure GPU/VRAM bandwidth
 benchmark                | GPU test to benchmark rasterizer for various commands
+clut-cache               | CLUT (Palette) cache behavior test
 clipping                 | Test Draw Area/Clipping GP0(0xE3), GP0(0xE4) using rectangle and quad
 gp0-e1                   | Check if GP0_E1, GPUSTAT and polygon render uses the same register internally
 lines                    | Draws lines using different modes - for verifying Bresenham implementation, color blending, polyline handling

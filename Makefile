@@ -11,6 +11,7 @@ IMAGES = common \
 		gpu/bandwidth \
 		gpu/benchmark \
 		gpu/clipping \
+		gpu/clut-cache \
 		gpu/gp0-e1 \
 		gpu/lines \
 		gpu/mask-bit \
