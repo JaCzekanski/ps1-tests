@@ -1,9 +1,10 @@
 #include <common.h>
 
-void setE1(int texPageX, int texPageY, int transparencyMode, int dithering) {
+enum TextureMode { bit4 = 0, bit8 = 1, bit15 = 2, reserved = 3 };
+void setE1(enum TextureMode mode, int texPageX, int texPageY) {
     DR_TPAGE e;
-    unsigned short texpage = getTPage(/* 8bit */ 1, transparencyMode, texPageX, texPageY);
-    setDrawTPage(&e, /* Drawing to display area */ 1, dithering, texpage);
+    unsigned short texpage = getTPage((int)mode, /*transparencyMode*/ 0, texPageX, texPageY);
+    setDrawTPage(&e, /* Drawing to display area */ 1, /*dithering*/ 0, texpage);
     DrawPrim(&e);
 }
 
@@ -93,90 +94,196 @@ void writeTextureRandom(int x, int y) {
     uploadToGPU(buffer, x, y, 128);
 }
 
-void testClutCacheReuseNoClear(int y) {
+int y = 20;
+
+void testDummy() {
+    writeTestClut(0, y);
+    gpuClearCache();
+
+    y += 16;
+}
+
+void testLinearTexture() {
+    writeTextureLinear(0, 1);
+    writeTestClut(0, y);
+    gpuClearCache();
+    rectangle(0, y, 0, 1, 0, y);
+
+    y += 16;
+}
+
+void testReverseLinearTexture() {
+    writeTextureLinearReversed(0, 2);
+    writeTestClut(0, y);
+    gpuClearCache();
+    rectangle(0, y, 0, 2, 0, y);
+
+    y += 16;
+}
+
+void testRandomTexture() {
+    writeTextureRandom(0, 3);
+    writeTestClut(0, y);
+    gpuClearCache();
+    rectangle(0, y, 0, 3, 0, y);
+
+    y += 16;
+}
+
+void testClutCacheReuseNoClear() {
     writeTestClut(0, y);
     
     // Write textured rectangle
-    rectangle(0, y+4, 0, 1, 0, y);
+    rectangle(0, y+2, 0, 1, 0, y);
 
     // Overwrite CLUT in VRAM without telling GPU about it
     fillRect(0, y, 256, 1, 0xff, 0xff, 0xff);
 
     // Write textured rectangle again (cached CLUT should be used)
-    rectangle(0, y+8, 0, 1, 0, y);
+    rectangle(0, y+4, 0, 1, 0, y);
+
+    y += 16;
 }
 
-void testClutCacheReuseClear(int y) {
+void testClutCacheReuseClear() {
     writeTestClut(0, y);
   
-    rectangle(0, y+4, 0, 1, 0, y);
+    rectangle(0, y+2, 0, 1, 0, y);
 
     // Overwrite CLUT in VRAM, but issue the clear cache command
     line(0, y, 256, y, 0xff, 0xff, 0xff);
     gpuClearCache();
 
     // Write textured rectangle again (cached CLUT should be used)
-    rectangle(0, y+8, 0, 1, 0, y);
+    rectangle(0, y+4, 0, 1, 0, y);
+
+    y += 16;
 }
 
-void testClutCacheInvalidatedDifferentClut(int y) {
+void testClutCacheInvalidatedDifferentClut() {
     writeTestClut(0, y);
   
-    rectangle(0, y+4, 0, 1, 0, y);
+    rectangle(0, y+2, 0, 1, 0, y);
 
     fillRect(0, y, 256, 1, 0xff, 0xff, 0xff);
    
     // Write textured rectangle again (CLUT$ should be invalidated due to different clutx used)
-    rectangle(0, y+8, 0, 1, 16, y);
+    rectangle(0, y+4, 0, 1, 16, y);
+
+    y += 16;
+}
+
+void testClutCacheNotInvalidatedAfterChangingTextureModeFrom4to8() {
+    writeTestClut(0, y);
+
+    // GPU should load only 16 entries into CLUT since 4bit textures are used
+    setE1(bit4, 0, 0);
+    rectangle(0, y+2, 0, 1, 0, y);
+
+    fillRect(0, y, 256, 1, 0xff, 0xff, 0xff);
+
+    // GPU should reload the CLUT into cache since additional entries are needed
+    setE1(bit8, 0, 0);
+    rectangle(0, y+4, 0, 1, 0, y);
+
+    y += 16;
+}
+
+void testClutCacheInvalidatedAfterChangingTextureModeFrom8to4() {
+    writeTestClut(0, y);
+
+    // GPU should load all 256 entries into cache
+    setE1(bit8, 0, 0);
+    rectangle(0, y+2, 0, 1, 0, y);
+
+    fillRect(0, y, 256, 1, 0xff, 0xff, 0xff);
+
+    // GPU shouldn't reload CLUT since all needed entries are already there
+    setE1(bit4, 0, 0);
+    rectangle(0, y+4, 0, 1, 0, y);
+
+    y += 16;
+}
+
+void testClutCacheInvalidatedAfterChangingTextureModeFrom15to4() {
+    writeTestClut(0, y);
+
+    // GPU shouldn't load anything into CLUT$
+    setE1(bit15, 0, 0);
+    rectangle(0, y+2, 0, 1, 0, y);
+
+    fillRect(0, y, 256, 1, 0xff, 0xff, 0xff);
+
+    // GPU should reload CLUT since all nothing was there
+    setE1(bit4, 0, 0);
+    rectangle(0, y+4, 0, 1, 0, y);
+
+    y += 16;
+}
+
+// Same as in  testClutCacheInvalidatedAfterChangingTextureModeFrom15to4, but with "reserved" bit depth (same as 15bit) to 8bit
+void testClutCacheInvalidatedAfterChangingTextureModeFromReservedTo8() {
+    writeTestClut(0, y);
+
+    setE1(reserved, 0, 0);
+    rectangle(0, y+2, 0, 1, 0, y);
+
+    fillRect(0, y, 256, 1, 0xff, 0xff, 0xff);
+
+    setE1(bit8, 0, 0);
+    rectangle(0, y+4, 0, 1, 0, y);
+
+    y += 16;
+}
+
+void testE1NotInvalidatingCache() {
+    writeTestClut(0, y);
+
+    // Load only 16 entries into cache
+    setE1(bit4, 0, 0);
+    rectangle(0, y+2, 0, 1, 0, y);
+
+    fillRect(0, y, 256, 1, 0xff, 0xff, 0xff);
+
+    setE1(bit8, 0, 0); // Setting different texture mode shouldn't cause invalidation
+    setE1(bit4, 0, 0); // until something is rendered
+    // GPU shouldn't reload CLUT since all needed entries are already there
+    rectangle(0, y+4, 0, 1, 0, y);
+
+    y += 16;
 }
 
 int main() {
     initVideo(320, 240);
     printf("\ngpu/clut-cache\n");
     printf("GPU caches the palette/CLUT before rendering 4/8bit textured primitives.\n");
-    printf("This test check this by rendering textured rectangle over currently used CLUT.\n");
-    printf("3 last tests check if Clear Cache or using different CLUT position does invalidate the CLUT$.\n\n");
+    printf("This test check this by rendering textured rectangle over currently used CLUT (first 4 lines).\n");
+    printf("Next 3 tests check if Clear Cache or using different CLUT position does invalidate the CLUT$.\n");
+    printf("Last 5 tests verify when CLUT$ is reloaded when different texture modes are used.\n");
+    printf("No assertions are made, please compare output with the VRAM dump.\n\n");
 
     clearScreen();
 	DrawSync(0);
-    setE1(0, 0, 0, 0);
+    setE1(bit8, 0, 0);
     
-    // 0 - test pattern
-    int y = 32;
-    writeTestClut(0, y);
-    gpuClearCache();
-
-    // 1 - override with linear palette
-    y += 16;
-    writeTextureLinear(0, 1);
-    writeTestClut(0, y);
-    gpuClearCache();
-    rectangle(0, y, 0, 1, 0, y);
+    // Checks is CLUT$ implemented
+    testDummy();
+    testLinearTexture();
+    testReverseLinearTexture();
+    testRandomTexture();
     
-    // 2 - override with inverted linear palette
-    y += 16;
-    writeTextureLinearReversed(0, 2);
-    writeTestClut(0, y);
-    gpuClearCache();
-    rectangle(0, y, 0, 2, 0, y);
+    // Checks when CLUT$ is invalidated (CLUT position change)
+    testClutCacheReuseNoClear();
+    testClutCacheReuseClear();
+    testClutCacheInvalidatedDifferentClut();
     
-    // 3 - override with random palette
-    y += 16;
-    writeTextureRandom(0, 3);
-    writeTestClut(0, y);
-    gpuClearCache();
-    rectangle(0, y, 0, 3, 0, y);
+    // Checks when CLUT$ is invalidated (texture mode change)
+    testClutCacheNotInvalidatedAfterChangingTextureModeFrom4to8();    
+    testClutCacheInvalidatedAfterChangingTextureModeFrom8to4();
+    testClutCacheInvalidatedAfterChangingTextureModeFrom15to4();
+    testClutCacheInvalidatedAfterChangingTextureModeFromReservedTo8();
+    testE1NotInvalidatingCache();
 
-
-    y += 32;
-    testClutCacheReuseNoClear(y);
-
-    y += 32;
-    testClutCacheReuseClear(y);
-
-    y += 32;
-    testClutCacheInvalidatedDifferentClut(y);
-	
     DrawSync(0);
     printf("Done\n");
     
