@@ -6,6 +6,7 @@ IMAGES = common \
 		cdrom/timing \
 		cpu/access-time \
 		cpu/code-in-scratchpad \
+		cpu/cop \
 		dma/chain-looping \
 		dma/otc-test \
 		gpu/bandwidth \

@@ -17,6 +17,7 @@ Name                     | Description
 -------------------------|------------
 access-time              | Test CPU access time to different parts of memory map
 code-in-scratchpad       | **(Not finished)** Check whether code execution from Scratchpad is possible 
+cop                      | Check how CPU behave when accessing missing/disabled coprocessors
 
 ### DMA
 

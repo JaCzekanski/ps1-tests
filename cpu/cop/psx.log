@@ -1,0 +1,13 @@
+% cpu/cop
+% pass - testCop0Disabled
+% pass - testCop0Enabled
+% pass - testCop0InvalidOpcode
+% pass - testCop1Disabled
+% pass - testCop1Enabled
+% pass - testCop2Disabled
+% pass - testCop2Enabled
+% pass - testCop2InvalidOpcode
+% pass - testCop3Disabled
+% pass - testCop3Enabled
+% pass - testDisabledCoprocessorThrowsCoprocessorUnusable
+% Done.

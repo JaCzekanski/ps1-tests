@@ -36,6 +36,8 @@ extern struct TEST __test;
 
 #define assertEquals(given, expected) assertEqualsWithComment(given, expected, "") 
 
+#define assertTrue(given) assertEqualsWithComment(given, true, "")
+#define assertFalse(given) assertEqualsWithComment(given, false, "")
 
 #define TEST_MULTIPLE_BEGIN() \
 []() {                        \
