@@ -15,32 +15,54 @@ void setCop0Status(cop0::STATUS status) {
     __asm__ __volatile__("mtc0 %0, $12" : "+r"(status._reg));
 }
 
-uint32_t cop0Opcode() {
+uint32_t cop0_valid() {
     uint32_t val;
     __asm__ __volatile__("mfc0 %0, $15" : "=r"(val));
     return val;
 }
 
-void cop0InvalidOpcode() {
+void cop0_invalid() {
     __asm__ __volatile__(".word ((16 << 26) | (0x1f << 21))"); // cop0 0x1f
 }
 
-void cop1Opcode() {
+uint32_t swc0() {
+    uint32_t val;
+    __asm__ __volatile__("swc0 $1, 0( %0 )" : : "r"( val ) : "memory" );
+    return val;
+}
+
+
+void cop1_valid() {
     __asm__ __volatile__(".word (17 << 26)"); // cop1 000000
 }
 
-void cop2Opcode() {
+uint32_t cop2_valid() {
     uint32_t val;
     __asm__ __volatile__("mfc2 %0, $1" : "=r"(val));
+    return val;
 }
 
-void cop2InvalidOpcode() {
+void cop2_invalid() {
     __asm__ __volatile__(".word ((18 << 26) | (0x1f << 21))"); // cop2 0x1f
 }
 
-void cop3Opcode() {
+
+uint32_t swc2() {
+    uint32_t val;
+    __asm__ __volatile__("swc2 $1, 0( %0 )" : : "r"( val ) : "memory" );
+    return val;
+}
+
+void cop3_valid() {
     __asm__ __volatile__(".word (19 << 26)"); // cop3 000000
 }
+
+uint32_t swc3() {
+    uint32_t val;
+    __asm__ __volatile__("swc3 $1, 0( %0 )" : : "r"( val ) : "memory" );
+    return val;
+}
+
 
 template<int cop, int enabled>
 void setCop() {
@@ -71,36 +93,50 @@ void disableCop() {
 void testCop0Disabled() {
     disableCop<0>(); // cop0Enable toggles Kernel/User availability, cannot be disabled
 
-    cop0Opcode();
+    cop0_valid();
     assertFalse(wasExceptionThrown());
 }
 
 void testCop0Enabled() {
     enableCop<0>();
 
-    cop0Opcode();
+    cop0_valid();
     assertFalse(wasExceptionThrown());
 }
 
 void testCop0InvalidOpcode() {
     enableCop<0>();
 
-    cop0InvalidOpcode();
+    cop0_invalid();
     assertFalse(wasExceptionThrown()); // ????
 } 
+
+void testSwc0Disabled() {
+    disableCop<0>();
+
+    swc0();
+    assertTrue(wasExceptionThrown());
+}
+
+void testSwc0Enabled() {
+    enableCop<0>();
+
+    swc0();
+    assertFalse(wasExceptionThrown());
+}
 
 // COP1
 void testCop1Disabled() {
     disableCop<1>();
 
-    cop1Opcode();
+    cop1_valid();
     assertTrue(wasExceptionThrown());
 }
 
 void testCop1Enabled() {
     enableCop<1>();
 
-    cop1Opcode();
+    cop1_valid();
     assertFalse(wasExceptionThrown());
 }
 
@@ -108,44 +144,73 @@ void testCop1Enabled() {
 void testCop2Disabled() {
     disableCop<2>();
 
-    cop2Opcode();
+    cop2_valid();
     assertTrue(wasExceptionThrown());
 }
 
 void testCop2Enabled() {
     enableCop<2>();
 
-    cop2Opcode();
+    cop2_valid();
     assertFalse(wasExceptionThrown());
 }
 
 void testCop2InvalidOpcode() {
     enableCop<2>();
 
-    cop2InvalidOpcode();
+    cop2_invalid();
     assertFalse(wasExceptionThrown()); // ?? It should throw?
+}
+
+void testSwc2Disabled() {
+    disableCop<2>();
+
+    swc2();
+    assertTrue(wasExceptionThrown());
+}
+
+void testSwc2Enabled() {
+    enableCop<2>();
+
+    swc2();
+    assertFalse(wasExceptionThrown());
 }
 
 // COP3
 void testCop3Disabled() {
     disableCop<3>();
 
-    cop3Opcode();
+    cop3_valid();
     assertTrue(wasExceptionThrown());
 }
 
 void testCop3Enabled() {
     enableCop<3>();
 
-    cop3Opcode();
+    cop3_valid();
     assertFalse(wasExceptionThrown());
 }
+
+void testSwc3Disabled() {
+    disableCop<3>();
+
+    swc3();
+    assertTrue(wasExceptionThrown());
+}
+
+void testSwc3Enabled() {
+    enableCop<3>();
+
+    swc3();
+    assertFalse(wasExceptionThrown());
+}
+
 
 void testDisabledCoprocessorThrowsCoprocessorUnusable() {
     using Exception = cop0::CAUSE::Exception;
     disableCop<3>();
 
-    cop3Opcode();
+    cop3_valid();
     assertEquals(getExceptionType(), Exception::coprocessorUnusable);
 }
 
@@ -154,6 +219,8 @@ void runTests() {
     testCop0Disabled();
     testCop0Enabled();
     testCop0InvalidOpcode();
+    testSwc0Disabled();
+    testSwc0Enabled();
 
     testCop1Disabled();
     testCop1Enabled();
@@ -161,9 +228,13 @@ void runTests() {
     testCop2Disabled();
     testCop2Enabled();
     testCop2InvalidOpcode();
-
+    testSwc2Disabled();
+    testSwc2Enabled();
+    
     testCop3Disabled();
     testCop3Enabled();
+    testSwc3Disabled();
+    testSwc3Enabled();
 
     testDisabledCoprocessorThrowsCoprocessorUnusable();
 
