@@ -23,6 +23,8 @@ cop                      | Check how CPU behave when accessing missing/disabled 
 
 Name                     | Description
 -------------------------|------------
+chain-looping            | Self referencing GPU OT chain test
+chopping                 | Check SyncMode0 chopping behaviour using GPU VRAM DMA
 otc-test                 | DMA Channel 6 (OTC aka Ordering Table clear) unit tests
 
 ### GPU
