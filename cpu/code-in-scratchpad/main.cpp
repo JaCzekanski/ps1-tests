@@ -1,6 +1,7 @@
 #include <common.h>
 #include <psxapi.h>
 #include <string.h>
+#include <exception.hpp>
 #include "code.h"
 
 uint32_t RAM_FUN_ADDR = 0x00040000;
@@ -18,22 +19,32 @@ int main() {
     clearScreen();
     
     EnterCriticalSection();
+    hookUnresolvedExceptionHandler(exceptionHandler);
+    ExitCriticalSection();
 
-    memcpy((void*)RAM_FUN_ADDR, codeRam, 64);
-    memcpy((void*)SCRATCHPAD_FUN_ADDR, codeScratchpad, 64);
+    memcpy((void*)RAM_FUN_ADDR, (void*)codeRam, 64);
+    memcpy((void*)SCRATCHPAD_FUN_ADDR, (void*)codeScratchpad, 64);
 
     FlushCache();
+
+    wasExceptionThrown();
     
     func codeInRam = (func)RAM_FUN_ADDR;
     func codeInScratchpad = (func)SCRATCHPAD_FUN_ADDR;
 
-    printf("Code in ram returned PC: 0x%08x\n", codeInRam());
-    printf("Code in scratchpad returned PC: 0x%08x\n", codeInScratchpad());
-    // ^^^ This line crashes on real HW
+    printf("Executing code from RAM: ");
+    codeInRam();
+    if (!wasExceptionThrown()) printf("ok.\n");
+    else printf("fail (unexpected exception).\n");
 
+    printf("Executing code from Scratchpad: ");
+    codeInScratchpad();
+    if (wasExceptionThrown()) printf("ok.\n");
+    else printf("fail (no bus error exception thrown).\n");
+    
     printf("Done\n");
 
-    ExitCriticalSection();
+
     for (;;) {
         VSync(0);
     }
