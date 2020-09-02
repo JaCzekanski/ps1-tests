@@ -8,6 +8,7 @@ IMAGES = common \
 		cpu/code-in-scratchpad \
 		cpu/cop \
 		dma/chain-looping \
+		dma/chopping \
 		dma/otc-test \
 		gpu/bandwidth \
 		gpu/benchmark \

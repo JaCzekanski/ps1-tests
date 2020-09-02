@@ -1,0 +1,130 @@
+dma/chopping (DMA Channel 2 CPU->VRAM, chopping test)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:   1                                    ... took 22819 CPU cycles. 
+DMA2, SyncMode: 1, 8192 bytes, blockSize:   2                                    ... took 12512 CPU cycles. 
+DMA2, SyncMode: 1, 8192 bytes, blockSize:   3                                    ... took  9134 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:   4                                    ... took  7319 CPU cycles. 
+DMA2, SyncMode: 1, 8192 bytes, blockSize:   5                                    ... took  6294 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:   6                                    ... took  5644 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:   7                                    ... took  5157 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:   8                                    ... took  4776 CPU cycles. 
+DMA2, SyncMode: 1, 8192 bytes, blockSize:   9                                    ... took  4512 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  10                                    ... took  4358 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  11                                    ... took  4147 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  12                                    ... took  4018 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  13                                    ... took  3834 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  14                                    ... took  3791 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  15                                    ... took  3647 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  16                                    ... took  3544 CPU cycles. 
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  17                                    ... took  3533 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  18                                    ... took  3447 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  19                                    ... took  3368 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  20                                    ... took  3393 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  21                                    ... took  3259 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  22                                    ... took  3234 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  23                                    ... took  3281 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  24                                    ... took  3212 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  25                                    ... took  3115 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  26                                    ... took  3096 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  27                                    ... took  3037 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  28                                    ... took  2992 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  29                                    ... took  3037 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  30                                    ... took  3021 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  31                                    ... took  2986 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  32                                    ... took  2974 CPU cycles. 
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  33                                    ... took  2989 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  34                                    ... took  2940 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  35                                    ... took  2943 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  36                                    ... took  2901 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  37                                    ... took  2880 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  38                                    ... took  2878 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  39                                    ... took  2913 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  40                                    ... took  2835 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  41                                    ... took  2788 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  42                                    ... took  2813 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  43                                    ... took  2772 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  44                                    ... took  2804 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  45                                    ... took  2822 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  46                                    ... took  2782 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  47                                    ... took  2742 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  48                                    ... took  2797 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  49                                    ... took  2716 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  50                                    ... took  2715 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  51                                    ... took  2652 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  52                                    ... took  2706 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  53                                    ... took  2677 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  54                                    ... took  2664 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  55                                    ... took  2696 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  56                                    ... took  2705 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  57                                    ... took  2652 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  58                                    ... took  2675 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  59                                    ... took  2504 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  60                                    ... took  2665 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  61                                    ... took  2702 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  62                                    ... took  2702 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  63                                    ... took  2555 CPU cycles. (GPU busy)
+DMA2, SyncMode: 1, 8192 bytes, blockSize:  64                                    ... took  2682 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:   1 words, cpuWindowSize:   1 clks ... took 16684 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:   1 words, cpuWindowSize:   2 clks ... took 20591 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:   1 words, cpuWindowSize:   4 clks ... took 22824 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:   1 words, cpuWindowSize:   8 clks ... took 30852 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:   1 words, cpuWindowSize:  16 clks ... took 47668 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:   1 words, cpuWindowSize:  32 clks ... took 81912 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:   1 words, cpuWindowSize:  64 clks ... took 80052 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:   1 words, cpuWindowSize: 128 clks ... took 79992 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:   2 words, cpuWindowSize:   1 clks ... took 10519 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:   2 words, cpuWindowSize:   2 clks ... took 10519 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:   2 words, cpuWindowSize:   4 clks ... took 12507 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:   2 words, cpuWindowSize:   8 clks ... took 16446 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:   2 words, cpuWindowSize:  16 clks ... took 24655 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:   2 words, cpuWindowSize:  32 clks ... took 41019 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:   2 words, cpuWindowSize:  64 clks ... took 73754 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:   2 words, cpuWindowSize: 128 clks ... took 73692 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:   4 words, cpuWindowSize:   1 clks ... took  5776 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:   4 words, cpuWindowSize:   2 clks ... took  6281 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:   4 words, cpuWindowSize:   4 clks ... took  7310 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:   4 words, cpuWindowSize:   8 clks ... took  9382 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:   4 words, cpuWindowSize:  16 clks ... took 13503 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:   4 words, cpuWindowSize:  32 clks ... took 21820 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:   4 words, cpuWindowSize:  64 clks ... took 37952 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:   4 words, cpuWindowSize: 128 clks ... took 70650 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:   8 words, cpuWindowSize:   1 clks ... took  4009 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:   8 words, cpuWindowSize:   2 clks ... took  4260 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:   8 words, cpuWindowSize:   4 clks ... took  4714 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:   8 words, cpuWindowSize:   8 clks ... took  5793 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:   8 words, cpuWindowSize:  16 clks ... took  7769 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:   8 words, cpuWindowSize:  32 clks ... took 11914 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:   8 words, cpuWindowSize:  64 clks ... took 20137 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:   8 words, cpuWindowSize: 128 clks ... took 36304 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:  16 words, cpuWindowSize:   1 clks ... took  3096 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:  16 words, cpuWindowSize:   2 clks ... took  3240 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:  16 words, cpuWindowSize:   4 clks ... took  3447 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:  16 words, cpuWindowSize:   8 clks ... took  4011 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:  16 words, cpuWindowSize:  16 clks ... took  4991 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:  16 words, cpuWindowSize:  32 clks ... took  7039 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:  16 words, cpuWindowSize:  64 clks ... took 11038 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:  16 words, cpuWindowSize: 128 clks ... took 19227 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:  32 words, cpuWindowSize:   1 clks ... took  2656 CPU cycles. (GPU busy)
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:  32 words, cpuWindowSize:   2 clks ... took  2717 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:  32 words, cpuWindowSize:   4 clks ... took  2767 CPU cycles. (GPU busy)
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:  32 words, cpuWindowSize:   8 clks ... took  3091 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:  32 words, cpuWindowSize:  16 clks ... took  3586 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:  32 words, cpuWindowSize:  32 clks ... took  4573 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:  32 words, cpuWindowSize:  64 clks ... took  6563 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:  32 words, cpuWindowSize: 128 clks ... took 10688 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:  64 words, cpuWindowSize:   1 clks ... took  2422 CPU cycles. (GPU busy)
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:  64 words, cpuWindowSize:   2 clks ... took  2443 CPU cycles. (GPU busy)
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:  64 words, cpuWindowSize:   4 clks ... took  2517 CPU cycles. (GPU busy)
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:  64 words, cpuWindowSize:   8 clks ... took  2637 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:  64 words, cpuWindowSize:  16 clks ... took  2870 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:  64 words, cpuWindowSize:  32 clks ... took  3385 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:  64 words, cpuWindowSize:  64 clks ... took  4363 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize:  64 words, cpuWindowSize: 128 clks ... took  6363 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize: 128 words, cpuWindowSize:   1 clks ... took  2314 CPU cycles. (GPU busy)
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize: 128 words, cpuWindowSize:   2 clks ... took  2319 CPU cycles. (GPU busy)
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize: 128 words, cpuWindowSize:   4 clks ... took  2357 CPU cycles. (GPU busy)
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize: 128 words, cpuWindowSize:   8 clks ... took  2403 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize: 128 words, cpuWindowSize:  16 clks ... took  2536 CPU cycles. (GPU busy)
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize: 128 words, cpuWindowSize:  32 clks ... took  2763 CPU cycles. (GPU busy)
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize: 128 words, cpuWindowSize:  64 clks ... took  3252 CPU cycles. 
+DMA2, SyncMode: 0, 8192 bytes, dmaWindowSize: 128 words, cpuWindowSize: 128 clks ... took  4193 CPU cycles. 
+Done.
