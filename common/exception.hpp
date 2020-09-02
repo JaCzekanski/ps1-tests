@@ -1,6 +1,6 @@
 #pragma once
-#include <stdint.h>
-#include "cop0.h"
+#include "stdint.h"
+#include "cop0.hpp"
 
 typedef void (*void_fn_ptr)();
 

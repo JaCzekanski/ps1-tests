@@ -1,5 +1,5 @@
 #pragma once
-#include <stdint.h>
+#include "stdint.h"
 
 // From Avocado (src/cpu/cop0.h)
 

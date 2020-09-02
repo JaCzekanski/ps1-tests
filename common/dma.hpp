@@ -75,7 +75,7 @@ union CHCR {
         uint32_t : 5;
         uint32_t choppingDmaWindowSize : 3;  // Chopping DMA Window Size (1 SHL N words)
         uint32_t : 1;
-        uint32_t choppingCpuWindowSize : 3;  // Chopping CPU Window Size(1 SHL N clks)
+        uint32_t choppingCpuWindowSize : 3;  // Chopping CPU Window Size (1 SHL N clks)
         uint32_t : 1;
         Enabled enabled : 1;  // stopped/completed, start/enable/busy
         uint32_t : 3;
@@ -155,6 +155,19 @@ union CHCR {
     static CHCR VRAMwrite() {
         CHCR control;
         control.direction = Direction::fromRam;
+        control.memoryAddressStep = MemoryAddressStep::forward;
+        control.choppingEnable = 0;
+        control.syncMode = SyncMode::syncBlockToDmaRequests;
+        control.choppingDmaWindowSize = 0;
+        control.choppingCpuWindowSize = 0;
+        control.enabled = Enabled::start;
+        control.startTrigger = StartTrigger::automatic;
+        return control;
+    }
+
+    static CHCR VRAMread() {
+        CHCR control;
+        control.direction = Direction::toRam;
         control.memoryAddressStep = MemoryAddressStep::forward;
         control.choppingEnable = 0;
         control.syncMode = SyncMode::syncBlockToDmaRequests;

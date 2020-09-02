@@ -1,5 +1,5 @@
 #include <psxapi.h>
-#include "exception.h"
+#include "exception.hpp"
 
 // #define DEBUG
 

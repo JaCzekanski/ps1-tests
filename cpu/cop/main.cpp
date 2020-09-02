@@ -2,8 +2,8 @@
 #include <psxapi.h>
 #include <test.h>
 #include <io.h>
-#include "exception.h"
-#include "cop0.h"
+#include <exception.hpp>
+#include <cop0.hpp>
 
 cop0::STATUS readCop0Status() {
     cop0::STATUS status;
