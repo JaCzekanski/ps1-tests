@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <psxapi.h>
 #include "common.h"
-#include "twister.h"
+#include <twister.h>
 #include "gte.h"
 
 #define SAMPLE_STEP  25
