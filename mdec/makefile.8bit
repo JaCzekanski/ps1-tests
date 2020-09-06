@@ -1,4 +1,5 @@
 TARGET = mdec-8bit.elf
-CFLAGS = -DCOLOR_DEPTH=8
 
 include ../common-test.mk
+
+CFLAGS += -DCOLOR_DEPTH=8
