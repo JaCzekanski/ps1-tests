@@ -1,0 +1,7 @@
+cpu/code-in-io
+Test code execution from Scratchpad and various IO ports
+pass - testCodeInRam
+pass - testCodeInScratchpad
+pass - testCodeInMDEC
+pass - testCodeInInterrupts
+Done.

@@ -6,8 +6,7 @@ extern "C" {
 #endif
 
 void FlushCache();
-uint32_t codeRam();
-uint32_t codeScratchpad();
+void testCode();
 
 #ifdef __cplusplus
 }
