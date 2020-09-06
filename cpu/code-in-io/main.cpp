@@ -8,9 +8,16 @@
 
 typedef uint32_t (*func)();
 
+void memcpy32(uint32_t* dst, uint32_t* src, size_t words) {
+    for (size_t i = 0; i<words; i++) {
+        *dst++ = *src++;
+    }
+}
+
 __attribute__((noinline)) func copyCodeTo(uint32_t addr) {
     EnterCriticalSection();
-    memcpy((void*)addr, (void*)testCode, 8);
+
+    memcpy32((uint32_t*)addr, (uint32_t*)testCode, 2);
     
     FlushCache();
     ExitCriticalSection();
@@ -29,29 +36,57 @@ __attribute__((noinline)) void testCodeInScratchpad() {
     func tested = copyCodeTo(0x1F800000);
     tested();
 
+    TEST_MULTIPLE_BEGIN();
     assertTrue(wasExceptionThrown());
+    assertEquals(getExceptionType(), cop0::CAUSE::Exception::busErrorInstruction);
+    TEST_MULTIPLE_END();
 }
 
 __attribute__((noinline)) void testCodeInMDEC() {
     func tested = copyCodeTo(0x1F801820);
     tested();
 
+    TEST_MULTIPLE_BEGIN();
     assertTrue(wasExceptionThrown());
+    assertEquals(getExceptionType(), cop0::CAUSE::Exception::busErrorInstruction);
+    TEST_MULTIPLE_END();
 }
 
 __attribute__((noinline)) void testCodeInInterrupts() {
     EnterCriticalSection();
     uint32_t imask = read32(0x1F801074);
-    ExitCriticalSection();
     
     func tested = copyCodeTo(0x1F801070);
     tested();
 
+    TEST_MULTIPLE_BEGIN();
     assertTrue(wasExceptionThrown());
+    assertEquals(getExceptionType(), cop0::CAUSE::Exception::busErrorInstruction);
+    TEST_MULTIPLE_END();
 
-    EnterCriticalSection();
     write32(0x1F801074, imask);
     ExitCriticalSection();
+}
+
+__attribute__((noinline)) void testCodeInSPU() {
+    func tested = copyCodeTo(0x1F801C00);
+    tested();
+
+    assertFalse(wasExceptionThrown());
+}
+
+__attribute__((noinline)) void testCodeInDMA0() {
+    func tested = copyCodeTo(0x1F8010F0);
+    tested();
+
+    assertFalse(wasExceptionThrown());
+}
+
+__attribute__((noinline)) void testCodeInDMAControl() {
+    func tested = copyCodeTo(0x1F801084);
+    tested();
+
+    assertFalse(wasExceptionThrown());
 }
 
 __attribute__((noinline)) void runTests() {
@@ -59,6 +94,9 @@ __attribute__((noinline)) void runTests() {
     testCodeInScratchpad();
     testCodeInMDEC();
     testCodeInInterrupts();
+    testCodeInSPU();
+    testCodeInDMA0();
+    testCodeInDMAControl();
 
     printf("Done.\n");
 }

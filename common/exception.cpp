@@ -45,7 +45,7 @@ bool wasExceptionThrown() {
 cop0::CAUSE::Exception getExceptionType() {
     Thread* currentThread = getCurrentThread();
 
-    return (cop0::CAUSE::Exception)getCurrentThread()->unknown[1];
+    return (cop0::CAUSE::Exception)currentThread->unknown[1];
 }
 
 void exceptionHandler() {

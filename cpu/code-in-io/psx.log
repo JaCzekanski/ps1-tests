@@ -4,4 +4,7 @@ pass - testCodeInRam
 pass - testCodeInScratchpad
 pass - testCodeInMDEC
 pass - testCodeInInterrupts
+pass - testCodeInSPU
+pass - testCodeInDMA0
+pass - testCodeInDMAControl
 Done.
