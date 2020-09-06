@@ -16,7 +16,7 @@ getloc                   | Program to test the seeking/reading stat bits of the 
 Name                     | Description
 -------------------------|------------
 access-time              | Test CPU access time to different parts of memory map
-code-in-scratchpad       | **(Not finished)** Check whether code execution from Scratchpad is possible 
+code-in-io               | Check whether code execution from Scratchpad as various IO ports is possible 
 cop                      | Check how CPU behave when accessing missing/disabled coprocessors
 
 ### DMA

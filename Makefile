@@ -5,7 +5,7 @@ IMAGES = common \
 		cdrom/getloc \
 		cdrom/timing \
 		cpu/access-time \
-		cpu/code-in-scratchpad \
+		cpu/code-in-io \
 		cpu/cop \
 		dma/chain-looping \
 		dma/chopping \
