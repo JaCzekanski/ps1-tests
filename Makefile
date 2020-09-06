@@ -33,6 +33,8 @@ IMAGES = common \
 		spu/toolbox \
 		timers
 
+all: $(TOPTARGETS)
+
 $(TOPTARGETS): $(IMAGES)
 $(IMAGES):
 	@$(MAKE) --no-print-directory -C $@ $(MAKECMDGOALS)
