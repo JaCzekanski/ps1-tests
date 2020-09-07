@@ -76,14 +76,14 @@ __attribute__((noinline)) void testCodeInSPU() {
 }
 
 __attribute__((noinline)) void testCodeInDMA0() {
-    func tested = copyCodeTo(0x1F8010F0);
+    func tested = copyCodeTo(0x1F801084);
     tested();
 
     assertFalse(wasExceptionThrown());
 }
 
 __attribute__((noinline)) void testCodeInDMAControl() {
-    func tested = copyCodeTo(0x1F801084);
+    func tested = copyCodeTo(0x1F8010F0);
     tested();
 
     assertFalse(wasExceptionThrown());
