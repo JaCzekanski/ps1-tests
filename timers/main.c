@@ -240,6 +240,62 @@ void testTimerWithCyclesDelaySyncEnabled(int timer, int mode, int sync, int cycl
     printf("\n");
 }
 
+
+void testTimerTargetBehaviour() 
+{
+    const int timer = 2;
+    const int target = 10;
+    const int mode = 0;
+    
+    uint16_t ticks[300];
+    
+    void __attribute__((optimize("Os"))) readTimerValues() 
+    {
+        volatile uint16_t* value = (uint16_t*)(0x1f801100 + (timer * 0x10));
+        for (uint16_t i = 10000;i;i--) {
+            ticks[*value]++;
+        }
+    }
+
+    // Count from 0 to TARGET (included)
+    printf("\nCheck when Timer%d counter (%s) is reset when reaching target (= %d).\n", timer, modes[timer][mode], target);
+
+    const uint32_t timerBase = 0x1f801100 + (timer * 0x10);
+    uint16_t prevState = read16(timerBase + 4);
+    
+    for (int i = 0; i < 300; i++) ticks[i] = 0;
+     
+    EnterCriticalSection();
+    write16(timerBase + 8, target);
+    write16(timerBase + 4, 
+                    /* No sync */
+        (1 << 3) |  /* Reset counter to 0 after reaching target */
+        (0 << 4) |  /* Target irq */
+        (0 << 5) |  /* Overflow irq */
+        (mode << 8)
+    );
+    write16(timerBase, 0); // Reset current value
+    read16(timerBase + 4); // Reset reached bits
+
+    readTimerValues();
+    uint16_t status = read16(timerBase + 4);
+    ExitCriticalSection();
+
+    for (int i = 0; i <= target + 1; i++) {
+        printf("counter == %2d, %5d ticks  %s\n", i, ticks[i], (i == target) ? "<<<< This value should be non-zero" : "");
+    }
+    bool reachedTarget = (status & (1<<11)) != 0;
+    bool reachedFFFF = (status & (1<<12)) != 0;
+    bool resetAfterTarget       = ticks[target]     != 0;
+    bool targetPlus1NotReached  = ticks[target + 1] == 0;
+    printf("Reached target:                      %d (%s)\n", reachedTarget,                  reachedTarget ? "ok" : "fail");
+    printf("Reached 0xFFFF:                      %d (%s)\n", reachedFFFF,                     !reachedFFFF ? "ok" : "fail");
+    printf("Counter reset AFTER reaching target: %d (%s)\n", resetAfterTarget,            resetAfterTarget ? "ok" : "fail");
+    printf("Target + 1 not reached:              %d (%s)\n", targetPlus1NotReached,  targetPlus1NotReached ? "ok" : "fail");
+
+    restoreTimer(timer, prevState);
+}
+
 void runTestsForMode(int videoMode) {
     SetVideoMode(videoMode);
     printf("\nForced %s system.\n", (GetVideoMode() == MODE_NTSC) ? "NTSC" : "PAL");
@@ -285,6 +341,8 @@ void runTestsForMode(int videoMode) {
             }
         }
     }
+
+    testTimerTargetBehaviour();
 }
 
 int main()
@@ -297,10 +355,14 @@ int main()
  
     printf("Detected %s system.\n", (GetVideoMode() == MODE_NTSC) ? "NTSC" : "PAL");
 
+    // EnterCriticalSection();
     runTestsForMode(MODE_NTSC);
+    // ExitCriticalSection();
     // runTestsForMode(MODE_PAL);
 
-    printf("\n\nDone, crashing now...\n");
-    __asm__ volatile (".word 0xFC000000"); // Invalid opcode (63)
+    printf("\n\nDone.\n");
+    for (;;) {
+        VSync(0);
+    }
     return 0;
 }
