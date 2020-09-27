@@ -9,6 +9,7 @@ IMAGES = common \
 		cpu/cop \
 		dma/chain-looping \
 		dma/chopping \
+		dma/dpcr \
 		dma/otc-test \
 		gpu/bandwidth \
 		gpu/benchmark \
