@@ -133,6 +133,10 @@ void generateDrawList() {
     srand(3487);
 
     ClearOTagR(&drawListOt, 1);
+
+    for (uint32_t i = 0; i<PACKET_LEN; i++) {
+        drawListBuffer[i] = 0;
+    }
     ptr = drawListBuffer;
     modes[selectedMode].func(polyCount);
 }

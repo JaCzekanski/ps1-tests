@@ -129,9 +129,9 @@ void drawPolygons(int n) {
             setTPage(p, texture.mode, (semiTransparency > 0) ? semiTransparency - 1 : 0, texture.prect->x, texture.prect->y);
             setClut(p, texture.crect->x, texture.crect->y);
             
-            p->u0 = rand() % texture.prect->w;  p->u0 = rand() % texture.prect->h;
-            p->u1 = rand() % texture.prect->w;  p->u1 = rand() % texture.prect->h;
-            p->u2 = rand() % texture.prect->w;  p->u2 = rand() % texture.prect->h;
+            p->u0 = rand() % texture.prect->w;  p->v0 = rand() % texture.prect->h;
+            p->u1 = rand() % texture.prect->w;  p->v1 = rand() % texture.prect->h;
+            p->u2 = rand() % texture.prect->w;  p->v2 = rand() % texture.prect->h;
             if constexpr (isQuad) {
                 p->u3 = rand() % texture.prect->w;  p->v3 = rand() % texture.prect->h;
             } else {
@@ -173,7 +173,7 @@ void drawRects(int n) {
             setShadeTex(p, !shaded);
             setClut(p, texture.crect->x, texture.crect->y);
     
-            p->u0 = rand() % texture.prect->w;  p->u0 = rand() % texture.prect->h;
+            p->u0 = rand() % texture.prect->w;  p->v0 = rand() % texture.prect->h;
             advanceRand(6);
         } else {
             advanceRand(8);
