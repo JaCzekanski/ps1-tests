@@ -1,0 +1,316 @@
+% timer-dump
+% WARNING: This test requires you to have modified PSX motherboard with CPU PIN 160 (TCLK0) disconnected from GPU
+% and connected to CPU PIN 70 (RTS), which allows this program for manual clocking of the Timer0 in Dot Clock mode.
+% 
+% Dump all timer registers after every clock cycle
+% 
+% Timer mode register explained:
+% Sync enabled: 0
+% Reset counter to 0x0000: when target
+% IRQ when target: 1
+% IRQ when 0xffff: 0
+% IRQ repeat mode: one-shot
+% IRQ pulse mode: short pulse
+% Clock source: 1
+% 
+% 0, counter: 0x0000, mode: 0x0518, target: 0x0005, istat: 0x0000
+% 1, counter: 0x0000, mode: 0x0518, target: 0x0005, istat: 0x0000
+% 0, counter: 0x0001, mode: 0x0518, target: 0x0005, istat: 0x0000
+% 1, counter: 0x0002, mode: 0x0518, target: 0x0005, istat: 0x0000
+% 0, counter: 0x0002, mode: 0x0518, target: 0x0005, istat: 0x0000
+% 1, counter: 0x0003, mode: 0x0518, target: 0x0005, istat: 0x0000
+% 0, counter: 0x0003, mode: 0x0518, target: 0x0005, istat: 0x0000
+% 1, counter: 0x0004, mode: 0x0518, target: 0x0005, istat: 0x0000
+% 0, counter: 0x0004, mode: 0x0518, target: 0x0005, istat: 0x0000
+% 1, counter: 0x0005, mode: 0x0d18, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0000, mode: 0x0518, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0001, mode: 0x0518, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0001, mode: 0x0518, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0002, mode: 0x0518, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0002, mode: 0x0518, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0003, mode: 0x0518, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0003, mode: 0x0518, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0004, mode: 0x0518, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0004, mode: 0x0518, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0005, mode: 0x0d18, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0000, mode: 0x0518, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0001, mode: 0x0518, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0001, mode: 0x0518, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0002, mode: 0x0518, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0002, mode: 0x0518, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0003, mode: 0x0518, target: 0x0005, istat: 0x0010
+% 
+% Dump all timer registers after every clock cycle
+% 
+% Timer mode register explained:
+% Sync enabled: 0
+% Reset counter to 0x0000: when target
+% IRQ when target: 1
+% IRQ when 0xffff: 0
+% IRQ repeat mode: one-shot
+% IRQ pulse mode: toggle
+% Clock source: 1
+% 
+% 0, counter: 0x0000, mode: 0x0598, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0000, mode: 0x0598, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0001, mode: 0x0598, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0002, mode: 0x0598, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0002, mode: 0x0598, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0003, mode: 0x0598, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0003, mode: 0x0598, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0004, mode: 0x0598, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0004, mode: 0x0598, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0005, mode: 0x0998, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0000, mode: 0x0198, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0001, mode: 0x0198, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0001, mode: 0x0198, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0001, mode: 0x0198, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0002, mode: 0x0198, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0003, mode: 0x0198, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0003, mode: 0x0198, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0004, mode: 0x0198, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0004, mode: 0x0198, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0005, mode: 0x0998, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0000, mode: 0x0198, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0001, mode: 0x0198, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0001, mode: 0x0198, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0002, mode: 0x0198, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0002, mode: 0x0198, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0003, mode: 0x0198, target: 0x0005, istat: 0x0010
+% 
+% Dump all timer registers after every clock cycle
+% 
+% Timer mode register explained:
+% Sync enabled: 0
+% Reset counter to 0x0000: when target
+% IRQ when target: 1
+% IRQ when 0xffff: 0
+% IRQ repeat mode: repeatedly
+% IRQ pulse mode: short pulse
+% Clock source: 1
+% 
+% 0, counter: 0x0000, mode: 0x0558, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0000, mode: 0x0558, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0001, mode: 0x0558, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0002, mode: 0x0558, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0002, mode: 0x0558, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0003, mode: 0x0558, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0003, mode: 0x0558, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0004, mode: 0x0558, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0004, mode: 0x0558, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0005, mode: 0x0d58, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0000, mode: 0x0558, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0001, mode: 0x0558, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0001, mode: 0x0558, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0002, mode: 0x0558, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0002, mode: 0x0558, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0003, mode: 0x0558, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0003, mode: 0x0558, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0004, mode: 0x0558, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0004, mode: 0x0558, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0005, mode: 0x0d58, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0000, mode: 0x0558, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0001, mode: 0x0558, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0001, mode: 0x0558, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0002, mode: 0x0558, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0002, mode: 0x0558, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0003, mode: 0x0558, target: 0x0005, istat: 0x0010
+% 
+% Dump all timer registers after every clock cycle
+% 
+% Timer mode register explained:
+% Sync enabled: 0
+% Reset counter to 0x0000: when target
+% IRQ when target: 1
+% IRQ when 0xffff: 0
+% IRQ repeat mode: repeatedly
+% IRQ pulse mode: toggle
+% Clock source: 1
+% 
+% 0, counter: 0x0000, mode: 0x05d8, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0000, mode: 0x05d8, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0001, mode: 0x05d8, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0002, mode: 0x05d8, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0002, mode: 0x05d8, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0003, mode: 0x05d8, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0003, mode: 0x05d8, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0004, mode: 0x05d8, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0004, mode: 0x05d8, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0005, mode: 0x09d8, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0000, mode: 0x01d8, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0001, mode: 0x01d8, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0001, mode: 0x01d8, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0002, mode: 0x01d8, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0002, mode: 0x01d8, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0003, mode: 0x01d8, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0003, mode: 0x01d8, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0004, mode: 0x01d8, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0004, mode: 0x01d8, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0005, mode: 0x0dd8, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0000, mode: 0x05d8, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0001, mode: 0x05d8, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0001, mode: 0x05d8, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0002, mode: 0x05d8, target: 0x0005, istat: 0x0010
+% 0, counter: 0x0002, mode: 0x05d8, target: 0x0005, istat: 0x0010
+% 1, counter: 0x0003, mode: 0x05d8, target: 0x0005, istat: 0x0010
+% 
+% Manually clock Timer0 counter using GPIO (RTS, CPU PIN 70).
+% Check how long it takes for counter to reset 0 after it hit the target
+% 
+% Timer mode register explained:
+% Sync enabled: 0
+% Reset counter to 0x0000: when target
+% IRQ when target: 1
+% IRQ when 0xffff: 0
+% IRQ repeat mode: repeatedly
+% IRQ pulse mode: toggle
+% Clock source: 1
+% 
+% Target: 0x0004
+%   0, 1 counter: 0x0001
+%   1, 1 counter: 0x0001
+%   2, 1 counter: 0x0001
+%   3, 1 counter: 0x0001
+%   4, 0 counter: 0x0001
+%   5, 0 counter: 0x0001
+%   6, 0 counter: 0x0001
+%   7, 0 counter: 0x0001
+% 
+%   8, 1 counter: 0x0002
+%   9, 1 counter: 0x0002
+%  10, 1 counter: 0x0002
+%  11, 1 counter: 0x0002
+%  12, 0 counter: 0x0002
+%  13, 0 counter: 0x0002
+%  14, 0 counter: 0x0002
+%  15, 0 counter: 0x0002
+% 
+%  16, 1 counter: 0x0003
+%  17, 1 counter: 0x0003
+%  18, 1 counter: 0x0003
+%  19, 1 counter: 0x0003
+%  20, 0 counter: 0x0003
+%  21, 0 counter: 0x0003
+%  22, 0 counter: 0x0003
+%  23, 0 counter: 0x0003
+% 
+%  24, 1 counter: 0x0004
+%  25, 1 counter: 0x0000
+%  26, 1 counter: 0x0000
+%  27, 1 counter: 0x0000
+%  28, 0 counter: 0x0000
+%  29, 0 counter: 0x0000
+%  30, 0 counter: 0x0000
+%  31, 0 counter: 0x0000
+% 
+%  32, 1 counter: 0x0001
+%  33, 1 counter: 0x0001
+%  34, 1 counter: 0x0001
+%  35, 1 counter: 0x0001
+%  36, 0 counter: 0x0001
+%  37, 0 counter: 0x0001
+%  38, 0 counter: 0x0001
+%  39, 0 counter: 0x0001
+% 
+%  40, 1 counter: 0x0002
+%  41, 1 counter: 0x0002
+%  42, 1 counter: 0x0002
+%  43, 1 counter: 0x0002
+%  44, 0 counter: 0x0002
+%  45, 0 counter: 0x0002
+%  46, 0 counter: 0x0002
+%  47, 0 counter: 0x0002
+% 
+%  48, 1 counter: 0x0003
+%  49, 1 counter: 0x0003
+%  50, 1 counter: 0x0003
+%  51, 1 counter: 0x0003
+%  52, 0 counter: 0x0003
+%  53, 0 counter: 0x0003
+%  54, 0 counter: 0x0003
+%  55, 0 counter: 0x0003
+% 
+%  56, 1 counter: 0x0004
+%  57, 1 counter: 0x0000
+%  58, 1 counter: 0x0000
+%  59, 1 counter: 0x0000
+%  60, 0 counter: 0x0000
+%  61, 0 counter: 0x0000
+%  62, 0 counter: 0x0000
+%  63, 0 counter: 0x0000
+% 
+%  64, 1 counter: 0x0001
+%  65, 1 counter: 0x0001
+%  66, 1 counter: 0x0001
+%  67, 1 counter: 0x0001
+%  68, 0 counter: 0x0001
+%  69, 0 counter: 0x0001
+%  70, 0 counter: 0x0001
+%  71, 0 counter: 0x0001
+% 
+%  72, 1 counter: 0x0002
+%  73, 1 counter: 0x0002
+%  74, 1 counter: 0x0002
+%  75, 1 counter: 0x0002
+%  76, 0 counter: 0x0002
+%  77, 0 counter: 0x0002
+%  78, 0 counter: 0x0002
+%  79, 0 counter: 0x0002
+% 
+%  80, 1 counter: 0x0003
+%  81, 1 counter: 0x0003
+%  82, 1 counter: 0x0003
+%  83, 1 counter: 0x0003
+%  84, 0 counter: 0x0003
+%  85, 0 counter: 0x0003
+%  86, 0 counter: 0x0003
+%  87, 0 counter: 0x0003
+% 
+%  88, 1 counter: 0x0004
+%  89, 1 counter: 0x0000
+%  90, 1 counter: 0x0000
+%  91, 1 counter: 0x0000
+%  92, 0 counter: 0x0000
+%  93, 0 counter: 0x0000
+%  94, 0 counter: 0x0000
+%  95, 0 counter: 0x0000
+% 
+%  96, 1 counter: 0x0001
+%  97, 1 counter: 0x0001
+%  98, 1 counter: 0x0001
+%  99, 1 counter: 0x0001
+% 100, 0 counter: 0x0001
+% 101, 0 counter: 0x0001
+% 102, 0 counter: 0x0001
+% 103, 0 counter: 0x0001
+% 
+% 104, 1 counter: 0x0002
+% 105, 1 counter: 0x0002
+% 106, 1 counter: 0x0002
+% 107, 1 counter: 0x0002
+% 108, 0 counter: 0x0002
+% 109, 0 counter: 0x0002
+% 110, 0 counter: 0x0002
+% 111, 0 counter: 0x0002
+% 
+% 112, 1 counter: 0x0003
+% 113, 1 counter: 0x0003
+% 114, 1 counter: 0x0003
+% 115, 1 counter: 0x0003
+% 116, 0 counter: 0x0003
+% 117, 0 counter: 0x0003
+% 118, 0 counter: 0x0003
+% 119, 0 counter: 0x0003
+% 
+% 120, 1 counter: 0x0004
+% 121, 1 counter: 0x0000
+% 122, 1 counter: 0x0000
+% 123, 1 counter: 0x0000
+% 124, 0 counter: 0x0000
+% 125, 0 counter: 0x0000
+% 126, 0 counter: 0x0000
+% 127, 0 counter: 0x0000
+% 
+% 
+% 
+% Done.

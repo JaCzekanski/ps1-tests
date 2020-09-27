@@ -32,6 +32,7 @@ IMAGES = common \
 		spu/stereo \
 		spu/test \
 		spu/toolbox \
+		timer-dump \
 		timers
 
 all: $(TOPTARGETS)
