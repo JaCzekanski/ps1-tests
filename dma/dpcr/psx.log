@@ -1,0 +1,16 @@
+dma/dpcr
+Tests DMA transfer behaviour with various DPCR values.
+
+pass - writeToSPURAM
+Testing DMA read with master enable = true, priority = 5
+  DPCR was 0x3B3B3B33, setting to 0x3B3D3B33
+  ... transfer complete
+pass - testSPUDMARead
+Testing DMA read with master enable = false, priority = 5
+  DPCR was 0x3B3B3B33, setting to 0x3B353B33
+  ... transfer timed out
+Testing DMA read with master enable = false, priority = 0
+  DPCR was 0x3B3B3B33, setting to 0x3B303B33
+  ... transfer timed out
+Done.
+
