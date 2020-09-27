@@ -296,6 +296,58 @@ void testTimerTargetBehaviour()
     restoreTimer(timer, prevState);
 }
 
+void testTimerResetFlagWritable() {
+    printf("\n\nCheck if write to mode register acknowledges the targetReached flag\n");
+
+    const uint16_t target = 65535;
+    const int timer = 0;
+    const uint32_t timerBase = 0x1f801100 + (timer * 0x10);
+    uint16_t prevState = read16(timerBase + 4);
+     
+    EnterCriticalSection();
+
+    write16(timerBase + 8, target);
+
+    write16(timerBase + 4, 0x0000);
+    uint16_t readMode = read16(timerBase + 4);
+    printf("Write 0x%04x to Timer0.mode, read 0x%04x\n", 0x0000, readMode);
+
+    write16(timerBase + 4, 0xffff);
+    readMode = read16(timerBase + 4);
+    printf("Write 0x%04x to Timer0.mode, read 0x%04x\n", 0xffff, readMode);
+
+uint16_t setMode = 
+                    /* No sync */
+        (1 << 3) |  /* Reset counter to 0 after reaching target */
+        (0 << 4) |  /* Target irq */
+        (0 << 5) |  /* Overflow irq */
+        (0 << 8);    /* Sysclk  */
+    write16(timerBase + 4, setMode);
+    write16(timerBase, 0); // Reset current value
+    read16(timerBase + 4); // Reset reached bits
+
+    printf("\n");
+
+
+    delay(100000);
+    readMode = read16(timerBase + 4);
+    uint16_t readMode2 = read16(timerBase + 4);
+    printf("Read mode after waiting for targetReached: 0x%04x\n", readMode);
+    printf("Read again: 0x%04x\n", readMode2);
+
+    printf("\n");
+
+    delay(100000);
+    write16(timerBase + 4, setMode);
+    readMode = read16(timerBase + 4);
+    readMode2 = read16(timerBase + 4);
+    printf("Write mode after waiting for targetReached and then read: 0x%04x\n", readMode);
+    printf("Read again: 0x%04x\n", readMode2);
+
+    restoreTimer(timer, prevState);
+    ExitCriticalSection();
+}
+
 void runTestsForMode(int videoMode) {
     SetVideoMode(videoMode);
     printf("\nForced %s system.\n", (GetVideoMode() == MODE_NTSC) ? "NTSC" : "PAL");
@@ -343,6 +395,8 @@ void runTestsForMode(int videoMode) {
     }
 
     testTimerTargetBehaviour();
+
+    testTimerResetFlagWritable();
 }
 
 int main()
