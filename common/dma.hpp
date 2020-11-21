@@ -10,6 +10,18 @@ const inline uint32_t CH_BLOCK_ADDR   = 0x1F801084;
 const inline uint32_t CH_CONTROL_ADDR = 0x1F801088;
 const inline uint32_t CONTROL_ADDR    = 0x1F8010F0;
 
+constexpr uint32_t baseAddr(Channel ch) {
+    return CH_BASE_ADDR + 0x10 * (int)ch;
+}
+
+constexpr uint32_t blockAddr(Channel ch) {
+    return CH_BLOCK_ADDR + 0x10 * (int)ch;
+}
+
+constexpr uint32_t controlAddr(Channel ch) {
+    return CH_CONTROL_ADDR + 0x10 * (int)ch;
+}
+
 // DMA base address
 union MADDR {
     struct {

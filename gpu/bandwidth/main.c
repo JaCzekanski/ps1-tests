@@ -3,68 +3,18 @@
 #include <psxgpu.h>
 #include <psxetc.h>
 #include <io.h>
+#include <gpu.h>
+#include <timer.h>
 
 typedef char bool;
-
-DISPENV disp;
-DRAWENV draw;
 
 #define SCR_W 320
 #define SCR_H 240
 
-int buffer = 1;
-
-void setResolution() {
-    SetDefDispEnv(&disp, buffer ? 0 : SCR_W, 0, SCR_W, SCR_H);
-    SetDefDrawEnv(&draw, buffer ? SCR_W : 0, 0, SCR_W, SCR_H);
-
-    draw.dtd = 0;
-
-    PutDispEnv(&disp);
-    PutDrawEnv(&draw);
-
-    buffer = !buffer;
-}
-
-void initVideo()
-{
-    ResetGraph(0);
-    setResolution();
-    SetDispMask(1);
-}
-
-void clearScreen() {
-    FILL f;
-    
-    setFill(&f);
-    setRGB0(&f, 0xff, 0xff, 0xff);
-    setXY0(&f, buffer ? 0 : SCR_W, 0);
-    setWH(&f, SCR_W, SCR_H);
-
-    DrawPrim(&f);
-}
-
-uint16_t initTimer(int timer, int mode) {
-    uint32_t timerBase = 0x1f801100 + (timer * 0x10);
-    uint16_t prevMode = read16(timerBase+4);
-    write16(timerBase + 4, mode << 8);
-
-    return prevMode;
-}
-
-void restoreTimer(int timer, uint16_t prevMode) {
-    uint32_t timerBase = 0x1f801100 + (timer * 0x10);
-    write16(timerBase+4, prevMode);
-}
-
-uint16_t readTimer(int timer) {
-    uint32_t timerBase = 0x1f801100 + (timer * 0x10);
-    return read16(timerBase);
-}
-
-void resetTimer(int timer) {
-    uint32_t timerBase = 0x1f801100 + (timer * 0x10);
-    write16(timerBase, 0);
+uint32_t getTimer() {
+    uint32_t value = readTimer(1);
+    if (timerDidOverflow(1)) value += 0xffff;
+    return value;
 }
 
 void fillScreen() {
@@ -72,7 +22,7 @@ void fillScreen() {
     
     setFill(&f);
     setRGB0(&f, rand()%255, rand()%255, rand()%255);
-    setXY0(&f, buffer ? 0 : SCR_W, 0);
+    setXY0(&f, 0, 0);
     setWH(&f, SCR_W, SCR_H);
 
     DrawPrim(&f);
@@ -159,7 +109,12 @@ void calculate(const char* test, uint16_t hblanks) {
     uint32_t bytesPerFrame = SCR_W * SCR_H * 2;
     uint32_t bytesSum = bytesPerFrame * callCount;
 
-    uint32_t megaBytesPerSecond = bytesSum / (dt_q*1024);
+    uint32_t megaBytesPerSecond;
+    if (dt_q == 0) { // workaround for missing div 0 handler
+        megaBytesPerSecond = 99999999;
+    } else {
+        megaBytesPerSecond = bytesSum / (dt_q*1024);
+    }
     printf("%-30s dT: %5d.%-5d ms (hblanks: %5d), speed: %d MB/s\n", test, dt_q, dt_r, diff, megaBytesPerSecond);
 }
 
@@ -175,55 +130,83 @@ const char* testCases[9] = {
     "Polygon quad textured (semi)"
 };
 
-int main()
-{
-    initVideo();
+uint16_t* buffer = (uint16_t*)0x801a0000;
+
+void testVramToCpu() {
+    DrawSync(0);
+    resetTimer(1);
+    for (int i = 0; i < callCount; i++) {
+        vramReadDMA(0, 0, SCR_W, SCR_H, buffer);
+    }
+    calculate("vramToCpu", getTimer());
+}
+
+void testCpuToVram() {
+    DrawSync(0);
+    resetTimer(1);
+    for (int i = 0; i < callCount; i++) {
+        vramWriteDMA(0, 0, SCR_W, SCR_H, buffer);
+    }
+    calculate("cpuToVram", getTimer());
+}
+
+void testVramToVram() {
+    DrawSync(0);
+    resetTimer(1);
+    for (int i = 0; i < callCount; i++) {
+        vramToVramCopy(0, 0, 320, 0, SCR_W, SCR_H);
+    }
+    calculate("vramToVram", getTimer());
+}
+
+int main() {
+    initVideo(SCR_W, SCR_H);
     SetVideoMode(MODE_NTSC);
     printf("\ngpu/bandwidth\n");
 
     uint16_t oldTimer1Mode = initTimer(1, 1); // Timer1, HBlank
 
+    testVramToCpu();
+    testCpuToVram();
+    testVramToVram();
+
     for (int test = 0; test<9; test++) {
-        for (int sample = 0; sample<3; sample++) {
-            clearScreen();
+        clearScreen();
 
-            resetTimer(1);
-            for (int i = 0; i < callCount; i++) {
-                switch (test) {
-                    case 0: 
-                        fillScreen();
-                        break;
-                    case 1: 
-                        rectScreen(false);
-                        break;
-                    case 2: 
-                        rectScreen(true);
-                        break;
-                    case 3:
-                        rectTexturedScreen(false);
-                        break;
-                    case 4:
-                        rectTexturedScreen(true);
-                        break;
-                    case 5: 
-                        quadScreen(false);
-                        break;
-                    case 6: 
-                        quadScreen(true);
-                        break;
-                    case 7: 
-                        quadTexturedScreen(false);
-                        break;
-                    case 8: 
-                        quadTexturedScreen(true);
-                        break;
-                }
+        DrawSync(0);
+        resetTimer(1);
+        for (int i = 0; i < callCount; i++) {
+            switch (test) {
+                case 0: 
+                    fillScreen();
+                    break;
+                case 1: 
+                    rectScreen(false);
+                    break;
+                case 2: 
+                    rectScreen(true);
+                    break;
+                case 3:
+                    rectTexturedScreen(false);
+                    break;
+                case 4:
+                    rectTexturedScreen(true);
+                    break;
+                case 5: 
+                    quadScreen(false);
+                    break;
+                case 6: 
+                    quadScreen(true);
+                    break;
+                case 7: 
+                    quadTexturedScreen(false);
+                    break;
+                case 8: 
+                    quadTexturedScreen(true);
+                    break;
             }
-            calculate(testCases[test], readTimer(1));
-
-            VSync(0);
-            setResolution();
         }
+        calculate(testCases[test], getTimer());
     }
 
     restoreTimer(1, oldTimer1Mode);

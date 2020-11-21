@@ -1,4 +1,6 @@
 #include "gpu.h"
+#include "dma.hpp"
+#include "io.h"
 #include <psxgpu.h>
 
 DISPENV disp;
@@ -110,6 +112,59 @@ uint32_t vramGet(int x, int y) {
     while ((ReadGPUstat() & (1<<27)) == 0);
 
     return readGPU();
+}
+
+void vramWriteDMA(int x, int y, int w, int h, uint16_t* ptr) {
+    CPU2VRAM buf = {0};
+    setcode(&buf, 0xA0); // CPU -> VRAM
+    setlen(&buf, 3);
+    
+    buf.x0 = x;
+    buf.y0 = y;
+    buf.w  = w; 
+    buf.h  = h;
+
+    DrawPrim(&buf);
+    
+    writeGP1(4, 2); // DMA Direction - CPU -> VRAM
+    
+    using namespace DMA;
+    DMA::masterEnable(Channel::GPU, true);
+    DMA::waitForChannel(Channel::GPU);
+  
+    write32(baseAddr(Channel::GPU),    MADDR((uint32_t)ptr)._reg);
+    write32(blockAddr(Channel::GPU),   BCR::mode1(0x10, w * h / 0x10 / 2)._reg);
+    write32(controlAddr(Channel::GPU), CHCR::VRAMwrite()._reg);
+    
+    DMA::waitForChannel(Channel::GPU);
+}
+
+void vramReadDMA(int x, int y, int w, int h, uint16_t* ptr) {
+    VRAM2CPU buf = {0};
+    setcode(&buf, 0xC0); // VRAM -> CPU
+    setlen(&buf, 3);
+    
+    buf.x0 = x;
+    buf.y0 = y;
+    buf.w  = w; 
+    buf.h  = h;
+
+    DrawPrim(&buf);
+
+    writeGP1(4, 3); // DMA Direction - VRAM -> CPU
+
+    // Wait for VRAM to CPU ready
+    while ((ReadGPUstat() & (1<<27)) == 0);
+
+    using namespace DMA;
+    DMA::masterEnable(Channel::GPU, true);
+    DMA::waitForChannel(Channel::GPU);
+  
+    write32(baseAddr(Channel::GPU),    MADDR((uint32_t)ptr)._reg);
+    write32(blockAddr(Channel::GPU),   BCR::mode1(0x10, w * h / 0x10 / 2)._reg);
+    write32(controlAddr(Channel::GPU), CHCR::VRAMread()._reg);
+    
+    DMA::waitForChannel(Channel::GPU);
 }
 
 void vramToVramCopy(int srcX, int srcY, int dstX, int dstY, int w, int h) 
