@@ -17,14 +17,13 @@ void setupDmaOtc(uint32_t address, uint16_t wordCount, CHCR control) {
     MADDR addr;
     addr.address = address;
 
-    BCR block;
-    block.syncMode0.wordCount = wordCount;
+    BCR block = BCR::mode0(wordCount);
 
     waitForDma(Channel::OTC);
 
-    write32(CH_BASE_ADDR    + 0x10 * (int)Channel::OTC, addr._reg);
-    write32(CH_BLOCK_ADDR   + 0x10 * (int)Channel::OTC, block._reg);
-    write32(CH_CONTROL_ADDR + 0x10 * (int)Channel::OTC, control._reg);
+    write32(DMA::baseAddr(Channel::OTC),    addr._reg);
+    write32(DMA::blockAddr(Channel::OTC),   block._reg);
+    write32(DMA::controlAddr(Channel::OTC), control._reg);
 }
 
 void dmaMasterEnable(Channel ch, bool enabled) {

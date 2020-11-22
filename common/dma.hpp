@@ -43,7 +43,7 @@ union BCR {
     union {
         struct {
             uint32_t wordCount : 16;
-            uint32_t : 16;
+            uint32_t unused: 16;
         } syncMode0;
         struct {
             uint32_t blockSize : 16;
@@ -57,6 +57,7 @@ union BCR {
 
     static BCR mode0(uint16_t wordCount) {
         BCR bcr;
+        bcr.syncMode0.unused = 0;
         bcr.syncMode0.wordCount = wordCount;
         return bcr;
     }
