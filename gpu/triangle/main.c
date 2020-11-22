@@ -1,46 +1,12 @@
+#include <common.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <psxgpu.h>
-
-DISPENV disp;
-DRAWENV draw;
 
 #define SCR_W 320
 #define SCR_H 240
 
 #define SQRT3_2 0.866025f
-
-void setResolution(int w, int h)
-{
-    SetDefDispEnv(&disp, 0, 0, w, h);
-    SetDefDrawEnv(&draw, 0, 0, 1024, 512);
-
-    PutDispEnv(&disp);
-    PutDrawEnv(&draw);
-}
-
-void initVideo()
-{
-    ResetGraph(0);
-    setResolution(SCR_W, SCR_H);
-    SetDispMask(1);
-}
-
-void clearScreen()
-{
-    FILL f;
-    setFill(&f);
-    setRGB0(&f, 0xff, 0xff, 0xff);
-    setXY0(&f, 0, 0);
-    setWH(&f, 1023, 256);
-
-    DrawPrim(&f);
-
-    setXY0(&f, 0, 256);
-    setWH(&f, 1023, 256);
-
-    DrawPrim(&f);
-}
 
 void drawTriangle(int cx, int cy, int a)
 {
@@ -74,7 +40,7 @@ void setDithering(int dithering)
 
 int main()
 {
-    initVideo();
+    initVideo(SCR_W, SCR_H);
     printf("\ngpu/triangle (shading test)\n");
 
     for (;;)

@@ -7,7 +7,7 @@ extern unsigned short buttons, prevButtons;
 
 void init();
 void display_frame();
-void clearScreen();
+void clearFrameBuffer();
 
 bool BUTTON(uint16_t button);
 

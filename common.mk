@@ -1,7 +1,7 @@
 PSN00BSDK  ?= /opt/psn00bsdk/
 PREFIX		= mipsel-unknown-elf-
-INCLUDE	   := -I$(PSN00BSDK)/libpsn00b/include
-LIBDIRS	   := -L$(PSN00BSDK)/libpsn00b
+INCLUDE	   := -I$(realpath $(PSN00BSDK)/libpsn00b/include)
+LIBDIRS	   := -L$(realpath $(PSN00BSDK)/libpsn00b)
 GCC_VERSION	= 7.4.0
 GCC_BASE	= /usr/local/mipsel-unknown-elf
 

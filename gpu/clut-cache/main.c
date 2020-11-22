@@ -23,7 +23,7 @@ void rectangle(int x, int y, int u, int v, int clutx, int cluty) {
 
 void uploadToGPU(uint16_t* buffer, uint16_t x, uint16_t y, int words) {
     DrawSync(0);
-    CPU2VRAM buf = {0};
+    CPU2VRAM buf;
     setcode(&buf, 0xA0); // CPU -> VRAM
     setlen(&buf, 3);
     setXY0(&buf, x, y);

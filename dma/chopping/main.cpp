@@ -27,7 +27,7 @@ void beginCpuToVramTransfer() {
     uint16_t x = position % (VRAM_WIDTH / W);
     uint16_t y = position / (VRAM_WIDTH / W);
 
-    CPU2VRAM buf = {0};
+    CPU2VRAM buf;
     setcode(&buf, 0xA0); // CPU -> VRAM
     setlen(&buf, 3);
     setXY0(&buf, x * W, y * H);

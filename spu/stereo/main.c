@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <psxgpu.h>
 #include <psxspu.h>
 #include "voice_1_left.h"
@@ -7,32 +8,7 @@
 #include "voice_2_left.h"
 #include "voice_2_right.h"
 
-typedef unsigned int uint32_t;
-typedef unsigned short uint16_t;
-typedef unsigned char uint8_t;
-
-DISPENV disp;
-DRAWENV draw;
-
 uint32_t spuAddress = 0x1000;
- 
-void setResolution(int w, int h) {
-    SetDefDispEnv(&disp, 0, 0, w, h);
-    SetDefDrawEnv(&draw, 0, 0, w, h);
-
-    draw.isbg = 1;
-    setRGB0(&draw, 0, 0, 0);
-
-    PutDispEnv(&disp);
-    PutDrawEnv(&draw);
-}
-
-void initVideo()
-{
-    ResetGraph(0);
-    setResolution(320, 240);
-    SetDispMask(1);
-}
 
 uint32_t uploadToSpuRam(unsigned char buf[], unsigned size) {
     uint32_t ptr = spuAddress; 
@@ -71,7 +47,7 @@ void delay(int frames) {
 int main()
 {
     printf("spu/stereo\n");
-    initVideo();
+    initVideo(320, 240);
 
     SpuInit();
     SpuSetTransferMode(4); // ?

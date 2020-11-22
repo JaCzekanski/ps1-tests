@@ -61,7 +61,7 @@ namespace SPU {
         return false;
     }
 
-    bool setupDMARead(uint32_t address, void* dst, size_t size, int BS = 0x10) {
+    void setupDMARead(uint32_t address, void* dst, size_t size, int BS = 0x10) {
         write32(0x1F801014, 0x220931E1);
         SPU::setDTC(2);
         SPU::setTransferMode(SPU::TransferMode::Stop);
@@ -74,7 +74,7 @@ namespace SPU {
         write32(DMA::CH_BLOCK_ADDR   + 0x10 * (int)DMA::Channel::SPU, DMA::BCR::mode1(BS, BC)._reg);
     }
 
-    bool setupDMAWrite(uint32_t address, void* src, size_t size, int BS = 0x10) {
+    void setupDMAWrite(uint32_t address, void* src, size_t size, int BS = 0x10) {
         SPU::setDTC(2);
         SPU::setTransferMode(SPU::TransferMode::Stop);
         SPU::setStartAddress(address);

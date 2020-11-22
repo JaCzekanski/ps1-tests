@@ -1,9 +1,9 @@
 BASEDIR = $(dir $(lastword $(MAKEFILE_LIST)))
 include $(BASEDIR)/common.mk
 
-INCLUDE	    += -I$(BASEDIR)/common
-LIBDIRS		+= -L$(BASEDIR)/common
-LIBS        += -lcommon -lpsxetc -lpsxgpu -lpsxapi -lc
+INCLUDE	    += -I$(realpath $(BASEDIR)/common)
+LIBDIRS		+= -L$(realpath $(BASEDIR)/common)
+LIBS        += -lcommon -lpsxgpu -lpsxetc -lpsxapi  -lc
 
 TARGET_EXE  := $(TARGET:.elf=.exe)
 

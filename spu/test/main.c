@@ -1,40 +1,11 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <psxgpu.h>
-#include <psxetc.h>
+#include <common.h>
 #include <io.h>
-
-DISPENV disp;
-DRAWENV draw;
-
-void setResolution(int w, int h) {
-    SetDefDispEnv(&disp, 0, 0, w, h);
-    SetDefDrawEnv(&draw, 0, 0, w, h);
-
-    PutDispEnv(&disp);
-    PutDrawEnv(&draw);
-}
-
-void initVideo()
-{
-    ResetGraph(0);
-    setResolution(320, 240);
-    SetDispMask(1);
-}
-
-void __attribute__((optimize("O1"))) delay(uint32_t cycles)
-{
-    uint32_t delay = cycles >> 2;
-    do {
-        __asm__ __volatile__ ("nop");
-        --delay;
-    } while (delay != 0);
-}
+#include <delay.h>
 
 int main()
 {
     printf("spu/test\n");
-    initVideo();
+    initVideo(320, 240);
 
     printf("16 bit access\n");
     for (int try = 0; try < 32; try++) {

@@ -1,3 +1,4 @@
+#include <common.h>
 #include "common.h"
 #include <psxgpu.h>
 #include <psxgte.h>
@@ -9,8 +10,8 @@
 #define SCR_W 320
 #define SCR_H 240
 
-DISPENV disp;
-DRAWENV draw;
+static DISPENV disp;
+static DRAWENV draw;
 
 char padBuffer[2][34];
 unsigned short buttons = 0xffff, prevButtons = 0xffff;
@@ -56,16 +57,9 @@ bool BUTTON(uint16_t button) {
 }
 
 
-void clearScreen() {
-    FILL f;
-    setFill(&f);
-    setRGB0(&f, 0, 0, 0);
-    setXY0(&f, 0, 0);
-    setWH(&f, SCR_W, SCR_H);
-
-    DrawPrim(&f);
+void clearFrameBuffer() {
+	fillRect(0, 0, SCR_W, SCR_H, 0, 0, 0);
 }
-
 
 void FntPos(int x, int y) {
 	fontCharX = x;

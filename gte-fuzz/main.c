@@ -197,7 +197,7 @@ int main() {
 	int cmd = 1;
 	int samples = 50;
 	while (1) {
-		clearScreen();
+		clearFrameBuffer();
 		if (BUTTON(PAD_UP)) {
 			if (cmd > 0) cmd--;
 		}
@@ -221,7 +221,7 @@ int main() {
 		if (BUTTON(PAD_CROSS)) {
 			testNumber = 1;
 
-			clearScreen();
+			clearFrameBuffer();
 			FntPrintf("\n\n\n\nSINGLE\nFuzzing cmd 0x%02x (%s) for %d samples\n", cmd, getCommandName(cmd), samples);
 			display_frame();
 
@@ -236,7 +236,7 @@ int main() {
 			printf("==== ALL CMD FUZZ (seed = 0x%08x) ====\n", SEED);
 			for (int i = 0; i <= 64; i++) {
 				cmd = i;
-				clearScreen();
+				clearFrameBuffer();
 				FntPrintf("\n\n\n\nALL\nFuzzing cmd 0x%02x (%s) for %d samples\n", cmd, getCommandName(cmd), samples);
 				display_frame();
 				
@@ -251,7 +251,7 @@ int main() {
 			printf("==== VALID CMD FUZZ (seed = 0x%08x) ====\n", SEED);
 			for (int i = 0; i < sizeof(validCommands)/sizeof(int); i++) {
 				cmd = validCommands[i];
-				clearScreen();
+				clearFrameBuffer();
 				FntPrintf("\n\n\n\nVALID\nFuzzing cmd 0x%02x (%s) for %d samples\n", cmd, getCommandName(cmd), samples);
 				display_frame();
 				

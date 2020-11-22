@@ -5,7 +5,7 @@
 #include "log.h"
 
 void beginCpuToVramTransfer(uint16_t x, uint16_t y, uint16_t w, uint16_t h) {
-    CPU2VRAM buf = {0};
+    CPU2VRAM buf;
     setcode(&buf, 0xA0); // CPU -> VRAM
     setlen(&buf, 3);
     setXY0(&buf, x, y);

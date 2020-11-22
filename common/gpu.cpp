@@ -6,7 +6,7 @@
 DISPENV disp;
 DRAWENV draw;
 
-void setResolution(int w, int h) {
+static void setResolution(int w, int h) {
     SetDefDispEnv(&disp, 0, 0, w, h);
     SetDefDrawEnv(&draw, 0, 0, 1024, 512);
 
@@ -47,11 +47,6 @@ void clearScreen() {
     clearScreenColor(0, 0, 0);
 }
 
-// TODO: Remove when #9 in PSn00bSDK is merged
-#undef setDrawMask
-#define setDrawMask( p, sb, mt ) \
-	setlen( p, 1 ), (p)->code[0] = sb|(mt<<1), setcode( p, 0xe6 )
-
 void setMaskBitSetting(bool setBit, bool checkBit) {
     DR_MASK mask;
     setDrawMask(&mask, setBit, checkBit);
@@ -81,7 +76,7 @@ uint32_t readGPU() {
 }
 
 void vramPut(int x, int y, uint16_t pixel) {
-    CPU2VRAM buf = {0};
+    CPU2VRAM buf;
     setcode(&buf, 0xA0); // CPU -> VRAM
     setlen(&buf, 4);
     
@@ -95,7 +90,7 @@ void vramPut(int x, int y, uint16_t pixel) {
 }
 
 uint32_t vramGet(int x, int y) {
-    VRAM2CPU buf = {0};
+    VRAM2CPU buf;
     setcode(&buf, 0xC0); // VRAM -> CPU
     setlen(&buf, 3);
     
@@ -115,7 +110,7 @@ uint32_t vramGet(int x, int y) {
 }
 
 void vramWriteDMA(int x, int y, int w, int h, uint16_t* ptr) {
-    CPU2VRAM buf = {0};
+    CPU2VRAM buf;
     setcode(&buf, 0xA0); // CPU -> VRAM
     setlen(&buf, 3);
     
@@ -140,7 +135,7 @@ void vramWriteDMA(int x, int y, int w, int h, uint16_t* ptr) {
 }
 
 void vramReadDMA(int x, int y, int w, int h, uint16_t* ptr) {
-    VRAM2CPU buf = {0};
+    VRAM2CPU buf;
     setcode(&buf, 0xC0); // VRAM -> CPU
     setlen(&buf, 3);
     
@@ -169,7 +164,7 @@ void vramReadDMA(int x, int y, int w, int h, uint16_t* ptr) {
 
 void vramToVramCopy(int srcX, int srcY, int dstX, int dstY, int w, int h) 
 {
-    VRAM2VRAM buf = {0};
+    VRAM2VRAM buf;
     setcode(&buf, 0x80); // VRAM -> VRAM
     setlen(&buf, 4);
     

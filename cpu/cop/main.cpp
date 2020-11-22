@@ -26,7 +26,7 @@ void cop0_invalid() {
 }
 
 uint32_t swc0() {
-    uint32_t val;
+    uint32_t val = 0;
     __asm__ __volatile__("swc0 $1, 0( %0 )" : : "r"( val ) : "memory" );
     return val;
 }
@@ -37,7 +37,7 @@ void cop1_valid() {
 }
 
 uint32_t cop2_valid() {
-    uint32_t val;
+    uint32_t val = 0;
     __asm__ __volatile__("mfc2 %0, $1" : "=r"(val));
     return val;
 }
@@ -48,7 +48,7 @@ void cop2_invalid() {
 
 
 uint32_t swc2() {
-    uint32_t val;
+    uint32_t val = 0;
     __asm__ __volatile__("swc2 $1, 0( %0 )" : : "r"( val ) : "memory" );
     return val;
 }
@@ -58,7 +58,7 @@ void cop3_valid() {
 }
 
 uint32_t swc3() {
-    uint32_t val;
+    uint32_t val = 0;
     __asm__ __volatile__("swc3 $1, 0( %0 )" : : "r"( val ) : "memory" );
     return val;
 }

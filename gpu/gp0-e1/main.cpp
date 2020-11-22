@@ -4,7 +4,7 @@
 const uint32_t E1_MASK = 0b10000111'11111111;
 
 void drawTexturedPolygon(uint16_t texpage) {
-    POLY_FT4 p = {0};
+    POLY_FT4 p;
     setPolyFT4(&p);
     setRGB0(&p, 0x80, 0x80, 0x80);
     setClut(&p, 0, 0);

@@ -216,7 +216,7 @@ void mdec_read(uint32_t* data, size_t wordCount) {
         if (colorDepth == 0) depth = 4;
         if (colorDepth == 1) depth = 8;
         if (colorDepth == 2) depth = 24;
-        LOG("\nSwizzling for colorDepth %d not implemented...", colorDepth);
+        LOG("\nSwizzling for colorDepth %d not implemented...", depth);
         for (int i = 0; i < wordCount; i++) {
             *data++ = mdec_read();
         }
