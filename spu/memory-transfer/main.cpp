@@ -60,7 +60,7 @@ namespace SPU {
         return false;
     }
 
-    bool setupDMARead(uint32_t address, void* dst, size_t size, int BS = 0x10,
+    void setupDMARead(uint32_t address, void* dst, size_t size, int BS = 0x10,
                       DMA::CHCR::SyncMode syncMode = DMA::CHCR::SyncMode::syncBlockToDmaRequests) {
         write32(0x1F801014, 0x220931E1);
         SPU::setDTC(2);
@@ -80,7 +80,7 @@ namespace SPU {
         }
     }
 
-    bool setupDMAWrite(uint32_t address, void* src, size_t size, int BS = 0x10,
+    void setupDMAWrite(uint32_t address, void* src, size_t size, int BS = 0x10,
                        DMA::CHCR::SyncMode syncMode = DMA::CHCR::SyncMode::syncBlockToDmaRequests) {
         SPU::setDTC(2);
         SPU::setTransferMode(SPU::TransferMode::Stop);
