@@ -31,6 +31,7 @@ otc-test                 | DMA Channel 6 (OTC aka Ordering Table clear) unit tes
 
 Name                     | Description
 -------------------------|------------
+animated-triangle        | Double buffered rotating triangle
 bandwidth                | Measure GPU/VRAM bandwidth
 benchmark                | GPU test to benchmark rasterizer for various commands
 clut-cache               | CLUT (Palette) cache behavior test

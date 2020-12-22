@@ -3,7 +3,7 @@ include $(BASEDIR)/common.mk
 
 INCLUDE	    += -I$(realpath $(BASEDIR)/common)
 LIBDIRS		+= -L$(realpath $(BASEDIR)/common)
-LIBS        += -lcommon -lpsxgpu -lpsxetc -lpsxapi  -lc
+LIBS        += -lcommon -lpsxgpu -lpsxetc -lpsxsio -lpsxapi -lpsxgte -lc
 
 TARGET_EXE  := $(TARGET:.elf=.exe)
 

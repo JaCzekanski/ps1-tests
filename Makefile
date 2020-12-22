@@ -11,6 +11,7 @@ IMAGES = common \
 		dma/chopping \
 		dma/dpcr \
 		dma/otc-test \
+		gpu/animated-triangle \
 		gpu/bandwidth \
 		gpu/benchmark \
 		gpu/clipping \
