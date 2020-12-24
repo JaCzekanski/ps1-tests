@@ -46,6 +46,7 @@ void copyToVramDma(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint32_t* dat
     write32(CH_CONTROL_ADDR + 0x10 * (int)DMA::Channel::GPU, control._reg);
 
     waitForChannel(Channel::GPU);
+    DrawSync(0);
 
     LOG("ok\n");
 }
