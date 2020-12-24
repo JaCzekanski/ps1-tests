@@ -4,6 +4,8 @@
 #include <psxgpu.h>
 #include <psxgte.h>
 #include <psxpad.h>
+#include <psxgte.h>
+#include <inline_c.h>
 
 int SCR_W = 320;
 int SCR_H = 240;
@@ -19,6 +21,8 @@ int dbActive;
 
 int angle = 0;
 
+#define USE_GTE
+
 // Init function
 void init(void) {
 	ResetGraph(0);
@@ -33,6 +37,7 @@ void init(void) {
     for (int i = 0; i<2; i++){
 	    setRGB0(&draw[i], 255, 255, 255);
 	    draw[i].isbg = 1;
+        draw[i].dfe=1;
     }
 
 	// Clear double buffer counter
@@ -64,41 +69,49 @@ void display(void)
     DrawOTag(ot[1-dbActive] + OT_LEN-1);
 }
 
-struct Vertex {
-    int x, y;
-};
-
-void translate(struct Vertex* v, struct Vertex tr) {
-    v->x += tr.x;
-    v->y += tr.y;
-}
-
-void rot2d(struct Vertex* v, int angle) {
-    #define M_PI 3.14
-    int x = v->x;
-    int y = v->y;
+void rot2d(struct DVECTOR* v, int angle) {
+    int x = v->vx;
+    int y = v->vy;
 
     int c = icos(angle);
     int s = isin(angle);
     
-    v->x = (x * c - y * s )>>12;
-    v->y = (x * s + y * c )>>12;
+    v->vx = (x * c - y * s ) / ONE;
+    v->vy = (x * s + y * c ) / ONE;
+}
+
+void gte_rot2d(struct DVECTOR* v, int angle) {
+    SVECTOR rotationVec = { 0 };
+    VECTOR translationVec = { 0 };
+    MATRIX m;
+
+    rotationVec.vz = angle;
+
+    RotMatrix(&rotationVec, &m);
+    TransMatrix(&m, &translationVec);
+    gte_SetRotMatrix(&m); // Matrix could be setup once
+    gte_SetTransMatrix(&m);
+    
+    v->vx /= 2;
+    v->vy /= 2;
+    gte_ldv0(v); 
+    gte_rtps(); // Rotate
+    gte_stsxy(v);
 }
 
 void drawTriangle(int cx, int cy, int size)
 {
-    struct Vertex v[3];
-    v[0].x = -0.866f * size; v[0].y = -0.5f * size;
-    v[1].x = 0.866f * size; v[1].y = -0.5f * size;
-    v[2].x = 0;         v[2].y = size;
+    struct DVECTOR v[3] = {0};
+    v[0].vx = -0.866f * size; v[0].vy = -0.5f * size;
+    v[1].vx =  0.866f * size; v[1].vy = -0.5f * size;
+    v[2].vx =      0;         v[2].vy = size;
 
-    struct Vertex tr = {
-        .x = cx,
-        .y = cy
-    };
     for (int i = 0; i<3; i++) {
+    #ifdef USE_GTE
+        gte_rot2d(&v[i], angle);
+    #else
         rot2d(&v[i], angle);
-        translate(&v[i], tr);
+    #endif
     }
 
     POLY_G3* p = (POLY_G3*)nextpri;
@@ -107,21 +120,28 @@ void drawTriangle(int cx, int cy, int size)
     setRGB1(p, 0, 255, 0);
     setRGB2(p, 0, 0, 255);
     setXY3(p,
-        v[0].x, v[0].y,
-        v[1].x, v[1].y,
-        v[2].x, v[2].y
+        cx + v[0].vx, cy + v[0].vy,
+        cx + v[1].vx, cy + v[1].vy,
+        cx + v[2].vx, cy + v[2].vy
     );
     addPrim(ot[dbActive] + (OT_LEN-1), p);
 
     nextpri += sizeof(POLY_G3);
 
-    angle += 4096/360;
-    if (angle >=4096) angle = 0;
+    angle += ONE/360;
+    if (angle >= ONE) angle = 0;
 }
 
 int main(){
     init();
     printf("\ngpu/animated-triangle\n");
+
+#ifdef USE_GTE
+    printf("Initializing GTE... ");
+    InitGeom();
+    printf("done.\n");
+	gte_SetGeomOffset(0, 0);
+#endif
 
     for (;;) {
         drawTriangle(SCR_W/2, SCR_H/2, SCR_H/2);        
