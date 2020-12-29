@@ -4,6 +4,7 @@ IMAGES = common \
 		cdrom/disc-swap \
 		cdrom/getloc \
 		cdrom/timing \
+		cdrom/terminal \
 		cpu/access-time \
 		cpu/code-in-io \
 		cpu/cop \

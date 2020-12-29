@@ -10,6 +10,7 @@ Name                     | Description
 -------------------------|------------
 disc-swap                | Program to observe behavior of CD-ROM controller when opening/closing the drive cover.
 getloc                   | Program to test the seeking/reading stat bits of the controller and Getloc commands
+terminal                 | UART terminal for low level CDROM interaction
 
 ### CPU
 
