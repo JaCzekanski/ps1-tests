@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-void delay(uint32_t cycles);
+void hexdump(uint8_t* data, size_t length, size_t W = 16, bool ascii = false);
 
 #ifdef __cplusplus
 }

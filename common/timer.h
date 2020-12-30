@@ -25,5 +25,3 @@ inline void resetTimer(int timer) {
     read16(TIMER_BASE(timer) + 4); // reset overflow flag
     write16(TIMER_BASE(timer), 0);
 }
-
-#undef TIMER_BASE
