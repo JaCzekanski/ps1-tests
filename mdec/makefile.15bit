@@ -1,5 +1,0 @@
-TARGET = mdec-15bit.elf
-
-include ../common-test.mk
-
-CFLAGS += -DCOLOR_DEPTH=15

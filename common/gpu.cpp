@@ -109,6 +109,29 @@ uint32_t vramGet(int x, int y) {
     return readGPU();
 }
 
+void vramWrite(int x, int y, int w, int h, uint16_t* ptr) {
+    CPU2VRAM buf;
+    setcode(&buf, 0xA0); // CPU -> VRAM
+    setlen(&buf, 3);
+    
+    buf.x0 = x;
+    buf.y0 = y;
+    buf.w  = w; 
+    buf.h  = h;
+
+    DrawPrim(&buf);
+
+    volatile uint32_t *GP0 = (uint32_t*)0x1f801810;
+    for (int y = 0; y<h; y++) {
+        for (int x = 0; x<w; x+=2) {
+            uint32_t data = 0;
+            data |= *ptr++;
+            data |= (*ptr++) << 16;
+            *GP0 = data;
+        }   
+    }
+}
+
 void vramWriteDMA(int x, int y, int w, int h, uint16_t* ptr) {
     CPU2VRAM buf;
     setcode(&buf, 0xA0); // CPU -> VRAM

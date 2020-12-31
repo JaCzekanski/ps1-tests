@@ -1,5 +1,0 @@
-TARGET = mdec-4bit.elf
-
-include ../common-test.mk
-
-CFLAGS += -DCOLOR_DEPTH=4

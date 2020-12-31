@@ -36,6 +36,7 @@ uint32_t readGPU();
 void vramPut(int x, int y, uint16_t pixel);
 uint32_t vramGet(int x, int y);
 void vramReadDMA(int x, int y, int w, int h, uint16_t* ptr);
+void vramWrite(int x, int y, int w, int h, uint16_t* ptr);
 void vramWriteDMA(int x, int y, int w, int h, uint16_t* ptr);
 void vramToVramCopy(int srcX, int srcY, int dstX, int dstY, int w, int h);
 

@@ -1,5 +1,0 @@
-TARGET = mdec-24bit.elf
-
-include ../common-test.mk
-
-CFLAGS += -DCOLOR_DEPTH=24
