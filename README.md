@@ -2,6 +2,10 @@
 
 Collection of PlayStation 1 tests for emulator development and hardware verification
 
+# Download
+
+[Latest release](https://github.com/JaCzekanski/ps1-tests/releases/latest)
+
 ## Tests
 
 ### CD-ROM
@@ -58,7 +62,8 @@ gte-fuzz                 | Executes GTE opcodes with random parameters, can be u
 
 Name                     | Description
 -------------------------|------------
-mdec                     | Framework for testing MDEC decoder, default values uses DMA for all transfers, but it can be reconfigured for PIO as well (needs manual recompilation)
+frame                    | Framework for testing MDEC decoder, default values uses DMA for all transfers, but it can be reconfigured for PIO as well (requires manual recompilation). Two executables for 15 and 24bit modes (using DMA for MDECin, MDECout and GPU)
+step-by-step-log         | Manually feeds the MDEC data and monitors the MDEC status register at every step. 
 
 ### SPU
 
@@ -84,12 +89,9 @@ Name                     | Description
 -------------------------|------------
 diffvram                 | Diff two images and write diff png if image contents aren't exactly the same
 
-## Download
-
-[Latest release](https://github.com/JaCzekanski/ps1-tests/releases/latest)
-
 ## Examples
 
+<img src="mdec/frame/vram-15bit.png" height="480">
 <img src="gpu/benchmark/screenshot.png" height="480">
 <img src="gpu/lines/vram.png" height="256">
 <img src="gpu/transparency/vram.png" height="256">

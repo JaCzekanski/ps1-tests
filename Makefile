@@ -28,7 +28,8 @@ IMAGES = common \
 		gpu/vram-to-vram-overlap \
 		gpu/version-detect \
 		gte-fuzz \
-		mdec \
+		mdec/frame \
+		mdec/step-by-step-log \
 		spu/memory-transfer \
 		spu/ram-sandbox \
 		spu/stereo \
