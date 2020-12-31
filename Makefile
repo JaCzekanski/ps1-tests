@@ -31,6 +31,7 @@ IMAGES = common \
 		mdec/4bit \
 		mdec/8bit \
 		mdec/frame \
+		mdec/movie \
 		mdec/step-by-step-log \
 		spu/memory-transfer \
 		spu/ram-sandbox \

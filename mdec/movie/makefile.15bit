@@ -1,0 +1,3 @@
+TARGET = movie-15bit.elf
+
+include ../../common-test.mk

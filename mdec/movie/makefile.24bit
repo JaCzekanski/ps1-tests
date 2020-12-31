@@ -1,0 +1,5 @@
+TARGET = movie-24bit.elf
+
+include ../../common-test.mk
+
+CFLAGS += -DUSE_24BIT

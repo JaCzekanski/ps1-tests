@@ -65,6 +65,7 @@ Name                     | Description
 4bit                     | ♥ Decode single 8x8 block in 4bit mode (sanitized bitstream)
 8bit                     | ♥ Decode single 8x8 block in 8bit mode (sanitized bitstream)
 frame                    | Framework for testing MDEC decoder, default values uses DMA for all transfers, but it can be reconfigured for PIO as well (requires manual recompilation). Two executables for 15 and 24bit modes (using DMA for MDECin, MDECout and GPU)
+movie                    | Simple MDEC in-ram bitstream player (currently 200 256x240 frames at @ 10FPS)
 step-by-step-log         | Manually feeds the MDEC data and monitors the MDEC status register at every step. 
 
 ### SPU
@@ -93,7 +94,8 @@ diffvram                 | Diff two images and write diff png if image contents 
 
 ## Examples
 
-<img src="mdec/frame/vram-15bit.png" height="480">
+<img src="mdec/movie/vram-15bit.png" height="256">
+<img src="mdec/frame/vram-15bit.png" height="256">
 <img src="gpu/benchmark/screenshot.png" height="480">
 <img src="gpu/lines/vram.png" height="256">
 <img src="gpu/transparency/vram.png" height="256">
