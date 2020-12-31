@@ -1,0 +1,19 @@
+mdec/4bit (single 8x8 block decode in 4-bit mode)
+mdec_reset (MDEC_CTRL <- 0x80000000)... ok
+mdec_quantTable(addr=0x80012080, color=1)... ok
+mdec_idctTable(addr=0x80012100)... ok
+mdec_enableDma (MDEC_CTRL <- 0x60000000)... ok
+8x8 block in 4bit mode:
+mdec_decodeDma(addr=0x80012000, lengthInBytes=0x80, colorDepth=0, outputSigned=0, setBit15=0)... ok
+mdec_readDecodedDma(addr=0x801ffe0c, bytes=0x20, [blockSize=0x8])... ok
+   0: f0 0f ff 00 
+   4: fd ff ff 0f 
+   8: ed ff ff 0f 
+   c: fb ff ff 0e 
+  10: f0 ff ff 00 
+  14: 00 ff 1f 02 
+  18: 31 f2 30 02 
+  1c: 41 34 33 11 
+mdec_reset (MDEC_CTRL <- 0x80000000)... ok
+
+Done

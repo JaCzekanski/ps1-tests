@@ -62,6 +62,8 @@ gte-fuzz                 | Executes GTE opcodes with random parameters, can be u
 
 Name                     | Description
 -------------------------|------------
+4bit                     | ♥ Decode single 8x8 block in 4bit mode (sanitized bitstream)
+8bit                     | ♥ Decode single 8x8 block in 8bit mode (sanitized bitstream)
 frame                    | Framework for testing MDEC decoder, default values uses DMA for all transfers, but it can be reconfigured for PIO as well (requires manual recompilation). Two executables for 15 and 24bit modes (using DMA for MDECin, MDECout and GPU)
 step-by-step-log         | Manually feeds the MDEC data and monitors the MDEC status register at every step. 
 
