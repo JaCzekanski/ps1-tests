@@ -45,7 +45,7 @@ int main()
 
     for (;;)
     {
-        clearScreen();
+        clearScreenColor(0xff, 0xff, 0xff);
 
         setDithering(0);
         drawTriangle(SCR_W/2, SCR_H/2, 240);        
