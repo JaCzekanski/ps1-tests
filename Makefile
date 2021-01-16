@@ -1,6 +1,7 @@
 TOPTARGETS = build clean
 
 IMAGES = common \
+		input/pad \
 		cdrom/disc-swap \
 		cdrom/getloc \
 		cdrom/timing \
