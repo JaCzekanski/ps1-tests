@@ -1,0 +1,5 @@
+gte/test-all
+Auto test all GTE valid opcodes/registers
+Passed tests: 1150
+Failed tests: 0
+Done.

@@ -27,6 +27,7 @@ IMAGES = common \
 		gpu/triangle \
 		gpu/vram-to-vram-overlap \
 		gpu/version-detect \
+		gte/test-all \
 		gte-fuzz \
 		mdec/4bit \
 		mdec/8bit \
