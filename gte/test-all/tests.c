@@ -156469,6 +156469,11 @@ const struct test_t tests[] = {
 
 void runTests() {
   for (int i = 0; i < TEST_COUNT; i++) {
+    if (tests[i].opcode != 0xffffffff && testFailedCount > 0) {
+        printf("Make sure you're passing all register tests first, otherwise all opcode tests will fail.\n");
+        printf("Breaking.\n");
+        break;
+    }
     TEST_BEGIN(tests[i].name);
     for (int r = 0; r < 64; r++) WRITE(r, tests[i].input[r]);
 
@@ -156479,5 +156484,6 @@ void runTests() {
   }
   printf("Passed tests: %d\n", testPassedCount);
   printf("Failed tests: %d\n", testFailedCount);
+  printf("Total tests: %d\n", TEST_COUNT);
 }
 
