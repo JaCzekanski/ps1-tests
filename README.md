@@ -49,6 +49,7 @@ rectangles               | Draws all combinations of Rectangle commands
 texture-overflow         | Draws textured rectangle with UV overflowing VRAM width
 transparency             | Draws rectangles with 4 semi-transparent blending modes
 triangle                 | Draws Gouroud shaded equilateral triangle 
+uv-interpolate           | Check uv/color interpolation accuracy by drawing quads with width in range of 0 - 255
 vram-to-vram-overlap     | Test GP0(80) VRAM-VRAM copy behaviour in overlapping rects
 version-detect           | Uses GP1(0x10) and GP0(0xE1) to detect GPU version
 
