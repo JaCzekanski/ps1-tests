@@ -25,7 +25,7 @@ IMAGES = common \
 		gpu/texture-overflow \
 		gpu/transparency \
 		gpu/triangle \
-		gpu/uv-interpolate \
+		gpu/uv-interpolation \
 		gpu/vram-to-vram-overlap \
 		gpu/version-detect \
 		gte/test-all \
