@@ -16,7 +16,7 @@ size_t frame_len = sunset_mdec_len;
 #define SCR_H 240
 
 #define USE_MDECIN_DMA  // DMA required for now due to MDECin fifo size (32*uint32_t)
-#define USE_MDECOUT_DMA // Works ok with or without DMA (swizzling done in mdec_readDecoded)
+// #define USE_MDECOUT_DMA // Works ok with or without DMA (swizzling done in mdec_readDecoded)
 #define USE_GPU_DMA     // Works ok with or without DMA
 
 #ifndef COLOR_DEPTH

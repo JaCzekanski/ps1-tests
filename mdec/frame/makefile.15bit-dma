@@ -1,0 +1,5 @@
+TARGET = frame-15bit-dma.elf
+
+include ../../common-test.mk
+
+CFLAGS += -DCOLOR_DEPTH=15 -DUSE_MDECOUT_DMA

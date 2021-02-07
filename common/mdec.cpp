@@ -127,7 +127,7 @@ void mdec_decodeDma(const uint16_t* data, size_t lengthInBytes, enum ColorDepth 
     mdec_cmd(cmd);
 
     auto addr    = MADDR((uint32_t)data);
-    const int BS = 0x08;
+    const int BS = 0x20;
     auto block   = BCR::mode1(BS, (lengthWords) / BS);
     auto control = CHCR::MDECin();
 
@@ -200,6 +200,8 @@ void mdec_readDecoded(uint32_t* data, size_t bytes) {
                     }
                 }
             }
+        
+            while (mdec_dataOutFifoEmpty());
         }
     } else {
         if (colorDepth == ColorDepth::bit_24) {
@@ -209,6 +211,8 @@ void mdec_readDecoded(uint32_t* data, size_t bytes) {
         }
         for (int i = 0; i < bytes/4; i++) {
             *data++ = mdec_read();
+        
+            while (mdec_dataOutFifoEmpty());
         }
     }
 
@@ -218,7 +222,7 @@ void mdec_readDecoded(uint32_t* data, size_t bytes) {
 void mdec_readDecodedDma(uint32_t* data, size_t bytes) {
     // DMA seems to work fine with BS between 0x02 to 0x20 (must be divisible by 2)
     // TODO: Automatically find biggest BS <2..0x20> for current wordCount
-    const int BS = 0x08;
+    int BS = 0x20;
     LOG("mdec_readDecodedDma(addr=0x%08x, bytes=0x%x, [blockSize=0x%x])... ", data, bytes, BS);
     
     while (mdec_dataOutFifoEmpty());

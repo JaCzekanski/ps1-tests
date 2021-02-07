@@ -26,8 +26,10 @@ IMAGES = common \
 		gpu/texture-overflow \
 		gpu/transparency \
 		gpu/triangle \
+		gpu/uv-interpolation \
 		gpu/vram-to-vram-overlap \
 		gpu/version-detect \
+		gte/test-all \
 		gte-fuzz \
 		mdec/4bit \
 		mdec/8bit \
