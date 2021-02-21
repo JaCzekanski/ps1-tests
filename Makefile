@@ -23,6 +23,7 @@ IMAGES = common \
 		gpu/mask-bit \
 		gpu/quad \
 		gpu/rectangles \
+		gpu/texture-flip \
 		gpu/texture-overflow \
 		gpu/transparency \
 		gpu/triangle \

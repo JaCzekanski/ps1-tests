@@ -46,6 +46,7 @@ lines                    | Draws lines using different modes - for verifying Bre
 mask-bit                 | Check Mask bit behavior during VRAM copy operations
 quad                     | Semi-transparent polygon commands - for testing fill rules and transparency handling
 rectangles               | Draws all combinations of Rectangle commands
+texture-flip             | Check gp0_e1.13 and gp0_e1.12 texture flip behaviour
 texture-overflow         | Draws textured rectangle with UV overflowing VRAM width
 transparency             | Draws rectangles with 4 semi-transparent blending modes
 triangle                 | Draws Gouroud shaded equilateral triangle 
