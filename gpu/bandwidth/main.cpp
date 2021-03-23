@@ -1,15 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <psxapi.h>
 #include <psxgpu.h>
 #include <psxetc.h>
 #include <io.h>
 #include <gpu.h>
 #include <timer.h>
 
-typedef char bool;
-
 #define SCR_W 320
 #define SCR_H 240
+
+bool semitransparent = false;
 
 uint32_t getTimer() {
     uint32_t value = readTimer(1);
@@ -28,7 +29,7 @@ void fillScreen() {
     DrawPrim(&f);
 }
 
-void rectScreen(bool semitransparent) {
+void rectScreen() {
     TILE t;
     setTile(&t);
     setSemiTrans(&t, semitransparent);
@@ -39,7 +40,7 @@ void rectScreen(bool semitransparent) {
     DrawPrim(&t);
 }
 
-void rectTexturedScreen(bool semitransparent) {
+void rectTexturedScreen() {
     SPRT s;
     setSprt(&s);
     setSemiTrans(&s, semitransparent);
@@ -54,15 +55,17 @@ void rectTexturedScreen(bool semitransparent) {
     DrawPrim(&s);
 }
 
-void quadScreen(bool semitransparent) {
+int xOffset = 0;
+
+void quadScreen() {
     POLY_F4 p;
     setPolyF4(&p);
     setSemiTrans(&p, semitransparent);
     setXY4(&p, 
-        0, 0,
-        SCR_W, 0,
-        0, SCR_H,
-        SCR_W, SCR_H
+        xOffset + 0, 0,
+        xOffset + SCR_W, 0,
+        xOffset + 0, SCR_H,
+        xOffset + SCR_W, SCR_H
     );
     setRGB0(&p, rand()%255, rand()%255, rand()%255);
     
@@ -75,7 +78,7 @@ void quadScreen(bool semitransparent) {
 	(p)->u2 = _u0, 		(p)->v2 = _v0+(_h),	\
 	(p)->u3 = _u0+(_w), (p)->v3 = _v0+(_h)
 
-void quadTexturedScreen(bool semitransparent) {
+void quadTexturedScreen() {
     POLY_FT4 p;
     setPolyFT4(&p);
     setSemiTrans(&p, semitransparent);
@@ -97,7 +100,7 @@ void quadTexturedScreen(bool semitransparent) {
     DrawPrim(&p);
 }
 
-const int callCount = 400;
+constexpr int callCount = 400;
 
 void calculate(const char* test, uint16_t hblanks) {
     const int scanlinesPerFrame = 263;
@@ -118,46 +121,7 @@ void calculate(const char* test, uint16_t hblanks) {
     printf("%-30s dT: %5d.%-5d ms (hblanks: %5d), speed: %d MB/s\n", test, dt_q, dt_r, diff, megaBytesPerSecond);
 }
 
-const char* testCases[9] = {
-    "FillScreen GP0(2)",
-    "Rectangle",
-    "Rectangle (semitransparent)",
-    "Rectangle textured",
-    "Rectangle textured (semi)",
-    "Polygon quad",
-    "Polygon quad (semi)",
-    "Polygon quad textured",
-    "Polygon quad textured (semi)"
-};
-
 uint16_t* buffer = (uint16_t*)0x801a0000;
-
-void testVramToCpu() {
-    DrawSync(0);
-    resetTimer(1);
-    for (int i = 0; i < callCount; i++) {
-        vramReadDMA(0, 0, SCR_W, SCR_H, buffer);
-    }
-    calculate("vramToCpu", getTimer());
-}
-
-void testCpuToVram() {
-    DrawSync(0);
-    resetTimer(1);
-    for (int i = 0; i < callCount; i++) {
-        vramWriteDMA(0, 0, SCR_W, SCR_H, buffer);
-    }
-    calculate("cpuToVram", getTimer());
-}
-
-void testVramToVram() {
-    DrawSync(0);
-    resetTimer(1);
-    for (int i = 0; i < callCount; i++) {
-        vramToVramCopy(0, 0, 320, 0, SCR_W, SCR_H);
-    }
-    calculate("vramToVram", getTimer());
-}
 
 int main() {
     initVideo(SCR_W, SCR_H);
@@ -166,48 +130,38 @@ int main() {
 
     uint16_t oldTimer1Mode = initTimer(1, 1); // Timer1, HBlank
 
-    testVramToCpu();
-    testCpuToVram();
-    testVramToVram();
-
-    for (int test = 0; test<9; test++) {
+    auto test = [](const char* name, void (*func)(), bool semi = false) {
         clearScreen();
 
         DrawSync(0);
         resetTimer(1);
+        semitransparent = semi;
         for (int i = 0; i < callCount; i++) {
-            switch (test) {
-                case 0: 
-                    fillScreen();
-                    break;
-                case 1: 
-                    rectScreen(false);
-                    break;
-                case 2: 
-                    rectScreen(true);
-                    break;
-                case 3:
-                    rectTexturedScreen(false);
-                    break;
-                case 4:
-                    rectTexturedScreen(true);
-                    break;
-                case 5: 
-                    quadScreen(false);
-                    break;
-                case 6: 
-                    quadScreen(true);
-                    break;
-                case 7: 
-                    quadTexturedScreen(false);
-                    break;
-                case 8: 
-                    quadTexturedScreen(true);
-                    break;
-            }
+            func();
         }
-        calculate(testCases[test], getTimer());
-    }
+        calculate(name, getTimer());
+    };
+
+    EnterCriticalSection();
+    test("vramToCpu", []() { vramReadDMA(0, 0, SCR_W, SCR_H, buffer); });
+    test("cpuToVram", []() { vramWriteDMA(0, 0, SCR_W, SCR_H, buffer); });
+    test("vramToVram", []() { vramToVramCopy(0, 0, 320, 0, SCR_W, SCR_H); });
+    test("FillScreen GP0(2)", fillScreen);
+    test("Rectangle", rectScreen, false);
+    test("Rectangle (semitransparent)", rectScreen, true);
+    test("Rectangle textured", rectTexturedScreen, false);
+    test("Rectangle textured (semi)", rectTexturedScreen, true);
+    test("Polygon quad", quadScreen, false);
+    test("Polygon quad (semi)", quadScreen, true);
+    test("Polygon quad textured", quadTexturedScreen, false);
+    test("Polygon quad textured (semi)", quadTexturedScreen, true);
+
+    xOffset = -SCR_W/4;
+    test("Polygon quad (1/4 off screen)", quadScreen, false);
+
+    xOffset = -SCR_W/2;
+    test("Polygon quad (1/2 off screen)", quadScreen, false);
+    ExitCriticalSection();
 
     restoreTimer(1, oldTimer1Mode);
 

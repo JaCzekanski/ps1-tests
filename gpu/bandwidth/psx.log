@@ -1,14 +1,16 @@
 gpu/bandwidth
-vramToCpu                      dT:   987.8140  ms (hblanks: 15583), speed: 60 MB/s
-cpuToVram                      dT:   766.4520  ms (hblanks: 12092), speed: 78 MB/s
-vramToVram                     dT:  1211.420   ms (hblanks: 19110), speed: 49 MB/s
-FillScreen GP0(2)              dT:    76.4720  ms (hblanks:  1204), speed: 789 MB/s
-Rectangle                      dT:   476.720   ms (hblanks:  7512), speed: 126 MB/s
-Rectangle (semitransparent)    dT:   717.3740  ms (hblanks: 11318), speed: 83 MB/s
-Rectangle textured             dT:   951.5220  ms (hblanks: 15012), speed: 63 MB/s
-Rectangle textured (semi)      dT:   951.5220  ms (hblanks: 15012), speed: 63 MB/s
-Polygon quad                   dT:   483.15260 ms (hblanks:  7637), speed: 124 MB/s
-Polygon quad (semi)            dT:   729.4380  ms (hblanks: 11508), speed: 82 MB/s
-Polygon quad textured          dT:  2501.2220  ms (hblanks: 39468), speed: 23 MB/s
-Polygon quad textured (semi)   dT:  2501.3220  ms (hblanks: 39469), speed: 23 MB/s
+vramToCpu                      dT:   999.5780  ms (hblanks: 15770), speed: 60 MB/s
+cpuToVram                      dT:   772.12840 ms (hblanks: 12195), speed: 77 MB/s
+vramToVram                     dT:  1212.6640  ms (hblanks: 19132), speed: 49 MB/s
+FillScreen GP0(2)              dT:    77.940   ms (hblanks:  1216), speed: 779 MB/s
+Rectangle                      dT:   481.12820 ms (hblanks:  7603), speed: 124 MB/s
+Rectangle (semitransparent)    dT:   725.14500 ms (hblanks: 11455), speed: 82 MB/s
+Rectangle textured             dT:   959.4980  ms (hblanks: 15138), speed: 62 MB/s
+Rectangle textured (semi)      dT:   959.5980  ms (hblanks: 15139), speed: 62 MB/s
+Polygon quad                   dT:   489.10580 ms (hblanks:  7727), speed: 122 MB/s
+Polygon quad (semi)            dT:   738.2360  ms (hblanks: 11648), speed: 81 MB/s
+Polygon quad textured          dT:  2530.14600 ms (hblanks: 39938), speed: 23 MB/s
+Polygon quad textured (semi)   dT:  2530.14600 ms (hblanks: 39938), speed: 23 MB/s
+Polygon quad (1/4 off screen)  dT:   370.6400  ms (hblanks:  5845), speed: 162 MB/s
+Polygon quad (1/2 off screen)  dT:   251.7220  ms (hblanks:  3968), speed: 239 MB/s
 Done
