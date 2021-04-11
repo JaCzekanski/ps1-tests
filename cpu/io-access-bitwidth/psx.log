@@ -1,0 +1,55 @@
+cpu/io-access-bitwidth
+Test how writes with different bitwidths behaves for different io devices
+Note: Disable "Exception Handling Surveillance" in Caetla first"
+
+Reading as 32bit, writing as:
+SEGMENT    (   ADDRESS)   8bit          16bit         32bit         
+RAM        (0x80080000)         0x78        0x5678    0x12345678    
+BIOS       (0xbfc00000)   0x3c080013    0x3c080013    0x3c080013    
+SCRATCHPAD (0x1f800000)         0x78        0x5678    0x12345678    
+EXPANSION2 (0x1f802000)   0xffffffff    0xffffffff    0xffffffff    
+EXPANSION3 (0x1fa00000)   0xff785678    0xff785678    0xff341234    
+DMAC_CTRL  (0x1f8010f0)   0x12345678    0x12345678    0x12345678    
+JOY_CTRL   (0x1f80104a)            0             0    --CRASH--     
+SIO_CTRL   (0x1f80105a)   0xc0c00000    0xc0c00000    --CRASH--     
+I_MASK     (0x1f801074)   0x12340678    0x12340678    0x12340678    
+T0_TARGET  (0x1f801108)   0x12345678    0x12345678    0x3c045678    
+CDROM_STAT (0x1f801800)   0x18181818    0x1a1a1a1a    0x1a1a1a1a    
+GPUSTAT    (0x1f801814)   0x14802000    0x14802000    0x14802000    
+MDECSTAT   (0x1f801824)   0x80040000    0x80040000    0x80040000    
+SPUCNT     (0x1f801daa)       0x5678        0x5678    --CRASH--     
+
+Reading as 16bit, writing as:
+SEGMENT    (   ADDRESS)   8bit          16bit         
+RAM        (0x80080000)         0x78        0x5678    
+BIOS       (0xbfc00000)         0x13          0x13    
+SCRATCHPAD (0x1f800000)         0x78        0x5678    
+EXPANSION2 (0x1f802000)       0xffff        0xffff    
+EXPANSION3 (0x1fa00000)       0xff78        0x7f78    
+DMAC_CTRL  (0x1f8010f0)       0x5678        0x5678    
+JOY_CTRL   (0x1f80104a)            0             0    
+SIO_CTRL   (0x1f80105a)            0             0    
+I_MASK     (0x1f801074)        0x678         0x678    
+T0_TARGET  (0x1f801108)       0x5678        0x5678    
+CDROM_STAT (0x1f801800)       0x1818        0x1a1a    
+GPUSTAT    (0x1f801814)       0x2000        0x2000    
+MDECSTAT   (0x1f801824)            0             0    
+SPUCNT     (0x1f801daa)       0x5678        0x5678    
+
+Reading as 8bit, writing as:
+SEGMENT    (   ADDRESS)   8bit          
+RAM        (0x80080000)         0x78    
+BIOS       (0xbfc00000)         0x13    
+SCRATCHPAD (0x1f800000)         0x78    
+EXPANSION2 (0x1f802000)         0xff    
+EXPANSION3 (0x1fa00000)         0x78    
+DMAC_CTRL  (0x1f8010f0)         0x78    
+JOY_CTRL   (0x1f80104a)            0    
+SIO_CTRL   (0x1f80105a)            0    
+I_MASK     (0x1f801074)         0x78    
+T0_TARGET  (0x1f801108)         0x78    
+CDROM_STAT (0x1f801800)         0x18    
+GPUSTAT    (0x1f801814)            0    
+MDECSTAT   (0x1f801824)            0    
+SPUCNT     (0x1f801daa)         0x78    
+Done.
