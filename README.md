@@ -23,6 +23,7 @@ Name                     | Description
 access-time              | Test CPU access time to different parts of memory map
 code-in-io               | Check whether code execution from Scratchpad as various IO ports is possible 
 cop                      | Check how CPU behave when accessing missing/disabled coprocessors
+io-access-bitwidth       | Test how writes with different bitwidths behaves for different io devices
 
 ### DMA
 

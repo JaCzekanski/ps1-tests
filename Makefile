@@ -9,6 +9,7 @@ IMAGES = common \
 		cpu/access-time \
 		cpu/code-in-io \
 		cpu/cop \
+		cpu/io-access-bitwidth \
 		dma/chain-looping \
 		dma/chopping \
 		dma/dpcr \
