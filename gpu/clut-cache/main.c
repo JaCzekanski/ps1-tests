@@ -253,13 +253,25 @@ void testE1NotInvalidatingCache() {
     y += 16;
 }
 
+void testLongClutXWrapping() {
+    y += 32;
+    int clutx = 1024-64;
+    writeTestClut(clutx, y);
+
+    setE1(bit8, 0, 0);
+    rectangle(0, y+2, 0, 1, clutx, y);
+
+    y += 16;
+}
+
 int main() {
     initVideo(320, 240);
     printf("\ngpu/clut-cache\n");
     printf("GPU caches the palette/CLUT before rendering 4/8bit textured primitives.\n");
     printf("This test check this by rendering textured rectangle over currently used CLUT (first 4 lines).\n");
     printf("Next 3 tests check if Clear Cache or using different CLUT position does invalidate the CLUT$.\n");
-    printf("Last 5 tests verify when CLUT$ is reloaded when different texture modes are used.\n");
+    printf("Next 5 tests verify when CLUT$ is reloaded when different texture modes are used.\n");
+    printf("Last test checks what CLUT does when placed on the x wraparound\n");
     printf("No assertions are made, please compare output with the VRAM dump.\n\n");
 
     clearScreen();
@@ -283,6 +295,8 @@ int main() {
     testClutCacheInvalidatedAfterChangingTextureModeFrom15to4();
     testClutCacheInvalidatedAfterChangingTextureModeFromReservedTo8();
     testE1NotInvalidatingCache();
+
+    testLongClutXWrapping();
 
     DrawSync(0);
     printf("Done\n");
