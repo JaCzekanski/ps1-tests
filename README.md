@@ -43,6 +43,7 @@ benchmark                | GPU test to benchmark rasterizer for various commands
 clut-cache               | CLUT (Palette) cache behavior test
 clipping                 | Test Draw Area/Clipping GP0(0xE3), GP0(0xE4) using rectangle and quad
 gp0-e1                   | Check if GP0_E1, GPUSTAT and polygon render uses the same register internally
+gpustat                  | Check GPUSTAT busy bits during rendering in different modes (CPU, linked list DMA, sync block DMA (with GPU DMA direction 1 and 2))
 lines                    | Draws lines using different modes - for verifying Bresenham implementation, color blending, polyline handling
 mask-bit                 | Check Mask bit behavior during VRAM copy operations
 quad                     | Semi-transparent polygon commands - for testing fill rules and transparency handling

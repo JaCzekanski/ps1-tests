@@ -1,0 +1,25 @@
+gpu/gpustat
+Bits in GPUSTAT ecription:
+Bit 25 - DMA Request 
+  - When DMA Direction == 0 (Off) - always 0
+  - When DMA Direction == 1 (FIFO) - ?
+  - When DMA Direction == 2 (CPUtoGP0) - same as Bit 28
+  - When DMA Direction == 3 (GPUREADtoCPU) - same as Bt 27
+Bit 26 - Ready to receive Cmd Word
+Bit 27 - Ready to send VRAM to CPU
+Bit 28 - Ready to receive DMA Block
+Bits 29-30 - DMA Direction (0 - Off, 1 - FIFO, 2 - CPUtoGP0, 3 - GPUREADtoCPU)
+
+pass - testGpustat_CPU_beforeRender
+pass - testGpustat_CPU_dringRender
+pass - testGpustat_CPU_afterRender
+pass - testGpustat_linkedListDMA_beforeRender
+pass - testGpustat_LinkedListDMA_duringRender
+pass - testGpustat_LinkedListDA_afterRender
+pass - testGpustat_SyncModeDMA_DMAdirection1_beforeRender
+pass - testGpustat_SyncModeDMA_DMAdirection1_duringRender
+pass - testGpustat_SyncModeDMA_DMAdirection1_afterRender
+pass - testGpustat_SyncModeDMA_DMAdirection2_beforeRender
+pass - testGpustat_SyncModeDMA_DMAdirection2_duringRender
+pass - testGpustat_SyncModeDMA_DMAdirection2_afterRender
+Done.

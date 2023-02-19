@@ -20,6 +20,7 @@ IMAGES = common \
 		gpu/clipping \
 		gpu/clut-cache \
 		gpu/gp0-e1 \
+		gpu/gpustat \
 		gpu/lines \
 		gpu/mask-bit \
 		gpu/quad \
