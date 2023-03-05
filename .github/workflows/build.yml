@@ -1,0 +1,32 @@
+name: build
+
+on: [push]
+
+jobs:
+  build:
+    name: "Build"
+    runs-on: ubuntu-22.10
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Build tests
+      run: docker run -it -v $(pwd):/build jaczekanski/psn00bsdk:latest make
+
+    - name: Build tools
+      run: ./tools/diffvram/build-ci.sh
+    
+    - name: Create zip
+      run: find . \( -iname "*.md" -o -iname "*.exe" -o -iname "*.png" -o -iname "*.log" -o -iname "*-amd64" \) -print | zip tests.zip -@
+
+    - name: Build number
+      uses: mlilback/build-number@v1
+      with:
+        base: 155
+        run-id: ${GITHUB_RUN_NUMBER}
+
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: tests.zip
+        tag_name: build-${BUILD_NUMBER}

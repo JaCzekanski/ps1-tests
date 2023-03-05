@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 name="diffvram"
 docker_image="golang:1.12-alpine"
